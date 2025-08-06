@@ -53,12 +53,12 @@ if (isset($_POST['submit'])) {
 
                 <div class="form-group">
                     <label>Title</label>
-                    <input type="text" name="title" value="<?php echo @$u_data['title']; ?>" />
+                    <input type="text" name="title" value="<?php echo @$u_data['title']; ?>" required/>
 
                 </div>
                 <div class="form-group">
                     <label>Price</label>
-                    <input type="number" name="price" value="<?php echo @$u_data['price']; ?>" />
+                    <input type="number" name="price" value="<?php echo @$u_data['price']; ?>" required/>
                 </div>
 
                 <div class="form-group">

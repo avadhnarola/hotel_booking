@@ -13,7 +13,7 @@ if (isset($_GET['d_id'])) {
 }
 
 // Pagination setup
-$limit = 3; // Number of records per page
+$limit = 4; // Number of records per page
 $page = isset($_GET['page']) && is_numeric($_GET['page']) ? intval($_GET['page']) : 1;
 $offset = ($page - 1) * $limit;
 
@@ -42,7 +42,22 @@ $res = mysqli_query($conn, $select);
     <link rel="stylesheet" href="../css/ionicons.min.css">
     <link rel="stylesheet" href="../css/flaticon.css">
     <link rel="stylesheet" href="../css/icomoon.css">
-   
+
+    <style>
+        .icon-status {
+            font-size: 18px;
+            vertical-align: middle;
+            margin-right: 4px;
+        }
+
+        .status-approved {
+            color: green;
+        }
+
+        .status-rejected {
+            color: red;
+        }
+    </style>
 </head>
 
 <body>
@@ -77,7 +92,18 @@ $res = mysqli_query($conn, $select);
                                 <td><?php echo $row['location']; ?></td>
                                 <td><?php echo $row['price']; ?></td>
                                 <td><?php echo $row['HotelType']; ?></td>
-                                <td><?php echo $row['status']; ?></td>
+                                <td>
+                                    <?php if (strtolower($row['status']) == 'approved'): ?>
+                                        <span class="status-approved">
+                                            <i class="icon ion-ios-checkmark-circle icon-status"></i> Approved
+                                        </span>
+                                    <?php else: ?>
+                                        <span class="status-rejected">
+                                            <i class="icon ion-ios-close-circle icon-status"></i>
+                                            <?php echo htmlspecialchars($row['status']); ?>
+                                        </span>
+                                    <?php endif; ?>
+                                </td>
                                 <td>
                                     <a href="viewBooking.php?d_id=<?php echo $row['id']; ?>" class="btn delete-btn"
                                         onclick="return confirm('Are you sure to delete this booking?');">Delete</a>
@@ -95,8 +121,7 @@ $res = mysqli_query($conn, $select);
                 <?php endif; ?>
 
                 <?php for ($i = 1; $i <= $total_pages; $i++): ?>
-                    <a href="?page=<?php echo $i; ?>" class="<?php if ($i == $page)
-                           echo 'active'; ?>">
+                    <a href="?page=<?php echo $i; ?>" class="<?php if ($i == $page) echo 'active'; ?>">
                         <?php echo $i; ?>
                     </a>
                 <?php endfor; ?>

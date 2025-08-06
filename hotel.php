@@ -2,7 +2,7 @@
 include_once "db.php";
 $hotels = mysqli_query($conn, "select * from hotels ORDER BY id DESC LIMIT 6");
 $latestRoom = $conn->query("select * from Room ORDER BY id DESC LIMIT 1")->fetch_assoc();
-$allRooms = $conn->query("select * from Room ORDER BY id DESC LIMIT 4");
+$allRooms = $conn->query("select * from Room ORDER BY id DESC");
 if (isset($_POST['bookingSubmit'])) {
     $name = $_POST['userNameBook'];
     $email = $_POST['emailBook'];
@@ -22,14 +22,12 @@ if (isset($_POST['bookingSubmit'])) {
 }
 ?>
 <?php if (@$bookingSuccess): ?>
-	<div class="alert alert-success alert-dismissible fade show top-center-alert" role="alert">
-		<strong><i class="bi bi-check-circle-fill"></i> Booking successfully !</strong>
-		
-	</div>
+    <div class="alert alert-success alert-dismissible fade show top-center-alert" role="alert">
+        <strong><i class="bi bi-check-circle-fill"></i> Booking successfully !</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+    </div>
 <?php endif; ?>
-
-
-
 
 <script>
     setTimeout(() => {
@@ -318,11 +316,11 @@ if (isset($_POST['bookingSubmit'])) {
                     <div class="col-md-12 room-wrap room-wrap-thumb mt-4">
                         <div class="row">
                             <?php while ($room = $allRooms->fetch_assoc()) { ?>
-                                <div class="col-md-3">
+                                <div class="col-md-3 mt-4">
                                     <a href="#" class="d-flex thumb"
                                         onclick="loadRoom(<?php echo $room['id']; ?>); return false;">
                                         <div class="img align-self-stretch"
-                                            style="background-image: url('admin/images/<?php echo $room['image']; ?>');">
+                                            style="background-image: url('admin/images/<?php echo $room['image']; ?>'); height: 80px;">
                                         </div>
                                         <div class="text pl-3 py-3">
                                             <h3><?php echo $room['title']; ?></h3>
@@ -378,7 +376,15 @@ if (isset($_POST['bookingSubmit'])) {
                 $('#bookingModal').modal('show');
             }
         });
+        document.getElementById('bookingForm').addEventListener('submit', function (e) {
+            const checkin = new Date(document.getElementById('checkin').value);
+            const checkout = new Date(document.getElementById('checkout').value);
 
+            if (checkin >= checkout) {
+                e.preventDefault();
+                alert("Check-out date must be after check-in date.");
+            }
+        });
 
         function loadRoom(id) {
             fetch('get-room.php?id=' + id)
@@ -389,4 +395,47 @@ if (isset($_POST['bookingSubmit'])) {
                 .catch(err => console.error('Error loading room:', err));
         }
 
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $('.book-now-btn').click(function (e) {
+                e.preventDefault();
+                var title = $(this).data('title');
+                var image = $(this).data('image');
+                var location = $(this).data('location');
+                var price = $(this).data('price');
+
+                $('#roomTitle').text(title);
+                $('#roomImage').attr('src', image);
+                $('#roomLocation').text(location);
+                $('#roomPrice').text("$" + price + "/night");
+
+                $('#roomLocationInput').val(location);
+                $('#roomPriceInput').val(price);
+                $('#roomHotelTypeInput').val(title);
+
+                $('#bookingModal').modal('show');
+            });
+
+            // Booking form validation: Check-in must be before Check-out
+            document.getElementById('bookingForm').addEventListener('submit', function (e) {
+                const checkin = new Date(document.getElementById('checkin').value);
+                const checkout = new Date(document.getElementById('checkout').value);
+
+                if (checkin >= checkout) {
+                    e.preventDefault();
+                    alert("Check-out date must be after check-in date.");
+                }
+            });
+        });
+
+        function loadRoom(id) {
+            fetch('get-room.php?id=' + id)
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById('room-content').innerHTML = html;
+                })
+                .catch(err => console.error('Error loading room:', err));
+        }
     </script>

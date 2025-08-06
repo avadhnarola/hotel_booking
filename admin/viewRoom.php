@@ -12,7 +12,7 @@ if (isset($_GET['d_id'])) {
     exit();
 }
 
-$limit = 3; // Number of records per page
+$limit = 4; // Number of records per page
 $page = isset($_GET['page']) && is_numeric($_GET['page']) ? intval($_GET['page']) : 1;
 $offset = ($page - 1) * $limit;
 

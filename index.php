@@ -6,19 +6,6 @@ $hotels = mysqli_query($conn, "select * from hotels ORDER BY id DESC LIMIT 6");
 $restaurant = mysqli_query($conn, "select * from restaurant ORDER BY id DESC LIMIT 3");
 $latestRoom = $conn->query("select * from Room ORDER BY id DESC LIMIT 1")->fetch_assoc();
 $allRooms = $conn->query("select * from Room ORDER BY id DESC LIMIT 4");
-
-if (isset($_POST['sendMessage'])) {
-	$name = $_POST['name'];
-	$email = $_POST['email'];
-	$subject = $_POST['subject'];
-	$message = $_POST['message'];
-
-	$query = "INSERT INTO contact (name, email, subject, message) VALUES ('$name', '$email', '$subject', '$message')";
-	$result = $conn->query($query);
-
-}
-
-
 if (isset($_POST['bookingSubmit'])) {
 	$name = $_POST['userNameBook'];
 	$email = $_POST['emailBook'];
@@ -27,7 +14,7 @@ if (isset($_POST['bookingSubmit'])) {
 	$location = $_POST['roomLocation']; // from hidden input
 	$price = $_POST['roomPrice'];       // from hidden input
 	$hotelType = $_POST['roomHotelType']; // from hidden input
-	$status = 'Pending'; // Default status
+	$status = 'Approved'; // Default status
 
 	$query = mysqli_query($conn, "INSERT INTO booking (name, email, check_in, check_out, location, price,HotelType, status) VALUES ('$name', '$email', '$checkin', '$checkout', '$location', '$price','$hotelType' , '$status')");
 	if ($query) {
@@ -37,23 +24,8 @@ if (isset($_POST['bookingSubmit'])) {
 	}
 }
 ?>
-<?php if (@$bookingSuccess): ?>
-	<div class="alert alert-success alert-dismissible fade show top-center-alert" role="alert">
-		<strong><i class="bi bi-check-circle-fill"></i> Booking request successfully sent!</strong>
-	</div>
-<?php endif; ?>
 
 
-
-<script>
-	setTimeout(() => {
-		const alert = document.querySelector('.alert');
-		if (alert) {
-			alert.classList.remove('show');
-			alert.classList.add('fade');
-		}
-	}, 5000); // hide after 5 seconds
-</script>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -105,21 +77,7 @@ if (isset($_POST['bookingSubmit'])) {
 		.main-img {
 			height: 400px;
 		}
-
-
-		.top-center-alert {
-			position: fixed;
-			top: 20px;
-			left: 50%;
-			transform: translateX(-50%);
-			z-index: 1055;
-			/* higher than modal backdrop */
-			width: auto;
-			max-width: 90%;
-		}
 	</style>
-
-
 </head>
 <!-- Booking Modal -->
 <div class="modal fade" id="bookingModal" tabindex="-1" role="dialog" aria-labelledby="bookingModalLabel"
@@ -404,14 +362,76 @@ if (isset($_POST['bookingSubmit'])) {
 		</div>
 	</section>
 
-	<section class="ftco-intro img mt-3" id="hotel-section" style="background-image: url(images/bg_4.jpg);">
+	<section class="ftco-intro img" id="destination-section" style="background-image: url(images/bg_3.jpg);">
+		<div class="overlay"></div>
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-md-9 text-center">
+					<h2>Choose the Perfect Destination</h2>
+					<p>We can manage your dream building A small river named Duden flows by their place</p>
+					<p class="mb-0"><a href="#" class="btn btn-white px-4 py-3">Search Places</a></p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="ftco-section">
+		<div class="container">
+			<div class="row justify-content-center pb-5">
+				<div class="col-md-12 heading-section text-center ftco-animate">
+					<span class="subheading">Best Destination</span>
+					<h2 class="mb-4">Best Place to Travel</h2>
+					<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia</p>
+				</div>
+			</div>
+			<div class="row">
+				<?php while ($row = mysqli_fetch_assoc($destination)) { ?>
+					<div class="col-md-6 col-lg-4 ftco-animate">
+						<div class="project">
+							<div class="img">
+								<!-- <div class="vr"><span>Sale</span></div> -->
+								<a href="#"><img src="admin/images/<?php echo $row['image']; ?>" class="img-fluid"
+										alt="<?php echo $row['location']; ?> Image" style="height:350px; width: 450px;"></a>
+							</div>
+							<div class="text">
+								<h4 class="price">$<?php echo $row['price']; ?></h4>
+								<span><?php echo $row['days']; ?> Days Tour</span>
+								<h3><a href="#"><?php echo $row['location']; ?></a></h3>
+								<div class="star d-flex clearfix">
+									<div class="mr-auto float-left">
+										<?php
+										for ($i = 0; $i < $row['star']; $i++) {
+											echo '★';
+										}
+										for ($j = $row['star']; $j < 5; $j++) {
+											echo '☆';
+										}
+										?>
+									</div>
+									<div class="float-right">
+										<span class="rate"><a href="#">( <?php echo $row['rate']; ?> )</a></span>
+									</div>
+								</div>
+							</div>
+							<a href="admin/images/<?php echo $row['image']; ?>"
+								class="icon image-popup d-flex justify-content-center align-items-center">
+								<span class="icon-expand"></span>
+							</a>
+						</div>
+					</div>
+				<?php } ?>
+			</div>
+		</div>
+	</section>
+
+	<section class="ftco-intro img" id="hotel-section" style="background-image: url(images/bg_4.jpg);">
 		<div class="overlay"></div>
 		<div class="container">
 			<div class="row justify-content-center">
 				<div class="col-md-9 text-center">
 					<h2>Choose at $99 Per Night Only</h2>
 					<p>We can manage your dream building A small river named Duden flows by their place</p>
-					<p class="mb-0"><a href="./hotel.php" class="btn btn-white px-4 py-3">Book a room now</a></p>
+					<p class="mb-0"><a href="#" class="btn btn-white px-4 py-3">Book a room now</a></p>
 				</div>
 			</div>
 		</div>
@@ -683,25 +703,25 @@ if (isset($_POST['bookingSubmit'])) {
 
 			<div class="row block-9">
 				<div class="col-md-7 order-md-last d-flex">
-					<form method="POST" class="bg-light p-4 p-md-5 contact-form">
+					<form action="#" class="bg-light p-4 p-md-5 contact-form">
 						<div class="form-group">
-							<input type="text" class="form-control" placeholder="Your Name" name="name">
+							<input type="text" class="form-control" placeholder="Your Name">
 						</div>
 						<div class="form-group">
-							<input type="text" class="form-control" placeholder="Your Email" name="email">
+							<input type="text" class="form-control" placeholder="Your Email">
 						</div>
 						<div class="form-group">
-							<input type="text" class="form-control" placeholder="Subject" name="subject">
+							<input type="text" class="form-control" placeholder="Subject">
 						</div>
 						<div class="form-group">
-							<textarea id="" cols="30" rows="7" class="form-control" placeholder="Message"
-								name="message"></textarea>
+							<textarea name="" id="" cols="30" rows="7" class="form-control"
+								placeholder="Message"></textarea>
 						</div>
 						<div class="form-group">
-							<input type="submit" name="sendMessage" value="Send Message"
-								class="btn btn-primary py-3 px-5">
+							<input type="submit" value="Send Message" class="btn btn-primary py-3 px-5">
 						</div>
 					</form>
+
 				</div>
 
 				<div class="col-md-5 d-flex">
@@ -756,11 +776,8 @@ if (isset($_POST['bookingSubmit'])) {
 		</div>
 	</section>
 
-	<section class="ftco-section ftco-no-pt ftco-no-pb mt-3" style="display: flex; justify-content: center;">
-		<iframe
-			src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d30766863.45380839!2d60.963977322087494!3d19.72451447390969!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x30635ff06b92b791%3A0xd78c4fa1854213a6!2sIndia!5e0!3m2!1sen!2sin!4v1754400840000!5m2!1sen!2sin"
-			width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
-			referrerpolicy="no-referrer-when-downgrade" style=" width: 1000px;"></iframe>
+	<section class="ftco-section ftco-no-pt ftco-no-pb">
+		<div id="map" class="bg-white"></div>
 	</section>
 
 	<section class="ftco-gallery">
@@ -818,7 +835,6 @@ if (isset($_POST['bookingSubmit'])) {
 		</div>
 	</section>
 	<?php include("footer.php"); ?>
-
 	<script>
 		$(document).ready(function () {
 			$(document).ready(function () {
@@ -857,8 +873,6 @@ if (isset($_POST['bookingSubmit'])) {
 			}
 		});
 
-
-
 		function loadRoom(id) {
 			fetch('get-room.php?id=' + id)
 				.then(response => response.text())
@@ -868,4 +882,13 @@ if (isset($_POST['bookingSubmit'])) {
 				.catch(err => console.error('Error loading room:', err));
 		}
 
+		document.getElementById('bookingForm').addEventListener('submit', function (e) {
+			const checkin = new Date(document.getElementById('checkin').value);
+			const checkout = new Date(document.getElementById('checkout').value);
+
+			if (checkin >= checkout) {
+				e.preventDefault();
+				alert("Check-out date must be after check-in date.");
+			}
+		});
 	</script>
