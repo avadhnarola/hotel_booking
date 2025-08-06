@@ -1,0 +1,226 @@
+/* Container Panel */
+.admin-panel {
+    width: 90%;
+    max-width: 1200px;
+    background-color: #fff;
+    padding: 40px 30px;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    margin: 30px auto;
+    transition: all 0.3s ease-in-out;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* Headings */
+.admin-panel h2 {
+    text-align: center;
+    font-size: 28px;
+    color: #2c3e50;
+    margin-bottom: 30px;
+}
+
+/* Form Styling */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+    color: #34495e;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #dcdcdc;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border 0.2s;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+/* Form Buttons */
+.form-actions {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.form-actions button {
+    padding: 12px 24px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.form-actions button:hover {
+    background-color: #0056b3;
+}
+
+/* Table Styling */
+.table-responsive {
+    overflow-x: auto;
+    margin-top: 20px;
+}
+
+table {
+    width: 100%;
+    min-width: 800px;
+    border-collapse: collapse;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+table th,
+table td {
+    padding: 16px 12px;
+    text-align: center;
+    font-size: 15px;
+    border-bottom: 1px solid #eee;
+    white-space: nowrap;
+}
+
+table th {
+    background-color: #f1f3f5;
+    color: #2d3436;
+    font-weight: 600;
+}
+
+table td img {
+    width: 60px;
+    height: auto;
+    object-fit: cover;
+    border-radius: 6px;
+}
+
+/* Buttons inside table */
+button.edit-btn {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+button.edit-btn:hover {
+    background-color: #2980b9;
+}
+
+button.delete-btn {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+button.delete-btn:hover {
+    background-color: #c0392b;
+}
+
+/* Icon styles */
+.icons div {
+    font-size: 40px;
+    color: #34495e;
+}
+
+/* Fully Responsive */
+@media (max-width: 768px) {
+    .admin-panel {
+        padding: 20px;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    .form-actions button {
+        width: 100%;
+        padding: 10px;
+        font-size: 15px;
+    }
+
+    table {
+        font-size: 14px;
+    }
+
+    .table-responsive {
+        margin-bottom: 20px;
+    }
+}
+
+/* Add Service Button */
+.button-container {
+    display: flex;
+    justify-content: flex-end;
+    margin: 80px 90px 30px 0;
+}
+
+.btn-add {
+    background-color: #28a745;
+    color: #fff;
+    padding: 12px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 16px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-add:hover {
+    background-color: #218838;
+    transform: translateY(-2px);
+}
+
+/* Unified Button Class */
+.btn {
+    padding: 8px 16px;
+    border-radius: 6px;
+    text-decoration: none;
+    color: white;
+    font-weight: 500;
+    display: inline-block;
+    transition: all 0.3s ease;
+}
+
+/* Edit Button */
+.edit-btn {
+    background-color: #3498db;
+}
+
+.edit-btn:hover {
+    background-color: #2980b9;
+    transform: scale(1.05);
+}
+
+/* Delete Button */
+.delete-btn {
+    background-color: #e74c3c;
+}
+
+.delete-btn:hover {
+    background-color: #c0392b;
+    transform: scale(1.05);
+}
