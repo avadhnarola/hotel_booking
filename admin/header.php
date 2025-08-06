@@ -116,6 +116,12 @@ session_start();
                 <p>Rooms</p>
               </a>
             </li>
+            <li class="nav-item">
+              <a  href="viewBooking.php">
+              <i class="fas fa-bookmark"></i>
+                <p>Booking Details</p>
+              </a>
+            </li>
             
           </ul>
         </div>

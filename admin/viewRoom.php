@@ -12,7 +12,19 @@ if (isset($_GET['d_id'])) {
     exit();
 }
 
-$select = "SELECT * FROM Room";
+$limit = 3; // Number of records per page
+$page = isset($_GET['page']) && is_numeric($_GET['page']) ? intval($_GET['page']) : 1;
+$offset = ($page - 1) * $limit;
+
+// Total records
+$total_query = "SELECT COUNT(*) AS total FROM booking";
+$total_result = mysqli_query($conn, $total_query);
+$total_row = mysqli_fetch_assoc($total_result);
+$total_records = $total_row['total'];
+$total_pages = ceil($total_records / $limit);
+
+// Fetch limited bookings
+$select = "SELECT * FROM room LIMIT $limit OFFSET $offset";
 $res = mysqli_query($conn, $select);
 ?>
 
@@ -86,6 +98,23 @@ $res = mysqli_query($conn, $select);
                         <?php } ?>
                     </tbody>
                 </table>
+            </div>
+            <!-- Pagination -->
+            <div class="pagination">
+                <?php if ($page > 1): ?>
+                    <a href="?page=<?php echo $page - 1; ?>">&laquo; Prev</a>
+                <?php endif; ?>
+
+                <?php for ($i = 1; $i <= $total_pages; $i++): ?>
+                    <a href="?page=<?php echo $i; ?>" class="<?php if ($i == $page)
+                           echo 'active'; ?>">
+                        <?php echo $i; ?>
+                    </a>
+                <?php endfor; ?>
+
+                <?php if ($page < $total_pages): ?>
+                    <a href="?page=<?php echo $page + 1; ?>">Next &raquo;</a>
+                <?php endif; ?>
             </div>
         </div>
     </div>
