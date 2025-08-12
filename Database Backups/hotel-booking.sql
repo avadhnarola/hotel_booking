@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 06, 2025 at 08:27 AM
+-- Generation Time: Aug 12, 2025 at 05:40 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -229,6 +229,28 @@ INSERT INTO `service` (`id`, `title`, `content`, `icon`) VALUES
 (3, 'Private Guide', 'Enjoy a personalized experience with a private guideâ€”expert insights, flexible itineraries, and exclusive access tailored to you.\r\n', 'flaticon-tour-guide'),
 (4, 'Location Manager', 'Oversees all location logistics, ensuring smooth operations, permits, and coordination for film, TV, or event production success.\r\n', 'flaticon-map-of-roads');
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users`
+--
+
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL,
+  `fullname` varchar(100) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `password` text NOT NULL,
+  `avatar` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `fullname`, `email`, `password`, `avatar`) VALUES
+(1, 'Avadh Narola', 'avadh@gmail.com', 'avadh123', ''),
+(2, 'Narola Avadh', 'avadh25@gmail.com', 'avadh123', 'admin/images/user-profile.jpg');
+
 --
 -- Indexes for dumped tables
 --
@@ -282,6 +304,13 @@ ALTER TABLE `service`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `fullname` (`fullname`,`email`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -332,6 +361,12 @@ ALTER TABLE `room`
 --
 ALTER TABLE `service`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

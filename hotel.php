@@ -1,4 +1,5 @@
 <?php
+include("header.php");
 include_once "db.php";
 $hotels = mysqli_query($conn, "select * from hotels ORDER BY id DESC LIMIT 6");
 $latestRoom = $conn->query("select * from Room ORDER BY id DESC LIMIT 1")->fetch_assoc();
@@ -129,29 +130,7 @@ if (isset($_POST['bookingSubmit'])) {
 </div>
 
 <body data-spy="scroll" data-target=".site-navbar-target" data-offset="300">
-    <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light site-navbar-target"
-        id="ftco-navbar">
-        <div class="container">
-            <a class="navbar-brand" href="index.php">Ecoland</a>
-            <button class="navbar-toggler js-fh5co-nav-toggle fh5co-nav-toggle" type="button" data-toggle="collapse"
-                data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="oi oi-menu"></span> Menu
-            </button>
 
-            <div class="collapse navbar-collapse" id="ftco-nav">
-                <ul class="navbar-nav nav ml-auto">
-                    <li class="nav-item"><a href="index.php" class="nav-link"><span>Home</span></a></li>
-                    <li class="nav-item"><a href="service.php" class="nav-link"><span>Services</span></a></li>
-                    <li class="nav-item"><a href="about.php" class="nav-link"><span>About</span></a></li>
-                    <li class="nav-item"><a href="destination.php" class="nav-link"><span>Destination</span></a>
-                    </li>
-                    <li class="nav-item"><a href="hotel.php" class="nav-link active"><span>Hotel</span></a></li>
-                    <li class="nav-item"><a href="restaurant.php" class="nav-link"><span>Restaurant</span></a></li>
-                    <li class="nav-item"><a href="contact.php" class="nav-link"><span>Contact</span></a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
 
     <section id="home-section" class="hero">
         <img src="images/blob-shape-3.svg" class="svg-blob" alt="Colorlib Free Template">
