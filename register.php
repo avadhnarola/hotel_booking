@@ -1,57 +1,71 @@
 <?php
+include 'db.php'; // Include the database connection file
 session_start();
 
 if (isset($_POST['register'])) {
-    $fullname = trim($_POST['fullname'] ?? '');
-    $email = trim($_POST['email'] ?? '');
-    $password = $_POST['password'] ?? '';
+    $fullname = $_POST['fullname'];
+    $email = $_POST['email'];
+    $password = $_POST['password'];
 
     $uploadDir = "admin/images/";
     $defaultAvatar = "admin/images/user-profile.jpg";
     $avatarPath = $defaultAvatar;
 
-    // Handle avatar upload
+    // Avatar upload
     if (!empty($_FILES['avatar']['name'])) {
         if (!is_dir($uploadDir)) {
             mkdir($uploadDir, 0755, true);
         }
         $avatarName = time() . "_" . basename($_FILES['avatar']['name']);
         $targetFile = $uploadDir . $avatarName;
+
         if (move_uploaded_file($_FILES['avatar']['tmp_name'], $targetFile)) {
             $avatarPath = $targetFile;
         }
     }
 
-    // Validate
+    // Validation
     if ($fullname === '' || $email === '' || $password === '') {
         $_SESSION['error'] = "Please fill in all fields.";
-        header("Location: header.php");
+        header("Location: register.php");
         exit();
     }
 
-    // Check if already in session store (email unique)
-    if (isset($_SESSION['users']) && array_search($email, array_column($_SESSION['users'], 'email')) !== false) {
+    // Check if email already exists in DB
+    $checkStmt = $conn->prepare("SELECT id FROM users WHERE email = ?");
+    $checkStmt->bind_param("s", $email);
+    $checkStmt->execute();
+    $checkStmt->store_result();
+
+    if ($checkStmt->num_rows > 0) {
         $_SESSION['error'] = "Email already registered.";
-        header("Location: header.php");
+        header("Location: register.php");
+        exit();
+    }
+    $checkStmt->close();
+
+    $stmt = $conn->prepare("INSERT INTO users (fullname, email, password, avatar) VALUES (?, ?, ?, ?)");
+    $stmt->bind_param("ssss", $fullname, $email, $password, $avatarPath);
+
+    if ($stmt->execute()) {
+        // Set logged-in user session
+        $_SESSION['user'] = [
+            'id' => $stmt->insert_id,
+            'fullname' => $fullname,
+            'email' => $email,
+            'avatar' => $avatarPath
+        ];
+
+        $_SESSION['success'] = "Registration successful. Welcome, {$fullname}!";
+        header("Location: index.php");
+        exit();
+    } else {
+        $_SESSION['error'] = "Error: " . $stmt->error;
+        header("Location: register.php");
         exit();
     }
 
-    // Store new user in session
-    $_SESSION['users'][] = [
-        'fullname' => $fullname,
-        'email' => $email,
-        'password' => $password,
-        'avatar' => $avatarPath
-    ];
 
-    // Set current logged in user
-    $_SESSION['user'] = [
-        'fullname' => $fullname,
-        'email' => $email,
-        'avatar' => $avatarPath
-    ];
-
-    $_SESSION['success'] = "Registration successful. Welcome, {$fullname}!";
-    header("Location: index.php");
-    exit();
 }
+
+?>

@@ -3,8 +3,8 @@ session_start();
 require './db.php'; // DB connection
 
 if (isset($_POST['login'])) {
-    $email = trim($_POST['email'] ?? '');
-    $password = $_POST['password'] ?? '';
+    $email = $_POST['email'];
+    $password = $_POST['password'];
 
     if ($email === '' || $password === '') {
         $_SESSION['error'] = "Please fill in all fields.";

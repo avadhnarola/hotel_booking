@@ -75,6 +75,7 @@ body {
   color: #212529;
   text-align: left;
   background-color: #fff;
+
 }
 
 [tabindex="-1"]:focus {
@@ -11518,6 +11519,7 @@ body {
   line-height: 1.8;
   font-weight: 400;
   color: #999999;
+  overflow-x: hidden;
 }
 
 body.menu-show {
@@ -12755,6 +12757,8 @@ h5,
   font-size: 20px;
   font-weight: 600;
   color: #000000;
+  height: 45px;
+  line-height: 1.2;
 }
 
 .project .text h3 a {

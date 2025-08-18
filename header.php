@@ -161,6 +161,7 @@ session_start();
                     <li class="nav-item"><a href="index.php" class="nav-link"><span>Home</span></a></li>
                     <li class="nav-item"><a href="service.php" class="nav-link"><span>Services</span></a></li>
                     <li class="nav-item"><a href="about.php" class="nav-link"><span>About</span></a></li>
+                    <li class="nav-item"><a href="room.php" class="nav-link"><span>Rooms</span></a></li>
                     <li class="nav-item"><a href="hotel.php" class="nav-link"><span>Hotel</span></a></li>
                     <li class="nav-item"><a href="restaurant.php" class="nav-link"><span>Restaurant</span></a></li>
                     <li class="nav-item"><a href="contact.php" class="nav-link"><span>Contact</span></a></li>
@@ -172,8 +173,8 @@ session_start();
                 <?php if (isset($_SESSION['user'])): ?>
                     <div class="d-flex align-items-center">
                         <img src="<?php echo $_SESSION['user']['avatar'] ?: './admin/images/user-profile.jpg'; ?>"
-                            alt="Avatar" class="rounded-circle mr-2" style="width:40px; height:40px; object-fit:cover;">
-                        <span class="text-white mr-3"><?php echo htmlspecialchars($_SESSION['user']['fullname']); ?></span>
+                            alt="Avatar" class="rounded-circle mr-2" style="width:40px; height:40px; object-fit:cover; ">
+                        <span class="text-black mr-3" style="color:#000;"><?php echo htmlspecialchars($_SESSION['user']['fullname']); ?></span>
                         <a href="logout.php" class="btn btn-danger btn-sm">Logout</a>
                     </div>
                 <?php else: ?>

@@ -1,420 +1,379 @@
 <?php
-include("header.php");
-include_once "db.php";
+session_start();
+include 'db.php'; // Include database connection file
 $hotels = mysqli_query($conn, "select * from hotels ORDER BY id DESC LIMIT 6");
-$latestRoom = $conn->query("select * from Room ORDER BY id DESC LIMIT 1")->fetch_assoc();
-$allRooms = $conn->query("select * from Room ORDER BY id DESC");
-if (isset($_POST['bookingSubmit'])) {
-    $name = $_POST['userNameBook'];
-    $email = $_POST['emailBook'];
-    $checkin = $_POST['check-inBook'];
-    $checkout = $_POST['check-outBook'];
-    $location = $_POST['roomLocation']; // from hidden input
-    $price = $_POST['roomPrice'];       // from hidden input
-    $hotelType = $_POST['roomHotelType']; // from hidden input
-    $status = 'Approved'; // Default status
 
-    $query = mysqli_query($conn, "INSERT INTO booking (name, email, check_in, check_out, location, price,HotelType, status) VALUES ('$name', '$email', '$checkin', '$checkout', '$location', '$price','$hotelType' , '$status')");
-    if ($query) {
-        $bookingSuccess = true; // set success flag
-    } else {
-        echo "Error: " . mysqli_error($conn);
-    }
-}
 ?>
-<?php if (@$bookingSuccess): ?>
-    <div class="alert alert-success alert-dismissible fade show top-center-alert" role="alert">
-        <strong><i class="bi bi-check-circle-fill"></i> Booking successfully !</strong>
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-    </div>
-<?php endif; ?>
-
-<script>
-    setTimeout(() => {
-        const alert = document.querySelector('.alert');
-        if (alert) {
-            alert.classList.remove('show');
-            alert.classList.add('fade');
-        }
-    }, 4000); // hide after 5 seconds
-</script>
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <title>Ecoland - Free Bootstrap 4 Template by Colorlib</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>Ecoland</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Cormorant+Garamond:300,300i,400,400i,500,500i,600,600i,700,700i"
-        rel="stylesheet">
+	<!-- Google Fonts -->
+	<link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Cormorant+Garamond:300,300i,400,400i,500,500i,600,600i,700,700i"
+		rel="stylesheet">
 
-    <link rel="stylesheet" href="css/open-iconic-bootstrap.min.css">
-    <link rel="stylesheet" href="css/animate.css">
+	<!-- Boxicons -->
+	<link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
 
-    <link rel="stylesheet" href="css/owl.carousel.min.css">
-    <link rel="stylesheet" href="css/owl.theme.default.min.css">
-    <link rel="stylesheet" href="css/magnific-popup.css">
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
-    <link rel="stylesheet" href="css/aos.css">
+	<!-- Your existing styles -->
+	<link rel="stylesheet" href="css/open-iconic-bootstrap.min.css">
+	<link rel="stylesheet" href="css/animate.css">
+	<link rel="stylesheet" href="css/owl.carousel.min.css">
+	<link rel="stylesheet" href="css/owl.theme.default.min.css">
+	<link rel="stylesheet" href="css/magnific-popup.css">
+	<link rel="stylesheet" href="css/aos.css">
+	<link rel="stylesheet" href="css/ionicons.min.css">
+	<link rel="stylesheet" href="css/flaticon.css">
+	<link rel="stylesheet" href="css/icomoon.css">
+	<link rel="stylesheet" href="css/style.css">
 
-    <link rel="stylesheet" href="css/ionicons.min.css">
+	<style>
+		.avatar-upload {
+			position: relative;
+			max-width: 150px;
+			margin: 20px auto;
+		}
 
-    <link rel="stylesheet" href="css/flaticon.css">
-    <link rel="stylesheet" href="css/icomoon.css">
-    <link rel="stylesheet" href="css/style.css">
-    <style>
-        .top-center-alert {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 1055;
-            /* higher than modal backdrop */
-            width: auto;
-            max-width: 90%;
-        }
-    </style>
+		.avatar-upload input {
+			display: none;
+		}
 
-
+		.avatar-upload img {
+			width: 150px;
+			height: 150px;
+			border-radius: 50%;
+			border: 2px solid #ddd;
+			object-fit: cover;
+			cursor: pointer;
+		}
+	</style>
 </head>
-<div class="modal fade" id="bookingModal" tabindex="-1" role="dialog" aria-labelledby="bookingModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title"><span id="roomTitle">Room Booking</span></h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span>&times;</span>
-                </button>
-            </div>
-            <div class="modal-body row">
-                <div class="col-md-6">
-                    <img id="roomImage" src="" alt="Room" class="img-fluid rounded">
-                    <p>Please fill in the details below to book your room.</p>
-                    <p class="mt-3"><strong>Location:</strong> <span id="roomLocation"></span></p>
-                    <p><strong>Price:</strong> <span id="roomPrice"></span></p>
-                </div>
-
-
-                <div class="col-md-6">
-                    <form id="bookingForm" method="POST">
-                        <input type="hidden" id="roomLocationInput" name="roomLocation">
-                        <input type="hidden" id="roomPriceInput" name="roomPrice">
-                        <input type="hidden" id="roomHotelTypeInput" name="roomHotelType">
-                        <div class="form-group">
-                            <label for="guestName">Name</label>
-                            <input type="text" class="form-control" id="guestName" name="userNameBook" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="guestEmail">Email</label>
-                            <input type="email" class="form-control" id="guestEmail" name="emailBook" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="checkin">Check-in</label>
-                            <input type="date" class="form-control" id="checkin" name="check-inBook" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="checkout">Check-out</label>
-                            <input type="date" class="form-control" id="checkout" name="check-outBook" required>
-                        </div>
-                        <input type="submit" name="bookingSubmit" class="btn btn-primary" value="Confirm Booking">
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 
 <body data-spy="scroll" data-target=".site-navbar-target" data-offset="300">
+	<?php if (isset($_SESSION['success']) || isset($_SESSION['error'])): ?>
+		<div id="top-alert" class="alert 
+		<?php echo isset($_SESSION['success']) ? 'alert-success' : 'alert-danger'; ?> 
+		alert-dismissible fade show text-center" role="alert" style="position: fixed; top: 20px; left: 50%; transform: translateX(-50%); 
+			   z-index: 9999; width: auto; min-width: 300px;">
+			<?php
+			echo isset($_SESSION['success']) ? htmlspecialchars($_SESSION['success']) : htmlspecialchars($_SESSION['error']);
+			unset($_SESSION['success'], $_SESSION['error']);
+			?>
+			<button type="button" class="close" data-dismiss="alert">&times;</button>
+		</div>
+
+		<script>
+			setTimeout(function () {
+				$("#top-alert").alert('close');
+			}, 3000);
+		</script>
+	<?php endif; ?>
+	<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light site-navbar-target"
+		id="ftco-navbar">
+		<div class="container">
+			<a class="navbar-brand" href="index.php">Ecoland</a>
+			<button class="navbar-toggler js-fh5co-nav-toggle fh5co-nav-toggle" type="button" data-toggle="collapse"
+				data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="oi oi-menu"></span> Menu
+			</button>
+			<div class="collapse navbar-collapse" id="ftco-nav">
+				<ul class="navbar-nav nav ml-auto">
+					<li class="nav-item"><a href="index.php" class="nav-link"><span>Home</span></a></li>
+					<li class="nav-item"><a href="service.php" class="nav-link"><span>Services</span></a></li>
+					<li class="nav-item"><a href="about.php" class="nav-link"><span>About</span></a></li>
+					<li class="nav-item"><a href="room.php" class="nav-link"><span>Rooms</span></a></li>
+					<li class="nav-item"><a href="hotel.php" class="nav-link"><span>Hotel</span></a></li>
+					<li class="nav-item"><a href="restaurant.php" class="nav-link"><span>Restaurant</span></a></li>
+					<li class="nav-item"><a href="contact.php" class="nav-link"><span>Contact</span></a></li>
+				</ul>
+			</div>
+
+			<!-- Dynamic Login / User Display -->
+			<div class="login-btn ml-5">
+				<?php if (isset($_SESSION['user'])): ?>
+					<div class="d-flex align-items-center">
+						<img src="<?php echo $_SESSION['user']['avatar'] ?: './admin/images/user-profile.jpg'; ?>"
+							alt="Avatar" class="rounded-circle mr-2" style="width:40px; height:40px; object-fit:cover; ">
+						<span class="text-black mr-3"
+							style="color:#000;"><?php echo htmlspecialchars($_SESSION['user']['fullname']); ?></span>
+						<a href="logout.php" class="btn btn-danger btn-sm">Logout</a>
+					</div>
+				<?php else: ?>
+					<a href="#" class="btn btn-primary" data-toggle="modal" data-target="#loginModal">
+						<i class="bx bx-user"></i> Login
+					</a>
+				<?php endif; ?>
+			</div>
+		</div>
+	</nav>
+
+	<!-- Scripts -->
+	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+	</div>
+
+	<section class="hero-wrap hero-wrap-2" style="background-image: url('images/bg_4.jpg');"
+		data-stellar-background-ratio="0.5">
+		<div class="overlay"></div>
+		<div class="container">
+			<div class="row no-gutters slider-text align-items-end justify-content-start">
+				<div class="col-md-9 ftco-animate pb-4">
+					<h1 class="mb-3 bread">Find Your Hotel</h1>
+					<p class="breadcrumbs"><span class="mr-2"><a href="index.php">Home <i
+									class="ion-ios-arrow-forward"></i></a></span> <span>Hotel <i
+								class="ion-ios-arrow-forward"></i></span></p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="ftco-section">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-9 pr-lg-4">
+					<div class="row">
+						<?php while ($row = mysqli_fetch_assoc($hotels)) { ?>
+							<div class="col-md-6 col-lg-4 ftco-animate">
+								<div class="project">
+									<div class="img">
+										<!-- <div class="vr"><span>Sale</span></div> -->
+										<a href="#"><img src="admin/images/<?php echo $row['image']; ?>" class="img-fluid"
+												alt="<?php echo $row['location']; ?> Image"
+												style="height:350px;  width: 450px;"></a>
+									</div>
+									<div class="text">
+										<h4 class="price">$<?php echo $row['price']; ?></h4>
+										<h3><a href="#"><?php echo $row['location']; ?></a></h3>
+										<div class="star d-flex clearfix">
+											<div class="mr-auto float-left">
+												<?php
+												for ($i = 0; $i < $row['star']; $i++) {
+													echo '★';
+												}
+												for ($j = $row['star']; $j < 5; $j++) {
+													echo '☆';
+												}
+												?>
+											</div>
+											<div class="float-right">
+												<span class="rate"><a href="#">( <?php echo $row['rate']; ?> )</a></span>
+											</div>
+										</div>
+									</div>
+									<a href="admin/images/<?php echo $row['image']; ?>"
+										class="icon image-popup d-flex justify-content-center align-items-center">
+										<span class="icon-expand"></span>
+									</a>
+									<a href="#" class="btn btn-primary book-now-btn">
+										Book now
+									</a>
+								</div>
+							</div>
+						<?php } ?>
+					</div>
+					<div class="row mt-5">
+						<div class="col text-center">
+							<div class="block-27">
+								<ul>
+									<li><a href="#">&lt;</a></li>
+									<li class="active"><span>1</span></li>
+									<li><a href="#">2</a></li>
+									<li><a href="#">3</a></li>
+									<li><a href="#">4</a></li>
+									<li><a href="#">5</a></li>
+									<li><a href="#">&gt;</a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div> <!-- end -->
+				<div class="col-lg-3 p-4 bg-light">
+					<div class="search-wrap-1 ftco-animate">
+						<h2 class="mb-3">Find Hotel</h2>
+						<form action="#" class="search-property-1">
+							<div class="row">
+								<div class="col-lg-12 align-items-end mb-3">
+									<div class="form-group">
+										<label for="#">Places</label>
+										<div class="form-field">
+											<div class="icon"><span class="ion-ios-search"></span></div>
+											<input type="text" class="form-control" placeholder="Search place">
+										</div>
+									</div>
+								</div>
+								<div class="col-lg-12 align-items-end mb-3">
+									<div class="form-group">
+										<label for="#">Check-in date</label>
+										<div class="form-field">
+											<div class="icon"><span class="ion-ios-calendar"></span></div>
+											<input type="text" class="form-control checkin_date"
+												placeholder="Check In Date">
+										</div>
+									</div>
+								</div>
+								<div class="col-lg-12 align-items-end mb-3">
+									<div class="form-group">
+										<label for="#">Check-out date</label>
+										<div class="form-field">
+											<div class="icon"><span class="ion-ios-calendar"></span></div>
+											<input type="text" class="form-control checkout_date"
+												placeholder="Check Out Date">
+										</div>
+									</div>
+								</div>
+								<div class="col-lg-12 align-items-end mb-3">
+									<div class="form-group">
+										<label for="#">Price Limit</label>
+										<div class="form-field">
+											<div class="select-wrap">
+												<div class="icon"><span class="ion-ios-arrow-down"></span></div>
+												<select name="" id="" class="form-control">
+													<option value="">$5,000</option>
+													<option value="">$10,000</option>
+													<option value="">$50,000</option>
+													<option value="">$100,000</option>
+													<option value="">$200,000</option>
+													<option value="">$300,000</option>
+													<option value="">$400,000</option>
+													<option value="">$500,000</option>
+													<option value="">$600,000</option>
+													<option value="">$700,000</option>
+													<option value="">$800,000</option>
+													<option value="">$900,000</option>
+													<option value="">$1,000,000</option>
+													<option value="">$2,000,000</option>
+												</select>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="col-lg-12 align-self-end">
+									<div class="form-group">
+										<div class="form-field">
+											<input type="submit" value="Search" class="form-control btn btn-primary">
+										</div>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div> <!-- end -->
+			</div>
+		</div>
+	</section>
 
 
-    <section id="home-section" class="hero">
-        <img src="images/blob-shape-3.svg" class="svg-blob" alt="Colorlib Free Template">
-        <div class="home-slider owl-carousel">
-            <div class="slider-item">
-                <div class="overlay"></div>
-                <div class="container-fluid p-0">
-                    <div class="row d-md-flex no-gutters slider-text align-items-center justify-content-end"
-                        data-scrollax-parent="true">
-                        <div class="one-third order-md-last">
-                            <div class="img" style="background-image:url(images/bg_1.jpg);">
-                                <div class="overlay"></div>
-                            </div>
-                            <div class="bg-primary">
-                                <div class="vr"><span class="pl-3 py-4"
-                                        style="background-image: url(images/bg_1-1.jpg);">Greece</span></div>
-                            </div>
-                        </div>
-                        <div class="one-forth d-flex align-items-center ftco-animate"
-                            data-scrollax=" properties: { translateY: '70%' }">
-                            <div class="text">
-                                <span class="subheading pl-5">Discover Greece</span>
-                                <h1 class="mb-4 mt-3">Explore Your Travel Destinations like never before</h1>
-                                <p>A small river named Duden flows by their place and supplies it with the necessary
-                                    regelialia. It is a paradisematic country.</p>
+	<footer class="ftco-footer ftco-section">
+		<div class="container">
+			<div class="row mb-5">
+				<div class="col-md">
+					<div class="ftco-footer-widget mb-4">
+						<h2 class="ftco-heading-2">About <span><a href="index.html">Ecoland</a></span></h2>
+						<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia,
+							there live the blind texts.</p>
+						<ul class="ftco-footer-social list-unstyled float-md-left float-lft mt-5">
+							<li class="ftco-animate"><a href="#"><span class="icon-twitter"></span></a></li>
+							<li class="ftco-animate"><a href="#"><span class="icon-facebook"></span></a></li>
+							<li class="ftco-animate"><a href="#"><span class="icon-instagram"></span></a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-md">
+					<div class="ftco-footer-widget mb-4 ml-md-4">
+						<h2 class="ftco-heading-2">Information</h2>
+						<ul class="list-unstyled">
+							<li><a href="#"><span class="icon-long-arrow-right mr-2"></span>Online Enquiry</a></li>
+							<li><a href="#"><span class="icon-long-arrow-right mr-2"></span>General Enquiry</a></li>
+							<li><a href="#"><span class="icon-long-arrow-right mr-2"></span>Booking</a></li>
+							<li><a href="#"><span class="icon-long-arrow-right mr-2"></span>Privacy</a></li>
+							<li><a href="#"><span class="icon-long-arrow-right mr-2"></span>Refund Policy</a></li>
+							<li><a href="#"><span class="icon-long-arrow-right mr-2"></span>Call Us</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-md">
+					<div class="ftco-footer-widget mb-4">
+						<h2 class="ftco-heading-2">Experience</h2>
+						<ul class="list-unstyled">
+							<li><a href="#"><span class="icon-long-arrow-right mr-2"></span>Adventure</a></li>
+							<li><a href="#"><span class="icon-long-arrow-right mr-2"></span>Hotel and Restaurant</a>
+							</li>
+							<li><a href="#"><span class="icon-long-arrow-right mr-2"></span>Beach</a></li>
+							<li><a href="#"><span class="icon-long-arrow-right mr-2"></span>Nature</a></li>
+							<li><a href="#"><span class="icon-long-arrow-right mr-2"></span>Camping</a></li>
+							<li><a href="#"><span class="icon-long-arrow-right mr-2"></span>Party</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-md">
+					<div class="ftco-footer-widget mb-4">
+						<h2 class="ftco-heading-2">Have a Questions?</h2>
+						<div class="block-23 mb-3">
+							<ul>
+								<li><span class="icon icon-map-marker"></span><span class="text">203 Fake St. Mountain
+										View, San Francisco, California, USA</span></li>
+								<li><a href="#"><span class="icon icon-phone"></span><span class="text">+2 392 3929
+											210</span></a></li>
+								<li><a href="#"><span class="icon icon-envelope"></span><span
+											class="text">info@yourdomain.com</span></a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12 text-center">
 
-                                <p><a href="#" class="btn btn-primary px-5 py-3 mt-3">Discover <span
-                                            class="ion-ios-arrow-forward"></span></a></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+					<p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+						Copyright &copy;
+						<script>document.write(new Date().getFullYear());</script> All rights reserved | This template
+						is made with <i class="icon-heart color-danger" aria-hidden="true"></i> by <a
+							href="https://colorlib.com" target="_blank">Colorlib</a>
+						<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+					</p>
+				</div>
+			</div>
+		</div>
+	</footer>
 
-            <div class="slider-item">
-                <div class="overlay"></div>
-                <div class="container-fluid p-0">
-                    <div class="row d-flex no-gutters slider-text align-items-center justify-content-end"
-                        data-scrollax-parent="true">
-                        <div class="one-third order-md-last">
-                            <div class="img" style="background-image:url(images/bg_2.jpg);">
-                                <div class="overlay"></div>
-                            </div>
-                            <div class="vr"><span class="pl-3 py-4"
-                                    style="background-image: url(images/bg_2-2.jpg);">Africa</span></div>
-                        </div>
-                        <div class="one-forth d-flex align-items-center ftco-animate"
-                            data-scrollax=" properties: { translateY: '70%' }">
-                            <div class="text">
-                                <span class="subheading pl-5">Discover Africa</span>
-                                <h1 class="mb-4 mt-3">Never Stop Exploring</span></h1>
-                                <p>A small river named Duden flows by their place and supplies it with the necessary
-                                    regelialia. It is a paradisematic country.</p>
 
-                                <p><a href="#" class="btn btn-primary px-5 py-3 mt-3">Discover <span
-                                            class="ion-ios-arrow-forward"></span></a></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
 
-    <section class="ftco-intro mt-5 img" id="hotel-section" style="background-image: url(images/bg_4.jpg);">
-        <div class="overlay"></div>
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-md-9 text-center">
-                    <h2>Choose at $99 Per Night Only</h2>
-                    <p>We can manage your dream building A small river named Duden flows by their place</p>
-                    <p class="mb-0"><a href="#" class="btn btn-white px-4 py-3">Book a room now</a></p>
-                </div>
-            </div>
-        </div>
-    </section>
+	<!-- loader -->
+	<div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px">
+			<circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee" />
+			<circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10"
+				stroke="#F96D00" />
+		</svg></div>
 
-    <section class="ftco-section">
-        <div class="container">
-            <div class="row justify-content-center pb-5 ">
-                <div class="col-md-12 heading-section text-center ftco-animate">
-                    <span class="subheading">Suggested Hotel</span>
-                    <h2 class="mb-4">Find Nearest Hotel</h2>
-                    <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia</p>
-                </div>
-            </div>
-            <div class="row">
-                <?php while ($row = mysqli_fetch_assoc($hotels)) { ?>
-                    <div class="col-md-6 col-lg-4 ftco-animate">
-                        <div class="project">
-                            <div class="img">
-                                <!-- <div class="vr"><span>Sale</span></div> -->
-                                <a href="#"><img src="admin/images/<?php echo $row['image']; ?>" class="img-fluid"
-                                        alt="<?php echo $row['location']; ?> Image"
-                                        style="height:350px;  width: 450px;"></a>
-                            </div>
-                            <div class="text">
-                                <h4 class="price">$<?php echo $row['price']; ?></h4>
-                                <h3><a href="#"><?php echo $row['location']; ?></a></h3>
-                                <div class="star d-flex clearfix">
-                                    <div class="mr-auto float-left">
-                                        <?php
-                                        for ($i = 0; $i < $row['star']; $i++) {
-                                            echo '★';
-                                        }
-                                        for ($j = $row['star']; $j < 5; $j++) {
-                                            echo '☆';
-                                        }
-                                        ?>
-                                    </div>
-                                    <div class="float-right">
-                                        <span class="rate"><a href="#">( <?php echo $row['rate']; ?> )</a></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <a href="admin/images/<?php echo $row['image']; ?>"
-                                class="icon image-popup d-flex justify-content-center align-items-center">
-                                <span class="icon-expand"></span>
-                            </a>
-                        </div>
-                    </div>
-                <?php } ?>
-            </div>
-            <div class="row justify-content-center pb-5 pt-5">
-                <div class="col-md-12 heading-section text-center ftco-animate">
-                    <span class="subheading">Rooms &amp; Suites</span>
-                    <h2 class="mb-4">Greece Best Rooms Offer</h2>
-                    <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia</p>
-                </div>
-            </div>
-            <div class="row">
-                <div class="container py-5">
-                    <div class="row" id="room-content">
-                        <!-- Room details loaded dynamically -->
-                        <div class="col-md-12 room-wrap">
-                            <div class="row">
-                                <div class="col-md-7 d-flex">
-                                    <div class="img align-self-stretch main-img"
-                                        style="background-image: url('admin/images/<?php echo $latestRoom['image']; ?>');height:400px;">
-                                    </div>
-                                </div>
-                                <div class="col-md-5">
-                                    <div class="text pb-5">
-                                        <h3><?php echo $latestRoom['title']; ?></h3>
-                                        <p class="pos">from <span
-                                                class="price">$<?php echo $latestRoom['price']; ?></span>/night</p>
-                                        <p><?php echo $latestRoom['description']; ?></p>
-                                        <p>
-                                            <a href="#" class="btn btn-primary book-now-btn"
-                                                data-title="<?php echo $latestRoom['title']; ?>"
-                                                data-image="admin/images/<?php echo $latestRoom['image']; ?>">
-                                                Book now
-                                            </a>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
 
-                    <!-- Thumbnail Images -->
-                    <div class="col-md-12 room-wrap room-wrap-thumb mt-4">
-                        <div class="row">
-                            <?php while ($room = $allRooms->fetch_assoc()) { ?>
-                                <div class="col-md-3 mt-4">
-                                    <a href="#" class="d-flex thumb"
-                                        onclick="loadRoom(<?php echo $room['id']; ?>); return false;">
-                                        <div class="img align-self-stretch"
-                                            style="background-image: url('admin/images/<?php echo $room['image']; ?>'); height: 80px;">
-                                        </div>
-                                        <div class="text pl-3 py-3">
-                                            <h3><?php echo $room['title']; ?></h3>
-                                        </div>
-                                    </a>
-                                </div>
-                            <?php } ?>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        </div>
-        </div>
-    </section>
+	<script src="js/jquery.min.js"></script>
+	<script src="js/jquery-migrate-3.0.1.min.js"></script>
+	<script src="js/popper.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/jquery.easing.1.3.js"></script>
+	<script src="js/jquery.waypoints.min.js"></script>
+	<script src="js/jquery.stellar.min.js"></script>
+	<script src="js/owl.carousel.min.js"></script>
+	<script src="js/jquery.magnific-popup.min.js"></script>
+	<script src="js/aos.js"></script>
+	<script src="js/jquery.animateNumber.min.js"></script>
+	<script src="js/scrollax.min.js"></script>
+	<script
+		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
+	<script src="js/google-map.js"></script>
 
-    <?php include_once("footer.php"); ?>
+	<script src="js/main.js"></script>
 
-    <script>
-        $(document).ready(function () {
-            $(document).ready(function () {
-                $('.book-now-btn').click(function (e) {
-                    e.preventDefault();
-                    var title = $(this).data('title');
-                    var image = $(this).data('image');
+</body>
 
-                    $('#roomTitle').text(title);
-                    $('#roomImage').attr('src', image);
-                    $('#bookingModal').modal('show');
-                });
-            });
-        });
-
-        document.body.addEventListener('click', function (e) {
-            if (e.target.classList.contains('book-now-btn')) {
-                e.preventDefault();
-                const title = e.target.getAttribute('data-title');
-                const image = e.target.getAttribute('data-image');
-                const location = e.target.getAttribute('data-location');
-                const price = e.target.getAttribute('data-price');
-
-                // Set modal values
-                document.getElementById('roomTitle').textContent = title;
-                document.getElementById('roomImage').src = image;
-                document.getElementById('roomLocation').textContent = location;
-                document.getElementById('roomPrice').textContent = "$" + price + "/night";
-
-                // 🔽 Also set hidden input values for form submission
-                document.getElementById('roomLocationInput').value = location;
-                document.getElementById('roomPriceInput').value = price;
-                document.getElementById('roomHotelTypeInput').value = title;
-
-                $('#bookingModal').modal('show');
-            }
-        });
-        document.getElementById('bookingForm').addEventListener('submit', function (e) {
-            const checkin = new Date(document.getElementById('checkin').value);
-            const checkout = new Date(document.getElementById('checkout').value);
-
-            if (checkin >= checkout) {
-                e.preventDefault();
-                alert("Check-out date must be after check-in date.");
-            }
-        });
-
-        function loadRoom(id) {
-            fetch('get-room.php?id=' + id)
-                .then(response => response.text())
-                .then(html => {
-                    document.getElementById('room-content').innerHTML = html;
-                })
-                .catch(err => console.error('Error loading room:', err));
-        }
-
-    </script>
-
-    <script>
-        $(document).ready(function () {
-            $('.book-now-btn').click(function (e) {
-                e.preventDefault();
-                var title = $(this).data('title');
-                var image = $(this).data('image');
-                var location = $(this).data('location');
-                var price = $(this).data('price');
-
-                $('#roomTitle').text(title);
-                $('#roomImage').attr('src', image);
-                $('#roomLocation').text(location);
-                $('#roomPrice').text("$" + price + "/night");
-
-                $('#roomLocationInput').val(location);
-                $('#roomPriceInput').val(price);
-                $('#roomHotelTypeInput').val(title);
-
-                $('#bookingModal').modal('show');
-            });
-
-            // Booking form validation: Check-in must be before Check-out
-            document.getElementById('bookingForm').addEventListener('submit', function (e) {
-                const checkin = new Date(document.getElementById('checkin').value);
-                const checkout = new Date(document.getElementById('checkout').value);
-
-                if (checkin >= checkout) {
-                    e.preventDefault();
-                    alert("Check-out date must be after check-in date.");
-                }
-            });
-        });
-
-        function loadRoom(id) {
-            fetch('get-room.php?id=' + id)
-                .then(response => response.text())
-                .then(html => {
-                    document.getElementById('room-content').innerHTML = html;
-                })
-                .catch(err => console.error('Error loading room:', err));
-        }
-    </script>
+</html>
