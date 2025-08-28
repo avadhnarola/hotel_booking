@@ -12437,7 +12437,7 @@ h5,
 }
 
 .btn.btn-primary {
-  background: #e2c0bb;
+  background: #dda299;
   border: 1px solid #e2c0bb !important;
   color: #fff !important;
 }
@@ -12745,6 +12745,12 @@ h5,
   color: rgba(0, 0, 0, 0.3);
 }
 
+.btn .btn-primary{
+  background-color: #dda299;
+}
+button{
+  background: #dda299;
+}
 .project .text span {
   font-weight: 500;
   font-size: 12px;

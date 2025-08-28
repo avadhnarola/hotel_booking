@@ -57,6 +57,20 @@ $res = mysqli_query($conn, $select);
         .status-rejected {
             color: red;
         }
+
+        #search-box {
+            width: 40%;
+            padding: 8px;
+            margin-bottom: 15px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+        }
+
+        #search-box:focus {
+            outline: none;
+            border-color: #4c3aecff;
+            box-shadow: 0 0 5px rgba(76, 58, 236, 0.5);
+        }
     </style>
 </head>
 
@@ -65,7 +79,9 @@ $res = mysqli_query($conn, $select);
     <div class="container d-flex justify-content-center" style="margin-top: 80px;">
         <div class="admin-panel">
             <h2>Booking Details</h2>
-            <div class="table-responsive">
+            <input type="text" id="search-box" placeholder="🔍 Search by name, email, location, hotel type..." />
+
+            <div class="table-responsive" id="booking-data">
                 <table class="table table-light table-hover table-striped">
                     <thead>
                         <tr>
@@ -132,6 +148,26 @@ $res = mysqli_query($conn, $select);
             </div>
         </div>
     </div>
+
+    <!-- AJAX Script -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#search-box").on("keyup", function () {
+                let query = $(this).val();
+                $.ajax({
+                    url: "fetchBooking.php",
+                    method: "POST",
+                    data: { query: query },
+                    success: function (data) {
+                        $("#booking-data").html(data);
+                        $("#pagination").hide();
+
+                    }
+                });
+            });
+        });
+    </script>
 
 </body>
 
