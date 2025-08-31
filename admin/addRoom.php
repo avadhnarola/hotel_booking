@@ -15,13 +15,28 @@ if (isset($_POST['submit'])) {
     $description = $_POST['description'];
     $location = $_POST['location'];
 
-    $img = $_FILES['image']['name'];
-    move_uploaded_file($_FILES['image']['tmp_name'], "images/$img");
-
-    if ($id) {
-        $sql = "UPDATE Room SET title='$title' , price='$price', description='$description' , location='$location', image='$img' WHERE id=$id";
+    // Check if a new image is uploaded
+    if (!empty($_FILES['image']['name'])) {
+        $img = $_FILES['image']['name'];
+        move_uploaded_file($_FILES['image']['tmp_name'], "images/$img");
     } else {
-        $sql = "INSERT INTO Room (title, price, description,location, image) VALUES ('$title','$price', '$description', '$location', '$img')";
+        // Keep old image if updating, else leave empty for new room
+        $img = isset($u_data['image']) ? $u_data['image'] : '';
+    }
+
+    if (isset($id) && !empty($id)) {
+        // Update existing room
+        $sql = "UPDATE Room 
+                SET title='$title',
+                    price='$price',
+                    description='$description',
+                    location='$location',
+                    image='$img'
+                WHERE id=$id";
+    } else {
+        // Insert new room
+        $sql = "INSERT INTO Room (title, price, description, location, image) 
+                VALUES ('$title', '$price', '$description', '$location', '$img')";
     }
 
     $data = mysqli_query($conn, $sql);
@@ -48,14 +63,14 @@ if (isset($_POST['submit'])) {
 
     <div class="container d-flex justify-content-center">
         <div class="admin-panel">
-            <h2>Add Rooms</h2>
+            <h2><?php echo isset($id) ? 'Edit Room' : 'Add Room'; ?></h2>
             <form method="POST" enctype="multipart/form-data">
 
                 <div class="form-group">
                     <label>Title</label>
                     <input type="text" name="title" value="<?php echo @$u_data['title']; ?>" required/>
-
                 </div>
+
                 <div class="form-group">
                     <label>Price</label>
                     <input type="number" name="price" value="<?php echo @$u_data['price']; ?>" required/>
@@ -71,14 +86,13 @@ if (isset($_POST['submit'])) {
                     <input type="text" name="location" value="<?php echo @$u_data['location']; ?>" required />
                 </div>
 
-                
-
-
                 <div class="form-group">
                     <label>Image</label>
                     <input type="file" name="image" class="form-control" />
                     <?php if (!empty($u_data['image'])): ?>
-                        <p>Current Image: <img src="images/<?php echo $u_data['image']; ?>" width="100" /></p>
+                        <p>Current Image: 
+                            <img src="images/<?php echo $u_data['image']; ?>" width="100" />
+                        </p>
                     <?php endif; ?>
                 </div>
 
@@ -90,7 +104,6 @@ if (isset($_POST['submit'])) {
     </div>
 
 </body>
-
 </html>
 
 <?php include("footer.php"); ?>

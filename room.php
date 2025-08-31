@@ -198,50 +198,7 @@ if (isset($_POST['bookingSubmit'])) {
 
     <section class="ftco-section">
         <div class="container">
-            <div class="row justify-content-center pb-5 ">
-                <div class="col-md-12 heading-section text-center ftco-animate">
-                    <span class="subheading">Suggested Hotel</span>
-                    <h2 class="mb-4">Find Nearest Hotel</h2>
-                    <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia</p>
-                </div>
-            </div>
-            <div class="row">
-                <?php while ($row = mysqli_fetch_assoc($hotels)) { ?>
-                    <div class="col-md-6 col-lg-4 ftco-animate">
-                        <div class="project">
-                            <div class="img">
-                                <!-- <div class="vr"><span>Sale</span></div> -->
-                                <a href="#"><img src="admin/images/<?php echo $row['image']; ?>" class="img-fluid"
-                                        alt="<?php echo $row['location']; ?> Image"
-                                        style="height:350px;  width: 450px;"></a>
-                            </div>
-                            <div class="text">
-                                <h4 class="price">$<?php echo $row['price']; ?></h4>
-                                <h3><a href="#"><?php echo $row['location']; ?></a></h3>
-                                <div class="star d-flex clearfix">
-                                    <div class="mr-auto float-left">
-                                        <?php
-                                        for ($i = 0; $i < $row['star']; $i++) {
-                                            echo '★';
-                                        }
-                                        for ($j = $row['star']; $j < 5; $j++) {
-                                            echo '☆';
-                                        }
-                                        ?>
-                                    </div>
-                                    <div class="float-right">
-                                        <span class="rate"><a href="#">( <?php echo $row['rate']; ?> )</a></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <a href="admin/images/<?php echo $row['image']; ?>"
-                                class="icon image-popup d-flex justify-content-center align-items-center">
-                                <span class="icon-expand"></span>
-                            </a>
-                        </div>
-                    </div>
-                <?php } ?>
-            </div>
+         
             <div class="row justify-content-center pb-5 pt-5">
                 <div class="col-md-12 heading-section text-center ftco-animate">
                     <span class="subheading">Rooms &amp; Suites</span>

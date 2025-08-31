@@ -174,9 +174,11 @@ $hotels = mysqli_query($conn, "select * from hotels ORDER BY id DESC LIMIT 6");
 										class="icon image-popup d-flex justify-content-center align-items-center">
 										<span class="icon-expand"></span>
 									</a>
-									<a href="#" class="btn btn-primary book-now-btn">
-										Book now
+									<a href="hotel_booking.php?hotel_id=<?php echo $row['id']; ?>"
+										class="btn btn-primary book-now-btn">
+										Book Now
 									</a>
+
 								</div>
 							</div>
 						<?php } ?>

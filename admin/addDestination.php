@@ -15,13 +15,30 @@ if (isset($_POST['submit'])) {
     $location = $_POST['location'];
     $star = $_POST['star'];
     $rate = $_POST['rate'];
-    $img = $_FILES['image']['name'];
-    move_uploaded_file($_FILES['image']['tmp_name'],"images/$img");
 
-    if ($id) {
-        $sql = "UPDATE destination SET price='$price',days='$days',location='$location',star='$star',image='$img',rate='$rate'WHERE id=$id";
+    // Check if a new image is uploaded
+    if (!empty($_FILES['image']['name'])) {
+        $img = $_FILES['image']['name'];
+        move_uploaded_file($_FILES['image']['tmp_name'], "images/$img");
     } else {
-        $sql = "INSERT INTO destination (price, days, location, star, image, rate) VALUES ('$price', '$days', '$location', '$star', '$img', '$rate')";
+        // Keep the old image if no new image is uploaded
+        $img = isset($u_data['image']) ? $u_data['image'] : '';
+    }
+
+    if (isset($id) && !empty($id)) {
+        // Update existing record
+        $sql = "UPDATE destination 
+                SET price='$price',
+                    days='$days',
+                    location='$location',
+                    star='$star',
+                    image='$img',
+                    rate='$rate'
+                WHERE id=$id";
+    } else {
+        // Insert new record
+        $sql = "INSERT INTO destination (price, days, location, star, image, rate) 
+                VALUES ('$price', '$days', '$location', '$star', '$img', '$rate')";
     }
 
     $data = mysqli_query($conn, $sql);
@@ -48,20 +65,21 @@ if (isset($_POST['submit'])) {
 
     <div class="container d-flex justify-content-center">
         <div class="admin-panel">
-            <h2>Add Destination</h2>
+            <h2><?php echo isset($id) ? 'Edit Destination' : 'Add Destination'; ?></h2>
             <form method="POST" enctype="multipart/form-data">
                 <div class="form-group">
                     <label>Location</label>
-                    <input type="text" name="location" value="<?php echo @$u_data['location']; ?>" />
+                    <input type="text" name="location" value="<?php echo @$u_data['location']; ?>" required />
                 </div>
                 
                 <div class="form-group">
                     <label>Days</label>
-                    <select name="days">
+                    <select name="days" required>
                         <option value="">Select Days</option>
                         <?php for ($i = 5; $i <= 15; $i++): ?>
-                            <option value="<?= $i ?>" <?php if (@$u_data['days'] == $i)
-                                  echo 'selected'; ?>><?= $i ?></option>
+                            <option value="<?= $i ?>" <?php if (@$u_data['days'] == $i) echo 'selected'; ?>>
+                                <?= $i ?>
+                            </option>
                         <?php endfor; ?>
                     </select>
                 </div>
@@ -71,29 +89,31 @@ if (isset($_POST['submit'])) {
                     <input type="number" name="price" value="<?php echo @$u_data['price']; ?>" required />
                 </div>
                 
-
                 <div class="form-group">
                     <label>Star Rating</label>
-                    <select name="star">
+                    <select name="star" required>
                         <option value="">Rating by Star</option>
                         <?php for ($i = 1; $i <= 5; $i++): ?>
-                            <option value="<?= $i ?>" <?php if (@$u_data['star'] == $i)
-                                  echo 'selected'; ?>><?= $i ?></option>
+                            <option value="<?= $i ?>" <?php if (@$u_data['star'] == $i) echo 'selected'; ?>>
+                                <?= $i ?>
+                            </option>
                         <?php endfor; ?>
                     </select>
                 </div>
 
                 <div class="form-group">
                     <label>Image</label>
-                    <input type="file" name="image" class="form-control"/>
+                    <input type="file" name="image" class="form-control" />
                     <?php if (!empty($u_data['image'])): ?>
-                        <p>Current Image: <img src="images/<?php echo $u_data['image']; ?>" width="100" /></p>
+                        <p>Current Image: 
+                            <img src="images/<?php echo $u_data['image']; ?>" width="100" />
+                        </p>
                     <?php endif; ?>
                 </div>
 
                 <div class="form-group">
                     <label>Rate</label>
-                    <input type="number" name="rate" value="<?php echo @$u_data['rate']; ?>" />
+                    <input type="number" name="rate" value="<?php echo @$u_data['rate']; ?>" required />
                 </div>
 
                 <div class="form-actions">
@@ -104,7 +124,6 @@ if (isset($_POST['submit'])) {
     </div>
 
 </body>
-
 </html>
 
 <?php include("footer.php"); ?>
