@@ -24,6 +24,11 @@ $result = mysqli_query($conn, "SELECT b.*, h.location, h.image, h.price
 <head>
     <title>My Bookings</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        navbar{
+            display: none;
+        }
+    </style>
 </head>
 
 <body>

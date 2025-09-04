@@ -174,7 +174,8 @@ session_start();
                     <div class="d-flex align-items-center">
                         <img src="<?php echo $_SESSION['user']['avatar'] ?: './admin/images/user-profile.jpg'; ?>"
                             alt="Avatar" class="rounded-circle mr-2" style="width:40px; height:40px; object-fit:cover; ">
-                        <span class="text-black mr-3" style="color:#000;"><?php echo htmlspecialchars($_SESSION['user']['fullname']); ?></span>
+                        <span class="text-black mr-3"
+                            style="color:#000;"><?php echo htmlspecialchars($_SESSION['user']['fullname']); ?></span>
                         <a href="logout.php" class="btn btn-danger btn-sm">Logout</a>
                     </div>
                 <?php else: ?>

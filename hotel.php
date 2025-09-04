@@ -147,7 +147,7 @@ $hotels = mysqli_query($conn, "select * from hotels ORDER BY id DESC LIMIT 6");
 								<div class="project">
 									<div class="img">
 										<!-- <div class="vr"><span>Sale</span></div> -->
-										<a href="#"><img src="admin/images/<?php echo $row['image']; ?>" class="img-fluid"
+										<a href="hotel_booking.php?hotel_id=<?php echo $row['id']; ?>"><img src="admin/images/<?php echo $row['image']; ?>" class="img-fluid"
 												alt="<?php echo $row['location']; ?> Image"
 												style="height:350px;  width: 450px;"></a>
 									</div>
