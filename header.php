@@ -19,6 +19,7 @@ session_start();
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
     <!-- Your existing styles -->
     <link rel="stylesheet" href="css/open-iconic-bootstrap.min.css">
@@ -50,6 +51,57 @@ session_start();
             border: 2px solid #ddd;
             object-fit: cover;
             cursor: pointer;
+        }
+
+        .logout-icon {
+            color: #dc3545;
+            font-size: 22px;
+            margin-left: 10px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .logout-icon:hover {
+            color: #b02a37;
+            transform: scale(1.3) rotate(-15deg);
+            text-decoration: none;
+        }
+
+        /* Premium Button Styling */
+        .premium-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 5px 25px;
+            background-color: transparent;
+            color: #FF6F61;
+            /* Gold text */
+            font-size: 16px;
+            margin-top: 5px;
+            border: 2px solid #FF6F61;
+            /* Gold border */
+            border-radius: 50px;
+            text-decoration: none;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease-in-out;
+        }
+
+        .premium-btn i {
+            font-size: 14px;
+            color: #FF6F61;
+        }
+
+        /* Hover Effects */
+        .premium-btn:hover {
+            background-color: #FF6F61;
+            color: #fff;
+            /* Purple text */
+            transform: scale(1.08);
+            text-decoration: none;
+        }
+
+        .premium-btn:hover i {
+            color: #fff;
         }
     </style>
 </head>
@@ -161,10 +213,16 @@ session_start();
                     <li class="nav-item"><a href="index.php" class="nav-link"><span>Home</span></a></li>
                     <li class="nav-item"><a href="service.php" class="nav-link"><span>Services</span></a></li>
                     <li class="nav-item"><a href="about.php" class="nav-link"><span>About</span></a></li>
-                    <li class="nav-item"><a href="room.php" class="nav-link"><span>Rooms</span></a></li>
+                    <!-- <li class="nav-item"><a href="room.php" class="nav-link"><span>Rooms</span></a></li> -->
                     <li class="nav-item"><a href="hotel.php" class="nav-link"><span>Hotel</span></a></li>
                     <li class="nav-item"><a href="restaurant.php" class="nav-link"><span>Restaurant</span></a></li>
                     <li class="nav-item"><a href="contact.php" class="nav-link"><span>Contact</span></a></li>
+                    <?php if (isset($_SESSION['user'])): ?>
+                        <li class="nav-item"><a href="my_bookings.php" class="premium-btn">
+                                <i class="fas fa-hotel"></i> My Booking
+                            </a>
+                        </li>
+                    <?php endif; ?>
                 </ul>
             </div>
 
@@ -176,7 +234,9 @@ session_start();
                             alt="Avatar" class="rounded-circle mr-2" style="width:40px; height:40px; object-fit:cover; ">
                         <span class="text-black mr-3"
                             style="color:#000;"><?php echo htmlspecialchars($_SESSION['user']['fullname']); ?></span>
-                        <a href="logout.php" class="btn btn-danger btn-sm">Logout</a>
+                        <a href="logout.php" class="logout-icon" title="Logout" onclick="return confirmLogout();">
+                            <i class="fas fa-door-open"></i>
+                        </a>
                     </div>
                 <?php else: ?>
                     <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#loginModal">
@@ -192,6 +252,12 @@ session_start();
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
+    <script>
+        // Logout confirmation
+        function confirmLogout() {
+            return confirm("Are you sure you want to logout?");
+        }
+    </script>
     <!-- Modal switching & avatar preview -->
     <script>
         $("#showRegisterModal").click(function (e) {

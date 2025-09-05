@@ -16,6 +16,8 @@ $hotels = mysqli_query($conn, "select * from hotels ORDER BY id DESC LIMIT 6");
 	<link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Cormorant+Garamond:300,300i,400,400i,500,500i,600,600i,700,700i"
 		rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
 
 	<!-- Boxicons -->
 	<link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
@@ -54,6 +56,57 @@ $hotels = mysqli_query($conn, "select * from hotels ORDER BY id DESC LIMIT 6");
 			object-fit: cover;
 			cursor: pointer;
 		}
+
+		/* Premium Button Styling */
+		.premium-btn {
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			gap: 8px;
+			padding: 5px 25px;
+			background-color: transparent;
+			color: #FF6F61;
+			/* Gold text */
+			font-size: 16px;
+			margin-top: 5px;
+			border: 2px solid #FF6F61;
+			/* Gold border */
+			border-radius: 50px;
+			text-decoration: none;
+			box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+			transition: all 0.3s ease-in-out;
+		}
+
+		.premium-btn i {
+			font-size: 14px;
+			color: #FF6F61;
+		}
+
+		/* Hover Effects */
+		.premium-btn:hover {
+			background-color: #FF6F61;
+			color: #fff;
+			/* Purple text */
+			transform: scale(1.08);
+			text-decoration: none;
+		}
+
+		.premium-btn:hover i {
+			color: #fff;
+		}
+
+		.logout-icon {
+			color: #dc3545;
+			font-size: 22px;
+			margin-left: 10px;
+			transition: all 0.3s ease-in-out;
+		}
+
+		.logout-icon:hover {
+			color: #b02a37;
+			transform: scale(1.3) rotate(-15deg);
+			text-decoration: none;
+		}
 	</style>
 </head>
 
@@ -89,10 +142,16 @@ $hotels = mysqli_query($conn, "select * from hotels ORDER BY id DESC LIMIT 6");
 					<li class="nav-item"><a href="index.php" class="nav-link"><span>Home</span></a></li>
 					<li class="nav-item"><a href="service.php" class="nav-link"><span>Services</span></a></li>
 					<li class="nav-item"><a href="about.php" class="nav-link"><span>About</span></a></li>
-					<li class="nav-item"><a href="room.php" class="nav-link"><span>Rooms</span></a></li>
-					<li class="nav-item"><a href="hotel.php" class="nav-link"><span>Hotel</span></a></li>
+					<!-- <li class="nav-item"><a href="room.php" class="nav-link"><span>Rooms</span></a></li> -->
+					<li class="nav-item active"><a href="hotel.php" class="nav-link"><span>Hotel</span></a></li>
 					<li class="nav-item"><a href="restaurant.php" class="nav-link"><span>Restaurant</span></a></li>
 					<li class="nav-item"><a href="contact.php" class="nav-link"><span>Contact</span></a></li>
+					<?php if (isset($_SESSION['user'])): ?>
+						<li class="nav-item"><a href="my_bookings.php" class="premium-btn">
+								<i class="fas fa-hotel"></i> My Booking
+							</a>
+						</li>
+					<?php endif; ?>
 				</ul>
 			</div>
 
@@ -100,11 +159,16 @@ $hotels = mysqli_query($conn, "select * from hotels ORDER BY id DESC LIMIT 6");
 			<div class="login-btn ml-5">
 				<?php if (isset($_SESSION['user'])): ?>
 					<div class="d-flex align-items-center">
+
+
 						<img src="<?php echo $_SESSION['user']['avatar'] ?: './admin/images/user-profile.jpg'; ?>"
 							alt="Avatar" class="rounded-circle mr-2" style="width:40px; height:40px; object-fit:cover; ">
 						<span class="text-black mr-3"
 							style="color:#000;"><?php echo htmlspecialchars($_SESSION['user']['fullname']); ?></span>
-						<a href="logout.php" class="btn btn-danger btn-sm">Logout</a>
+
+						<a href="logout.php" class="logout-icon" title="Logout" onclick="return confirmLogout();">
+							<i class="fas fa-door-open"></i>
+						</a>
 					</div>
 				<?php else: ?>
 					<a href="#" class="btn btn-primary" data-toggle="modal" data-target="#loginModal">
@@ -147,7 +211,8 @@ $hotels = mysqli_query($conn, "select * from hotels ORDER BY id DESC LIMIT 6");
 								<div class="project">
 									<div class="img">
 										<!-- <div class="vr"><span>Sale</span></div> -->
-										<a href="hotel_booking.php?hotel_id=<?php echo $row['id']; ?>"><img src="admin/images/<?php echo $row['image']; ?>" class="img-fluid"
+										<a href="hotel_booking.php?hotel_id=<?php echo $row['id']; ?>"><img
+												src="admin/images/<?php echo $row['image']; ?>" class="img-fluid"
 												alt="<?php echo $row['location']; ?> Image"
 												style="height:350px;  width: 450px;"></a>
 									</div>
@@ -375,6 +440,12 @@ $hotels = mysqli_query($conn, "select * from hotels ORDER BY id DESC LIMIT 6");
 	<script src="js/google-map.js"></script>
 
 	<script src="js/main.js"></script>
+	<script>
+		// Logout confirmation
+		function confirmLogout() {
+			return confirm("Are you sure you want to logout?");
+		}
+	</script>
 
 </body>
 

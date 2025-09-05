@@ -46,7 +46,7 @@ $result = mysqli_query($conn, "
         <?php } ?>
     <?php } else { ?>
         <div class="no-bookings text-center">
-            <i class="fas fa-info-circle fa-2x mb-3" style="color:#e2c0bb;"></i>
+            <i class="fas fa-info-circle fa-2x mb-3" style="color:#FF6F61;"></i>
             <p>You haven’t booked any hotels yet.</p>
             <a href="hotel.php" class="back-btn"><i class="fas fa-hotel"></i> Browse Hotels</a>
         </div>
@@ -103,13 +103,13 @@ $result = mysqli_query($conn, "
     }
 
     .hotel-price {
-        color: #e2c0bb;
+        color: #FF6F61;
         font-size: 16px;
         font-weight: bold;
     }
 
     .booking-details i {
-        color: #e2c0bb;
+        color: #FF6F61;
         margin-right: 6px;
     }
 

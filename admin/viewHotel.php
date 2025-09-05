@@ -13,7 +13,7 @@ if (isset($_GET['d_id'])) {
 }
 
 // Pagination setup
-$limit = 3; // Number of records per page
+$limit = 3;
 $page = isset($_GET['page']) && is_numeric($_GET['page']) ? intval($_GET['page']) : 1;
 $offset = ($page - 1) * $limit;
 
@@ -24,43 +24,22 @@ $total_row = mysqli_fetch_assoc($total_result);
 $total_records = $total_row['total'];
 $total_pages = ceil($total_records / $limit);
 
-// Fetch hotels with limit & offset
+// Fetch hotels
 $select = "SELECT * FROM hotels LIMIT $limit OFFSET $offset";
 $res = mysqli_query($conn, $select);
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <title>View Hotels</title>
     <link rel="stylesheet" href="view-style.css">
-    <link rel="stylesheet" href="assets/css/ionicons.min.css">
-    <link rel="stylesheet" href="assets/css/flaticon.css">
-    <link rel="stylesheet" href="../css/aos.css">
-    <link rel="stylesheet" href="../css/ionicons.min.css">
-    <link rel="stylesheet" href="../css/flaticon.css">
-    <link rel="stylesheet" href="../css/icomoon.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
     <style>
-                #search-box {
-            width: 40%;
-            padding: 8px;
-            margin-bottom: 15px;
-            border-radius: 6px;
-            border: 1px solid #ccc;
-        }
-
-        #search-box:focus {
-            outline: none;
-            border-color: #4c3aecff;
-            box-shadow: 0 0 5px rgba(76, 58, 236, 0.5);
-        }
+        .service-badge { padding: 3px 6px; margin: 2px; border: 1px solid #ccc; border-radius: 4px; display: inline-block; }
+        .room-img { margin: 3px; border: 1px solid #ddd; border-radius: 5px; }
     </style>
 </head>
-
 <body>
     <div class="container-fluid">
         <div class="button-container">
@@ -72,11 +51,6 @@ $res = mysqli_query($conn, $select);
         <div class="admin-panel">
             <h2>View Hotels</h2>
 
-            <!-- Search Box -->
-            <input type="text" id="search-box" placeholder="🔍 Search hotels by location, price, or rating..." />
-
-
-            <!-- Table Data -->
             <div id="table-data" class="table-responsive">
                 <table class="table table-light table-hover table-striped">
                     <thead>
@@ -86,7 +60,10 @@ $res = mysqli_query($conn, $select);
                             <th>Price</th>
                             <th>Star</th>
                             <th>Image</th>
+                            <th>Room Images</th>
                             <th>Rate</th>
+                            <th>Description</th>
+                            <th>Services</th>
                             <th>Edit</th>
                             <th>Delete</th>
                         </tr>
@@ -99,12 +76,8 @@ $res = mysqli_query($conn, $select);
                                 <td><?php echo $row['price']; ?></td>
                                 <td>
                                     <?php
-                                    for ($i = 0; $i < $row['star']; $i++) {
-                                        echo '★';
-                                    }
-                                    for ($j = $row['star']; $j < 5; $j++) {
-                                        echo '☆';
-                                    }
+                                    for ($i = 0; $i < $row['star']; $i++) echo '★';
+                                    for ($j = $row['star']; $j < 5; $j++) echo '☆';
                                     ?>
                                 </td>
                                 <td>
@@ -112,7 +85,22 @@ $res = mysqli_query($conn, $select);
                                         <img src="images/<?php echo $row['image']; ?>" style="height:60px;width:90px;"/>
                                     <?php endif; ?>
                                 </td>
+                                <td>
+                                    <?php if (!empty($row['room_images'])): ?>
+                                        <?php foreach (explode(',', $row['room_images']) as $img): ?>
+                                            <img src="images/<?php echo $img; ?>" width="50" class="room-img" />
+                                        <?php endforeach; ?>
+                                    <?php endif; ?>
+                                </td>
                                 <td><?php echo $row['rate']; ?></td>
+                                <td><?php echo $row['description']; ?></td>
+                                <td>
+                                    <?php if (!empty($row['services'])): ?>
+                                        <?php foreach (explode(',', $row['services']) as $srv): ?>
+                                            <span class="service-badge"><?php echo ucfirst($srv); ?></span>
+                                        <?php endforeach; ?>
+                                    <?php endif; ?>
+                                </td>
                                 <td>
                                     <a href="addHotel.php?u_id=<?php echo $row['id']; ?>" class="btn edit-btn">Edit</a>
                                 </td>
@@ -131,36 +119,17 @@ $res = mysqli_query($conn, $select);
                 <?php if ($page > 1): ?>
                     <a href="?page=<?php echo $page - 1; ?>">&laquo; Prev</a>
                 <?php endif; ?>
-
                 <?php for ($i = 1; $i <= $total_pages; $i++): ?>
                     <a href="?page=<?php echo $i; ?>" class="<?php if ($i == $page) echo 'active'; ?>">
                         <?php echo $i; ?>
                     </a>
                 <?php endfor; ?>
-
                 <?php if ($page < $total_pages): ?>
                     <a href="?page=<?php echo $page + 1; ?>">Next &raquo;</a>
                 <?php endif; ?>
             </div>
         </div>
     </div>
-
-    <script>
-        $(document).ready(function(){
-            $("#search").on("keyup", function(){
-                var query = $(this).val();
-                $.ajax({
-                    url: "fetchHotel.php",
-                    type: "POST",
-                    data: { query: query },
-                    success: function(data){
-                        $("#table-data").html(data);
-                        $("#pagination").hide(); // Hide pagination when searching
-                    }
-                });
-            });
-        });
-    </script>
 </body>
 </html>
 
