@@ -1,8 +1,21 @@
 <?php
 session_start();
 include 'db.php'; // Include database connection file
-$hotels = mysqli_query($conn, "select * from hotels ORDER BY id DESC LIMIT 6");
 
+// Pagination setup
+$limit = 6; // Number of hotels per page
+$page = isset($_GET['page']) ? (int) $_GET['page'] : 1;
+if ($page < 1)
+	$page = 1;
+$offset = ($page - 1) * $limit;
+
+// Count total hotels
+$result_count = mysqli_query($conn, "SELECT COUNT(*) as total FROM hotels");
+$total_hotels = mysqli_fetch_assoc($result_count)['total'];
+$total_pages = ceil($total_hotels / $limit);
+
+// Fetch hotels with limit and offset
+$hotels = mysqli_query($conn, "SELECT * FROM hotels ORDER BY id DESC LIMIT $limit OFFSET $offset");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -16,8 +29,7 @@ $hotels = mysqli_query($conn, "select * from hotels ORDER BY id DESC LIMIT 6");
 	<link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Cormorant+Garamond:300,300i,400,400i,500,500i,600,600i,700,700i"
 		rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
 	<!-- Boxicons -->
 	<link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
@@ -66,11 +78,9 @@ $hotels = mysqli_query($conn, "select * from hotels ORDER BY id DESC LIMIT 6");
 			padding: 5px 25px;
 			background-color: transparent;
 			color: #FF6F61;
-			/* Gold text */
 			font-size: 16px;
 			margin-top: 5px;
 			border: 2px solid #FF6F61;
-			/* Gold border */
 			border-radius: 50px;
 			text-decoration: none;
 			box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
@@ -86,7 +96,6 @@ $hotels = mysqli_query($conn, "select * from hotels ORDER BY id DESC LIMIT 6");
 		.premium-btn:hover {
 			background-color: #FF6F61;
 			color: #fff;
-			/* Purple text */
 			transform: scale(1.08);
 			text-decoration: none;
 		}
@@ -142,7 +151,6 @@ $hotels = mysqli_query($conn, "select * from hotels ORDER BY id DESC LIMIT 6");
 					<li class="nav-item"><a href="index.php" class="nav-link"><span>Home</span></a></li>
 					<li class="nav-item"><a href="service.php" class="nav-link"><span>Services</span></a></li>
 					<li class="nav-item"><a href="about.php" class="nav-link"><span>About</span></a></li>
-					<!-- <li class="nav-item"><a href="room.php" class="nav-link"><span>Rooms</span></a></li> -->
 					<li class="nav-item active"><a href="hotel.php" class="nav-link"><span>Hotel</span></a></li>
 					<li class="nav-item"><a href="restaurant.php" class="nav-link"><span>Restaurant</span></a></li>
 					<li class="nav-item"><a href="contact.php" class="nav-link"><span>Contact</span></a></li>
@@ -155,12 +163,9 @@ $hotels = mysqli_query($conn, "select * from hotels ORDER BY id DESC LIMIT 6");
 				</ul>
 			</div>
 
-			<!-- Dynamic Login / User Display -->
 			<div class="login-btn ml-5">
 				<?php if (isset($_SESSION['user'])): ?>
 					<div class="d-flex align-items-center">
-
-
 						<img src="<?php echo $_SESSION['user']['avatar'] ?: './admin/images/user-profile.jpg'; ?>"
 							alt="Avatar" class="rounded-circle mr-2" style="width:40px; height:40px; object-fit:cover; ">
 						<span class="text-black mr-3"
@@ -178,13 +183,6 @@ $hotels = mysqli_query($conn, "select * from hotels ORDER BY id DESC LIMIT 6");
 			</div>
 		</div>
 	</nav>
-
-	<!-- Scripts -->
-	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-	</div>
 
 	<section class="hero-wrap hero-wrap-2" style="background-image: url('images/bg_4.jpg');"
 		data-stellar-background-ratio="0.5">
@@ -210,7 +208,6 @@ $hotels = mysqli_query($conn, "select * from hotels ORDER BY id DESC LIMIT 6");
 							<div class="col-md-6 col-lg-4 ftco-animate">
 								<div class="project">
 									<div class="img">
-										<!-- <div class="vr"><span>Sale</span></div> -->
 										<a href="hotel_booking.php?hotel_id=<?php echo $row['id']; ?>"><img
 												src="admin/images/<?php echo $row['image']; ?>" class="img-fluid"
 												alt="<?php echo $row['location']; ?> Image"
@@ -243,27 +240,36 @@ $hotels = mysqli_query($conn, "select * from hotels ORDER BY id DESC LIMIT 6");
 										class="btn btn-primary book-now-btn">
 										Book Now
 									</a>
-
 								</div>
 							</div>
 						<?php } ?>
 					</div>
+
+					<!-- Pagination -->
 					<div class="row mt-5">
 						<div class="col text-center">
 							<div class="block-27">
 								<ul>
-									<li><a href="#">&lt;</a></li>
-									<li class="active"><span>1</span></li>
-									<li><a href="#">2</a></li>
-									<li><a href="#">3</a></li>
-									<li><a href="#">4</a></li>
-									<li><a href="#">5</a></li>
-									<li><a href="#">&gt;</a></li>
+									<?php if ($page > 1): ?>
+										<li><a href="?page=<?php echo $page - 1; ?>">&lt;</a></li>
+									<?php endif; ?>
+
+									<?php for ($i = 1; $i <= $total_pages; $i++): ?>
+										<li class="<?php echo ($i == $page) ? 'active' : ''; ?>">
+											<a href="?page=<?php echo $i; ?>"><?php echo $i; ?></a>
+										</li>
+									<?php endfor; ?>
+
+									<?php if ($page < $total_pages): ?>
+										<li><a href="?page=<?php echo $page + 1; ?>">&gt;</a></li>
+									<?php endif; ?>
 								</ul>
 							</div>
 						</div>
 					</div>
+
 				</div> <!-- end -->
+
 				<div class="col-lg-3 p-4 bg-light">
 					<div class="search-wrap-1 ftco-animate">
 						<h2 class="mb-3">Find Hotel</h2>
@@ -339,7 +345,6 @@ $hotels = mysqli_query($conn, "select * from hotels ORDER BY id DESC LIMIT 6");
 		</div>
 	</section>
 
-
 	<footer class="ftco-footer ftco-section">
 		<div class="container">
 			<div class="row mb-5">
@@ -400,28 +405,22 @@ $hotels = mysqli_query($conn, "select * from hotels ORDER BY id DESC LIMIT 6");
 			</div>
 			<div class="row">
 				<div class="col-md-12 text-center">
-
-					<p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+					<p>
 						Copyright &copy;
 						<script>document.write(new Date().getFullYear());</script> All rights reserved | This template
 						is made with <i class="icon-heart color-danger" aria-hidden="true"></i> by <a
 							href="https://colorlib.com" target="_blank">Colorlib</a>
-						<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
 					</p>
 				</div>
 			</div>
 		</div>
 	</footer>
 
-
-
-	<!-- loader -->
 	<div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px">
 			<circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee" />
 			<circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10"
 				stroke="#F96D00" />
 		</svg></div>
-
 
 	<script src="js/jquery.min.js"></script>
 	<script src="js/jquery-migrate-3.0.1.min.js"></script>
@@ -438,10 +437,8 @@ $hotels = mysqli_query($conn, "select * from hotels ORDER BY id DESC LIMIT 6");
 	<script
 		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
 	<script src="js/google-map.js"></script>
-
 	<script src="js/main.js"></script>
 	<script>
-		// Logout confirmation
 		function confirmLogout() {
 			return confirm("Are you sure you want to logout?");
 		}

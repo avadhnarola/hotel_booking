@@ -11,7 +11,9 @@ if (!isset($_SESSION['user'])) {
 
 $user_id = $_SESSION['user']['id'];
 $result = mysqli_query($conn, "
-    SELECT b.*, h.location, h.image, h.price 
+    SELECT b.*, 
+           h.name, h.location, h.star, h.rate, h.description, h.services, 
+           h.image, h.price 
     FROM hotelBookings b 
     JOIN hotels h ON b.hotel_id = h.id 
     WHERE b.user_id = '$user_id'
@@ -27,20 +29,46 @@ $result = mysqli_query($conn, "
 
     <?php if (mysqli_num_rows($result) > 0) { ?>
         <?php while ($row = mysqli_fetch_assoc($result)) { ?>
-            <div class="booking-card d-flex align-items-center">
-                <!-- Hotel Image -->
-                <img src="admin/images/<?php echo $row['image']; ?>" class="booking-image mr-3" alt="Hotel Image">
+            <div class="booking-card d-flex">
 
-                <!-- Hotel Info -->
-                <div class="flex-grow-1">
-                    <h4 class="hotel-name"><?php echo htmlspecialchars($row['location']); ?></h4>
-                    <p class="hotel-price">$<?php echo $row['price']; ?> / night</p>
+                <!-- Left Side: Image -->
+                <div class="left-side">
+                    <img src="admin/images/<?php echo $row['image']; ?>" class="booking-image" alt="Hotel Image">
+                </div>
 
-                    <div class="booking-details">
-                        <p><i class="fas fa-calendar-check"></i> Check-in: <?php echo $row['checkin_date']; ?></p>
-                        <p><i class="fas fa-calendar-times"></i> Check-out: <?php echo $row['checkout_date']; ?></p>
-                        <p><i class="fas fa-users"></i> Guests: <?php echo $row['guests']; ?></p>
+                <!-- Middle Side: Hotel Info -->
+                <div class="middle-side px-3">
+                    <h4 class="hotel-name"><?php echo htmlspecialchars($row['name']); ?></h4>
+                    <p class="hotel-location"><i class="fas fa-map-marker-alt"></i> <?php echo htmlspecialchars($row['location']); ?></p>
+
+                    <!-- Services with icons -->
+                    <div class="hotel-services">
+                        <?php 
+                        $services = explode(",", $row['services']); 
+                        foreach ($services as $service) {
+                            $service = trim($service);
+                            $icon = "fas fa-concierge-bell"; // default
+
+                            if (stripos($service, "wifi") !== false) $icon = "fas fa-wifi";
+                            if (stripos($service, "pool") !== false) $icon = "fas fa-swimming-pool";
+                            if (stripos($service, "parking") !== false) $icon = "fas fa-parking";
+                            if (stripos($service, "braekfast") !== false) $icon = "fas fa-mug-hot";
+                            if (stripos($service, "air conditioning") !== false) $icon = "fas fa-wind";
+
+                            echo "<p><i class='$icon'></i> $service</p>";
+                        }
+                        ?>
                     </div>
+                </div>
+
+                <!-- Right Side: Booking Details -->
+                <div class="right-side text-right">
+                    <p class="hotel-price">$<?php echo $row['price']; ?> / night</p>
+                    <p><i class="fas fa-calendar-check"></i> Check-in: <?php echo $row['checkin_date']; ?></p>
+                    <p><i class="fas fa-calendar-times"></i> Check-out: <?php echo $row['checkout_date']; ?></p>
+                    <p><i class="fas fa-users"></i> Guests: <?php echo $row['guests']; ?></p>
+
+                    <a href="payment.php?booking_id=<?php echo $row['id']; ?>" class="pay-btn">Pay Now</a>
                 </div>
             </div>
         <?php } ?>
@@ -75,6 +103,8 @@ $result = mysqli_query($conn, "
     }
 
     .booking-card {
+        display: flex;
+        justify-content: space-between;
         background: #fff;
         border-radius: 15px;
         box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
@@ -88,29 +118,74 @@ $result = mysqli_query($conn, "
         box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
     }
 
+    .left-side {
+        flex: 0 0 180px;
+    }
+
     .booking-image {
-        width: 120px;
-        height: 90px;
+        width: 280px;
+        height: 240px;
         border-radius: 10px;
         object-fit: cover;
+    }
+
+    .middle-side {
+        flex: 1;
     }
 
     .hotel-name {
         font-size: 20px;
         font-weight: 600;
         color: #222;
-        margin-bottom: 5px;
+    }
+
+    .hotel-location {
+        font-size: 14px;
+        color: #777;
+        margin-bottom: 10px;
+    }
+
+    .hotel-services p {
+        font-size: 14px;
+        margin: 3px 0;
+        color: #333;
+    }
+
+    .hotel-services i {
+        color: #FF6F61;
+        margin-right: 6px;
+    }
+
+    .right-side {
+        flex: 0 0 220px;
     }
 
     .hotel-price {
         color: #FF6F61;
-        font-size: 16px;
+        font-size: 18px;
         font-weight: bold;
+        margin-bottom: 10px;
     }
 
     .booking-details i {
         color: #FF6F61;
         margin-right: 6px;
+    }
+
+    .pay-btn {
+        display: inline-block;
+        margin-top: 12px;
+        padding: 10px 20px;
+        background: #28a745;
+        color: #fff;
+        font-size: 14px;
+        border-radius: 8px;
+        text-decoration: none;
+        transition: 0.3s;
+    }
+
+    .pay-btn:hover {
+        background: #218838;
     }
 
     .no-bookings {

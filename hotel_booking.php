@@ -57,6 +57,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 }
+
+// Process room images (comma separated)
+$room_images = [];
+if (!empty($hotel['room_images'])) {
+    $room_images = explode(",", $hotel['room_images']);
+}
+
+// Process services (comma separated)
+$services = [];
+if (!empty($hotel['services'])) {
+    $services = explode(",", $hotel['services']);
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -93,44 +105,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="css/style.css">
 
     <style>
-        /* Avatar styling */
-        .avatar-upload {
-            position: relative;
-            max-width: 150px;
-            margin: 20px auto;
-        }
-
-        .avatar-upload input {
-            display: none;
-        }
-
-        .avatar-upload img {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            border: 2px solid #ddd;
-            object-fit: cover;
-            cursor: pointer;
-        }
-
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #f8f9fa;
-        }
-
         .hotel-details {
             background: #fff;
             border-radius: 15px;
             padding: 25px;
             box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
             margin-bottom: 30px;
-        }
-
-        .hotel-image img {
-            border-radius: 15px;
-            width: 100%;
-            height: auto;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
         }
 
         .hotel-title {
@@ -149,69 +129,58 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             font-size: 18px;
         }
 
-        .facilities {
+        .hotel-image img {
+            border-radius: 15px;
+            width: 100%;
+            height: auto;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Room images grid */
+        .room-images {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 10px;
             margin-top: 15px;
         }
 
-        .facilities i {
-            color: #FF6F61;
-            margin-right: 8px;
-            font-size: 18px;
+        .room-images img {
+            width: 100%;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.3s;
         }
 
-        .booking-form {
-            background: #fff;
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-            margin-top: 30px;
-        }
-
-        /* Modern buttons */
-        .btn-custom {
-            background-color: #28a745;
-            color: white;
-            padding: 12px 25px;
-            font-size: 16px;
-            border-radius: 8px;
-            border: none;
-            transition: all 0.3s ease;
-        }
-
-        .btn-custom:hover {
-            background-color: #218838;
+        .room-images img:hover {
             transform: scale(1.05);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
 
-        .btn-secondary-custom {
-            background-color: #6c757d;
-            color: white;
-            padding: 12px 25px;
-            font-size: 16px;
-            border-radius: 8px;
-            border: none;
-            transition: all 0.3s ease;
+        /* Services */
+        .hotel-services {
+            margin-top: 20px;
         }
 
-        .btn-secondary-custom:hover {
-            background-color: #5a6268;
-            transform: scale(1.05);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        .hotel-services h5 {
+            margin-bottom: 10px;
+            font-weight: 600;
         }
 
-        /* Logout icon styling */
-        .logout-icon {
-            color: #dc3545;
-            font-size: 22px;
-            margin-left: 10px;
-            transition: all 0.3s ease-in-out;
+        .hotel-services span {
+            display: inline-block;
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 25px;
+            padding: 6px 15px;
+            margin: 5px 8px 5px 0;
+            font-size: 14px;
+            font-weight: 500;
         }
 
-        .logout-icon:hover {
-            color: #b02a37;
-            transform: scale(1.3) rotate(-15deg);
-            text-decoration: none;
+        .hotel-services i {
+            margin-right: 6px;
+            color: #17a2b8;
         }
 
         /* Premium Button Styling */
@@ -251,17 +220,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         .premium-btn:hover i {
             color: #fff;
         }
+
+        .logout-icon {
+            color: #dc3545;
+            font-size: 22px;
+            margin-left: 10px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .logout-icon:hover {
+            color: #b02a37;
+            transform: scale(1.3) rotate(-15deg);
+            text-decoration: none;
+        }
     </style>
 </head>
 
 <body data-spy="scroll" data-target=".site-navbar-target" data-offset="300">
 
-    <!-- Success / Error Alerts -->
+    <!-- Alerts -->
     <?php if (isset($_SESSION['success']) || isset($_SESSION['error'])): ?>
-        <div id="top-alert" class="alert 
-            <?php echo isset($_SESSION['success']) ? 'alert-success' : 'alert-danger'; ?> 
-            alert-dismissible fade show text-center" role="alert"
-            style="position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 9999; width: auto; min-width: 300px;">
+        <div id="top-alert"
+            class="alert <?php echo isset($_SESSION['success']) ? 'alert-success' : 'alert-danger'; ?> alert-dismissible fade show text-center"
+            role="alert"
+            style="position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 9999; min-width: 300px;">
             <?php
             echo isset($_SESSION['success']) ? htmlspecialchars($_SESSION['success']) : htmlspecialchars($_SESSION['error']);
             unset($_SESSION['success'], $_SESSION['error']);
@@ -275,22 +257,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </script>
     <?php endif; ?>
 
-    <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light site-navbar-target"
         id="ftco-navbar">
         <div class="container">
             <a class="navbar-brand" href="index.php">Ecoland</a>
             <button class="navbar-toggler js-fh5co-nav-toggle fh5co-nav-toggle" type="button" data-toggle="collapse"
-                data-target="#ftco-nav">
+                data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="oi oi-menu"></span> Menu
             </button>
-
             <div class="collapse navbar-collapse" id="ftco-nav">
                 <ul class="navbar-nav nav ml-auto">
                     <li class="nav-item"><a href="index.php" class="nav-link"><span>Home</span></a></li>
                     <li class="nav-item"><a href="service.php" class="nav-link"><span>Services</span></a></li>
                     <li class="nav-item"><a href="about.php" class="nav-link"><span>About</span></a></li>
-                    <li class="nav-item"><a href="hotel.php" class="nav-link"><span>Hotel</span></a></li>
+                    <!-- <li class="nav-item"><a href="room.php" class="nav-link"><span>Rooms</span></a></li> -->
+                    <li class="nav-item active"><a href="hotel.php" class="nav-link"><span>Hotel</span></a></li>
                     <li class="nav-item"><a href="restaurant.php" class="nav-link"><span>Restaurant</span></a></li>
                     <li class="nav-item"><a href="contact.php" class="nav-link"><span>Contact</span></a></li>
                     <?php if (isset($_SESSION['user'])): ?>
@@ -306,11 +287,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="login-btn ml-5">
                 <?php if (isset($_SESSION['user'])): ?>
                     <div class="d-flex align-items-center">
-
                         <img src="<?php echo $_SESSION['user']['avatar'] ?: './admin/images/user-profile.jpg'; ?>"
-                            alt="Avatar" class="rounded-circle mr-2" style="width:40px; height:40px; object-fit:cover;">
-                        <span class="text-black mr-2"
-                            style="color: black;"><?php echo htmlspecialchars($_SESSION['user']['fullname']); ?></span>
+                            alt="Avatar" class="rounded-circle mr-2" style="width:40px; height:40px; object-fit:cover; ">
+                        <span class="text-black mr-3"
+                            style="color:#000;"><?php echo htmlspecialchars($_SESSION['user']['fullname']); ?></span>
+
                         <a href="logout.php" class="logout-icon" title="Logout" onclick="return confirmLogout();">
                             <i class="fas fa-door-open"></i>
                         </a>
@@ -324,6 +305,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
     </nav>
 
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
     <!-- Hero Section -->
     <section class="hero-wrap hero-wrap-2" style="background-image: url('images/bg_4.jpg');"
         data-stellar-background-ratio="0.5">
@@ -335,7 +322,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <p class="breadcrumbs">
                         <span class="mr-2"><a href="index.php">Home <i class="ion-ios-arrow-forward"></i></a></span>
                         <span class="mr-2"><a href="hotel.php">Hotel <i class="ion-ios-arrow-forward"></i></a></span>
-                        <span><?php echo htmlspecialchars($hotel['location']); ?></span>
+                        <span><?php echo htmlspecialchars($hotel['name']); ?></span>
                     </p>
                 </div>
             </div>
@@ -345,10 +332,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <!-- Hotel Details -->
     <div class="container my-5">
         <div class="row">
-            <!-- Left Side: Info -->
+            <!-- Left: Info -->
             <div class="col-md-6">
                 <div class="hotel-details">
-                    <h2 class="hotel-title"><?php echo htmlspecialchars($hotel['location']); ?></h2>
+                    <h2 class="hotel-title"><?php echo htmlspecialchars($hotel['name']); ?></h2>
+                    <h6><i class="fa fa-map-marker-alt"></i> <?php echo $hotel['location']; ?></h6>
                     <p class="hotel-price">$<?php echo $hotel['price']; ?> / night</p>
 
                     <div class="star-rating mb-3">
@@ -360,24 +348,62 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         ?>
                     </div>
 
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis nam natus expedita commodi
-                        autem voluptates aspernatur non placeat voluptatibus accusantium maxime, esse aut harum quo
-                        deserunt nihil, porro odit? Omnis!</p>
+                    <p><?php echo $hotel['description']; ?></p>
 
-                    <!-- Facilities -->
-                    <div class="facilities">
-                        <p><i class="fas fa-wifi"></i> Free Wi-Fi</p>
-                        <p><i class="fas fa-swimmer"></i> Swimming Pool</p>
-                        <p><i class="fas fa-utensils"></i> Free Breakfast</p>
-                        <p><i class="fas fa-car"></i> Free Parking</p>
-                        <p><i class="fas fa-snowflake"></i> Air Conditioning</p>
-                    </div>
+                    <!-- ✅ Services Section -->
+                    <?php if (!empty($services)): ?>
+                        <div class="hotel-services">
+                            <h5>Services & Amenities</h5>
+                            <?php foreach ($services as $service): ?>
+                                <?php
+                                $service = strtolower(trim($service));
+                                switch ($service) {
+                                    case 'wifi':
+                                        $icon = 'fa-wifi';
+                                        break;
+                                    case 'pool':
+                                    case 'swimming':
+                                        $icon = 'fa-swimming-pool';
+                                        break;
+                                    case 'parking':
+                                        $icon = 'fa-parking';
+                                        break;
+                                    case 'gym':
+                                        $icon = 'fa-dumbbell';
+                                        break;
+                                    case 'spa':
+                                        $icon = 'fa-spa';
+                                        break;
+                                    case 'restaurant':
+                                        $icon = 'fa-utensils';
+                                        break;
+                                    case 'ac':
+                                    case 'air conditioning':
+                                        $icon = 'fa-wind';
+                                        break;
+                                    default:
+                                        $icon = 'fa-check-circle';
+                                }
+                                ?>
+                                <span><i class="fas <?php echo $icon; ?>"></i> <?php echo ucfirst($service); ?></span>
+                            <?php endforeach; ?>
+                        </div>
+                    <?php endif; ?>
+                    <!-- ✅ End Services -->
                 </div>
             </div>
 
-            <!-- Right Side: Image -->
+            <!-- Right: Main + Room Images -->
             <div class="col-md-6 hotel-image">
                 <img src="admin/images/<?php echo $hotel['image']; ?>" alt="Hotel Image">
+
+                <?php if (!empty($room_images)): ?>
+                    <div class="room-images">
+                        <?php foreach ($room_images as $img): ?>
+                            <img src="admin/images/<?php echo trim($img); ?>" alt="Room Image">
+                        <?php endforeach; ?>
+                    </div>
+                <?php endif; ?>
             </div>
         </div>
 
@@ -405,8 +431,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <input type="number" name="guests" class="form-control" min="1" required>
                     </div>
                 </div>
-                <button type="submit" class="btn-custom">Confirm Booking</button>
-                <a href="hotel.php" class="btn-secondary-custom">Back to Hotels</a>
+                <button type="submit" class="btn btn-success">Book Now</button>
+                <a href="hotel.php" class="btn btn-secondary">Back to Hotels</a>
             </form>
         </div>
     </div>
@@ -419,7 +445,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <script>
-        // Logout confirmation
         function confirmLogout() {
             return confirm("Are you sure you want to logout?");
         }
