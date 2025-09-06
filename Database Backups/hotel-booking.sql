@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 12, 2025 at 05:40 PM
+-- Generation Time: Sep 06, 2025 at 06:34 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -40,7 +40,8 @@ CREATE TABLE `admin` (
 
 INSERT INTO `admin` (`id`, `username`, `email`, `password`) VALUES
 (1, 'Avadh Narola', 'avadh@gmail.com', '123'),
-(2, 'Kayra', 'kayra@gmail.com', '1234');
+(2, 'Kayra', 'kayra@gmail.com', '1234'),
+(3, 'avadh', 'admin@gmail.com', '123');
 
 -- --------------------------------------------------------
 
@@ -116,7 +117,7 @@ CREATE TABLE `destination` (
 --
 
 INSERT INTO `destination` (`id`, `price`, `days`, `location`, `star`, `rate`, `image`) VALUES
-(2, 1999, '10', 'Santorini, Greece', 4, 100, 'greese.jpg'),
+(2, 1599, '10', 'Santorini, Greece', 4, 100, 'greese.jpg'),
 (3, 2999, '8', 'Bali, Indonesia', 5, 100, 'Bali, Indonesia.jpg'),
 (4, 999, '6', 'Maldives', 4, 98, 'maldives.webp'),
 (5, 1599, '13', 'Machu Picchu, Peru', 3, 80, 'Machu Picchu, Peru.jpg'),
@@ -127,30 +128,64 @@ INSERT INTO `destination` (`id`, `price`, `days`, `location`, `star`, `rate`, `i
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `hotelbookings`
+--
+
+CREATE TABLE `hotelbookings` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `hotel_id` int(11) NOT NULL,
+  `checkin_date` date NOT NULL,
+  `checkout_date` date NOT NULL,
+  `guests` int(11) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `hotelbookings`
+--
+
+INSERT INTO `hotelbookings` (`id`, `user_id`, `hotel_id`, `checkin_date`, `checkout_date`, `guests`, `created_at`) VALUES
+(1, 1, 5, '2025-08-30', '2025-08-31', 10, '2025-08-31 06:13:05'),
+(2, 1, 5, '2025-08-30', '2025-08-31', 10, '2025-08-31 06:13:24'),
+(3, 1, 5, '2003-05-12', '2010-02-25', 38, '2025-09-04 11:23:55'),
+(6, 4, 3, '2025-09-05', '2025-09-07', 35, '2025-09-05 09:24:59'),
+(7, 1, 2, '2025-09-05', '2025-09-20', 10, '2025-09-05 10:51:16'),
+(8, 5, 16, '2025-09-20', '2025-09-21', 5, '2025-09-06 03:37:54'),
+(9, 5, 15, '2025-09-12', '2025-09-14', 3, '2025-09-06 04:01:43');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `hotels`
 --
 
 CREATE TABLE `hotels` (
   `id` int(1) NOT NULL,
+  `name` text NOT NULL,
   `price` int(11) NOT NULL,
-  `nights` text NOT NULL,
   `location` text NOT NULL,
   `star` int(11) NOT NULL,
   `rate` int(11) NOT NULL,
-  `image` text NOT NULL
+  `image` text NOT NULL,
+  `room_images` text NOT NULL,
+  `description` text NOT NULL,
+  `services` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `hotels`
 --
 
-INSERT INTO `hotels` (`id`, `price`, `nights`, `location`, `star`, `rate`, `image`) VALUES
-(1, 1599, '4', 'Burjâ€¯Alâ€¯Arab Jumeirah , UAE', 5, 100, 'dubai61-550x550.jpg'),
-(2, 5000, '6', 'The Beverly Hills Hotel , Los Angeles', 4, 90, 'The Beverly Hills Hotel.jpg'),
-(3, 899, '5', 'Cervo Mountain Resort , Switzerland', 3, 85, 'Cervo Mountain Resort.webp'),
-(4, 599, '3', 'Buffalo Mountain Lodge , Canada', 2, 70, 'Buffalo Mountain Lodge.jpg'),
-(5, 5999, '5', 'Lemon Tree , Rishikesh', 5, 100, 'Lemon Tree.jpg'),
-(6, 5000, '4', 'Park Hyatt Tokyo , Japan', 4, 84, 'Park Hyatt Tokyo.jpg');
+INSERT INTO `hotels` (`id`, `name`, `price`, `location`, `star`, `rate`, `image`, `room_images`, `description`, `services`) VALUES
+(1, 'Burjâe Alâc¯Arab Jumeirah', 1599, 'UAE , Dubai', 5, 100, 'dubai61-550x550.jpg', '1757132983_img1.webp,1757132983_img2.avif,1757132983_img3.jpg,1757132983_img4.jpg', 'Burj Al Arab, Dubai’s iconic sail-shaped luxury hotel, offers world-class suites, dining, and unmatched Arabian hospitality with breathtaking Gulf views.\r\n', 'wifi,swimming pool,breakfast,parking,air conditioning'),
+(2, 'The Beverly Hills Hotel ', 5000, 'Los Angeles', 4, 90, 'The Beverly Hills Hotel.jpg', '1757133200_img6.jpg,1757133200_img5.webp,1757133200_img7.jpg,1757133200_img8.jpg', 'The Beverly Hills Hotel, Los Angeles, is a legendary luxury retreat, famed for Hollywood glamour, iconic pink façade, and timeless elegance.\r\n', 'wifi,swimming pool,air conditioning'),
+(3, '', 899, 'Cervo Mountain Resort , Switzerland', 3, 85, 'Cervo Mountain Resort.webp', '', '', ''),
+(4, '', 599, 'Buffalo Mountain Lodge , Canada', 2, 70, 'Buffalo Mountain Lodge.jpg', '', '', ''),
+(5, '', 5999, 'Lemon Tree , Rishikesh', 5, 100, 'Lemon Tree.jpg', '', '', ''),
+(6, '', 5000, 'Park Hyatt Tokyo , Japan', 4, 84, 'Park Hyatt Tokyo.jpg', '', '', ''),
+(15, 'Colby Park', 709, 'Quasi delectus veni', 4, 3, '1757078654_Alchemist.jpg', '1757079053_room-12.webp,1757079229_room-10.webp,1757079229_room-1.avif', '', ''),
+(16, 'Dana Grimes', 202, 'Dolore asperiores mi', 5, 66, '1757080863_slider-2.jpg', '1757080863_2.jpg,1757080863_slider-3.jpg,1757080863_room-7.avif', 'Velit amet dolore ', 'wifi,swimming pool,air conditioning');
 
 -- --------------------------------------------------------
 
@@ -173,7 +208,7 @@ CREATE TABLE `restaurant` (
 --
 
 INSERT INTO `restaurant` (`id`, `price`, `shopName`, `location`, `star`, `rate`, `image`) VALUES
-(15, 10, 'Asador Etxebarri', 'Basque Country , Spain', 5, 100, 'Asador Etxebarri.jpeg'),
+(15, 10, 'Asador Etxebarriee', 'Basque Country , Spain', 5, 100, 'Asador Etxebarri.jpeg'),
 (16, 7, 'La Freskko', 'Motavaracha , Surat', 3, 70, 'cafe.jpg'),
 (17, 9, 'Alchemist', 'Copenhagen, Denmark', 4, 89, 'Alchemist.jpg');
 
@@ -249,7 +284,10 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `fullname`, `email`, `password`, `avatar`) VALUES
 (1, 'Avadh Narola', 'avadh@gmail.com', 'avadh123', ''),
-(2, 'Narola Avadh', 'avadh25@gmail.com', 'avadh123', 'admin/images/user-profile.jpg');
+(2, 'Narola Avadh', 'avadh25@gmail.com', 'avadh123', 'admin/images/user-profile.jpg'),
+(3, 'tirth', 'tirth@gmail.com', '$2y$10$sdit/S1CcLvH9ByjP6dtceri.9vs6yxrTGdtUaMXYLLQ53f4u23Ge', 'admin/images/user-profile.jpg'),
+(4, 'user', 'user@gmail.com', '123', 'admin/images/user-profile.jpg'),
+(5, 'Tirth', 'abc@gmail.com', 'abc123', 'admin/images/1757127997_unnamed.png');
 
 --
 -- Indexes for dumped tables
@@ -278,6 +316,14 @@ ALTER TABLE `contact`
 --
 ALTER TABLE `destination`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `hotelbookings`
+--
+ALTER TABLE `hotelbookings`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `hotel_id` (`hotel_id`);
 
 --
 -- Indexes for table `hotels`
@@ -318,7 +364,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `admin`
 --
 ALTER TABLE `admin`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `booking`
@@ -339,10 +385,16 @@ ALTER TABLE `destination`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
+-- AUTO_INCREMENT for table `hotelbookings`
+--
+ALTER TABLE `hotelbookings`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
 -- AUTO_INCREMENT for table `hotels`
 --
 ALTER TABLE `hotels`
-  MODIFY `id` int(1) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(1) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `restaurant`
@@ -366,7 +418,18 @@ ALTER TABLE `service`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `hotelbookings`
+--
+ALTER TABLE `hotelbookings`
+  ADD CONSTRAINT `hotelbookings_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `hotelbookings_ibfk_2` FOREIGN KEY (`hotel_id`) REFERENCES `hotels` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
