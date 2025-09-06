@@ -10,6 +10,20 @@ if (!isset($_SESSION['user'])) {
 }
 
 $user_id = $_SESSION['user']['id'];
+
+// ==============================
+// Cancel Booking Action
+// ==============================
+if (isset($_GET['cancel_id'])) {
+    $cancel_id = intval($_GET['cancel_id']);
+    mysqli_query($conn, "DELETE FROM hotelBookings WHERE id='$cancel_id' AND user_id='$user_id'");
+    echo "<script>
+            alert('✅ Booking cancelled successfully!');
+            window.location.href='my_bookings.php';
+          </script>";
+    exit();
+}
+
 $result = mysqli_query($conn, "
     SELECT b.*, 
            h.name, h.location, h.star, h.rate, h.description, h.services, 
@@ -39,21 +53,27 @@ $result = mysqli_query($conn, "
                 <!-- Middle Side: Hotel Info -->
                 <div class="middle-side px-3">
                     <h4 class="hotel-name"><?php echo htmlspecialchars($row['name']); ?></h4>
-                    <p class="hotel-location"><i class="fas fa-map-marker-alt"></i> <?php echo htmlspecialchars($row['location']); ?></p>
+                    <p class="hotel-location"><i class="fas fa-map-marker-alt"></i>
+                        <?php echo htmlspecialchars($row['location']); ?></p>
 
                     <!-- Services with icons -->
                     <div class="hotel-services">
-                        <?php 
-                        $services = explode(",", $row['services']); 
+                        <?php
+                        $services = explode(",", $row['services']);
                         foreach ($services as $service) {
                             $service = trim($service);
                             $icon = "fas fa-concierge-bell"; // default
-
-                            if (stripos($service, "wifi") !== false) $icon = "fas fa-wifi";
-                            if (stripos($service, "pool") !== false) $icon = "fas fa-swimming-pool";
-                            if (stripos($service, "parking") !== false) $icon = "fas fa-parking";
-                            if (stripos($service, "braekfast") !== false) $icon = "fas fa-mug-hot";
-                            if (stripos($service, "air conditioning") !== false) $icon = "fas fa-wind";
+                
+                            if (stripos($service, "wifi") !== false)
+                                $icon = "fas fa-wifi";
+                            if (stripos($service, "pool") !== false)
+                                $icon = "fas fa-swimming-pool";
+                            if (stripos($service, "parking") !== false)
+                                $icon = "fas fa-parking";
+                            if (stripos($service, "breakfast") !== false)
+                                $icon = "fas fa-mug-hot";
+                            if (stripos($service, "air conditioning") !== false)
+                                $icon = "fas fa-wind";
 
                             echo "<p><i class='$icon'></i> $service</p>";
                         }
@@ -68,7 +88,13 @@ $result = mysqli_query($conn, "
                     <p><i class="fas fa-calendar-times"></i> Check-out: <?php echo $row['checkout_date']; ?></p>
                     <p><i class="fas fa-users"></i> Guests: <?php echo $row['guests']; ?></p>
 
-                    <a href="payment.php?booking_id=<?php echo $row['id']; ?>" class="pay-btn">Pay Now</a>
+                    <div class="d-flex btns">
+                        <a href="my_bookings.php?cancel_id=<?php echo $row['id']; ?>" class="cancel-btn"
+                            onclick="return confirm('Are you sure you want to cancel this booking?');">
+                            Cancel Booking
+                        </a>
+                        <a href="payment.php?booking_id=<?php echo $row['id']; ?>" class="pay-btn">Pay Now</a>
+                    </div>
                 </div>
             </div>
         <?php } ?>
@@ -175,8 +201,33 @@ $result = mysqli_query($conn, "
     .pay-btn {
         display: inline-block;
         margin-top: 12px;
-        padding: 10px 20px;
+        /* padding: 10px 10px; */
         background: #28a745;
+        color: #fff;
+        font-size: 14px;
+        border-radius: 8px;
+        text-decoration: none;
+        transition: 0.3s;
+        /* height: 40px; */
+        padding: 10px 40px;
+    }
+
+    .pay-btn:hover {
+        background: #218838;
+    }
+
+    .btns {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .cancel-btn {
+        display: inline-block;
+        margin-top: 12px;
+        padding: 10px 20px;
+        background: #dc3545;
         color: #fff;
         font-size: 14px;
         border-radius: 8px;
@@ -184,8 +235,8 @@ $result = mysqli_query($conn, "
         transition: 0.3s;
     }
 
-    .pay-btn:hover {
-        background: #218838;
+    .cancel-btn:hover {
+        background: #c82333;
     }
 
     .no-bookings {

@@ -374,8 +374,8 @@ if (!empty($hotel['services'])) {
                                     case 'spa':
                                         $icon = 'fa-spa';
                                         break;
-                                    case 'restaurant':
-                                        $icon = 'fa-utensils';
+                                    case 'breakfast':
+                                        $icon = 'fa-concierge-bell';
                                         break;
                                     case 'ac':
                                     case 'air conditioning':
