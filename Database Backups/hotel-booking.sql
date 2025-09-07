@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 06, 2025 at 06:34 AM
+-- Generation Time: Sep 07, 2025 at 07:39 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -42,37 +42,6 @@ INSERT INTO `admin` (`id`, `username`, `email`, `password`) VALUES
 (1, 'Avadh Narola', 'avadh@gmail.com', '123'),
 (2, 'Kayra', 'kayra@gmail.com', '1234'),
 (3, 'avadh', 'admin@gmail.com', '123');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `booking`
---
-
-CREATE TABLE `booking` (
-  `id` int(11) NOT NULL,
-  `name` text NOT NULL,
-  `email` text NOT NULL,
-  `check_in` date NOT NULL,
-  `check_out` date NOT NULL,
-  `location` text NOT NULL,
-  `price` int(11) NOT NULL,
-  `HotelType` text NOT NULL,
-  `status` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `booking`
---
-
-INSERT INTO `booking` (`id`, `name`, `email`, `check_in`, `check_out`, `location`, `price`, `HotelType`, `status`) VALUES
-(10, 'Kayra Narola', 'kavu@gmail.com', '2025-10-15', '2025-08-30', 'Candolim Beach, North Goa', 149, 'The Classic Resort', 'Pending'),
-(11, 'Jeel Jada', 'jeel@gmail.com', '2025-08-14', '2025-08-17', 'Candolim Beach, North Goa', 149, 'The Classic Resort', 'Pending'),
-(12, 'Jali', 'j@gmail.com', '2025-08-23', '2025-08-28', 'Hilton Tokyo, Japan', 249, 'The Business Rooms', 'Approved'),
-(13, 'Jali', 'j@gmail.com', '2025-08-23', '2025-08-28', 'Hilton Tokyo, Japan', 249, 'The Business Rooms', 'Pending'),
-(14, 'Aditya Patel', 'adi001@gmail.com', '2025-08-16', '2025-08-20', 'Beverly Hills, California', 129, 'Best Rest Room', 'Approved'),
-(15, 'Dishan Shankar', 'shankar@gmail.com', '2025-08-15', '2025-08-16', 'Eco Resort – Ubud, Bali, Indonesia', 299, 'Resort', 'Approved'),
-(16, 'Virat Kohli', 'vk18@gmail.com', '2025-08-07', '2025-08-14', 'Mountain Lodge – Zermatt, Switzerland', 199, 'Mountain View Room', 'Approved');
 
 -- --------------------------------------------------------
 
@@ -148,11 +117,11 @@ CREATE TABLE `hotelbookings` (
 INSERT INTO `hotelbookings` (`id`, `user_id`, `hotel_id`, `checkin_date`, `checkout_date`, `guests`, `created_at`) VALUES
 (1, 1, 5, '2025-08-30', '2025-08-31', 10, '2025-08-31 06:13:05'),
 (2, 1, 5, '2025-08-30', '2025-08-31', 10, '2025-08-31 06:13:24'),
-(3, 1, 5, '2003-05-12', '2010-02-25', 38, '2025-09-04 11:23:55'),
 (6, 4, 3, '2025-09-05', '2025-09-07', 35, '2025-09-05 09:24:59'),
 (7, 1, 2, '2025-09-05', '2025-09-20', 10, '2025-09-05 10:51:16'),
 (8, 5, 16, '2025-09-20', '2025-09-21', 5, '2025-09-06 03:37:54'),
-(9, 5, 15, '2025-09-12', '2025-09-14', 3, '2025-09-06 04:01:43');
+(9, 5, 15, '2025-09-12', '2025-09-14', 3, '2025-09-06 04:01:43'),
+(10, 1, 5, '2025-09-13', '2025-09-17', 5, '2025-09-07 05:32:52');
 
 -- --------------------------------------------------------
 
@@ -180,11 +149,11 @@ CREATE TABLE `hotels` (
 INSERT INTO `hotels` (`id`, `name`, `price`, `location`, `star`, `rate`, `image`, `room_images`, `description`, `services`) VALUES
 (1, 'Burjâe Alâc¯Arab Jumeirah', 1599, 'UAE , Dubai', 5, 100, 'dubai61-550x550.jpg', '1757132983_img1.webp,1757132983_img2.avif,1757132983_img3.jpg,1757132983_img4.jpg', 'Burj Al Arab, Dubai’s iconic sail-shaped luxury hotel, offers world-class suites, dining, and unmatched Arabian hospitality with breathtaking Gulf views.\r\n', 'wifi,swimming pool,breakfast,parking,air conditioning'),
 (2, 'The Beverly Hills Hotel ', 5000, 'Los Angeles', 4, 90, 'The Beverly Hills Hotel.jpg', '1757133200_img6.jpg,1757133200_img5.webp,1757133200_img7.jpg,1757133200_img8.jpg', 'The Beverly Hills Hotel, Los Angeles, is a legendary luxury retreat, famed for Hollywood glamour, iconic pink façade, and timeless elegance.\r\n', 'wifi,swimming pool,air conditioning'),
-(3, '', 899, 'Cervo Mountain Resort , Switzerland', 3, 85, 'Cervo Mountain Resort.webp', '', '', ''),
-(4, '', 599, 'Buffalo Mountain Lodge , Canada', 2, 70, 'Buffalo Mountain Lodge.jpg', '', '', ''),
-(5, '', 5999, 'Lemon Tree , Rishikesh', 5, 100, 'Lemon Tree.jpg', '', '', ''),
-(6, '', 5000, 'Park Hyatt Tokyo , Japan', 4, 84, 'Park Hyatt Tokyo.jpg', '', '', ''),
-(15, 'Colby Park', 709, 'Quasi delectus veni', 4, 3, '1757078654_Alchemist.jpg', '1757079053_room-12.webp,1757079229_room-10.webp,1757079229_room-1.avif', '', ''),
+(3, 'Cervo Mountain Resort ', 899, 'Switzerland', 3, 85, '1757141271_img9.webp', '1757141271_img10.jpg,1757141271_img11.jpg,1757141271_img12.jpg', 'Cervo Mountain Resort blends Alpine luxury and modern design, offering cozy chalets, fine dining, wellness spa, and breathtaking Swiss mountain views.\r\n', 'wifi,breakfast,air conditioning'),
+(4, 'Buffalo Mountain Lodge', 599, 'Canada', 2, 70, 'Buffalo Mountain Lodge.jpg', '1757221080_ig1.webp,1757221080_ig2.webp,1757221080_ig4.webp,1757221080_ig3.jpg', 'Buffalo Mountain Lodge, Canada offers rustic charm, cozy mountain-inspired rooms, fine dining, and breathtaking Rocky Mountain views for a serene escape.\r\n', 'breakfast,parking,air conditioning'),
+(5, 'Lemon Tree ', 5999, 'Rishikesh', 5, 100, 'Lemon Tree.jpg', '1757221434_IG9.jpg,1757221434_ig6.jpg,1757221434_ig7.jpg,1757221434_ig8.webp', 'Lemon Tree, Rishikesh offers riverside views, modern comfort, serene ambiance, wellness facilities, and warm hospitality amidst the scenic Himalayan foothills.\r\n', 'wifi,swimming pool,breakfast,parking,air conditioning'),
+(6, 'Park Hyatt Tokyo ', 5000, 'Japan', 4, 84, 'Park Hyatt Tokyo.jpg', '1757222762_i1.jpg,1757222762_i2.webp,1757222762_i3.jpg,1757222762_i4.jpg', 'Park Hyatt Tokyo offers luxury in Shinjuku with elegant rooms, skyline views, fine dining, spa, and exceptional Japanese hospitality.\r\n', 'wifi,swimming pool,breakfast,air conditioning'),
+(15, 'Four Seasons Hotel George', 1299, 'Paris – France', 4, 99, '1757223139_i.jpg', '1757223139_i5.jpg,1757223139_i6.webp,1757223139_i7.jpeg,1757223139_i8.jpg,1757223139_i9.webp', 'Four Seasons George V Paris epitomizes elegance with lavish suites, Michelin-star dining, stunning floral artistry, spa indulgence, and exceptional service.', 'wifi,swimming pool,breakfast,parking,air conditioning'),
 (16, 'Dana Grimes', 202, 'Dolore asperiores mi', 5, 66, '1757080863_slider-2.jpg', '1757080863_2.jpg,1757080863_slider-3.jpg,1757080863_room-7.avif', 'Velit amet dolore ', 'wifi,swimming pool,air conditioning');
 
 -- --------------------------------------------------------
@@ -283,7 +252,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `fullname`, `email`, `password`, `avatar`) VALUES
-(1, 'Avadh Narola', 'avadh@gmail.com', 'avadh123', ''),
+(1, 'Avadh', 'avadh@gmail.com', 'avadh123', ''),
 (2, 'Narola Avadh', 'avadh25@gmail.com', 'avadh123', 'admin/images/user-profile.jpg'),
 (3, 'tirth', 'tirth@gmail.com', '$2y$10$sdit/S1CcLvH9ByjP6dtceri.9vs6yxrTGdtUaMXYLLQ53f4u23Ge', 'admin/images/user-profile.jpg'),
 (4, 'user', 'user@gmail.com', '123', 'admin/images/user-profile.jpg'),
@@ -297,12 +266,6 @@ INSERT INTO `users` (`id`, `fullname`, `email`, `password`, `avatar`) VALUES
 -- Indexes for table `admin`
 --
 ALTER TABLE `admin`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `booking`
---
-ALTER TABLE `booking`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -367,12 +330,6 @@ ALTER TABLE `admin`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT for table `booking`
---
-ALTER TABLE `booking`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
-
---
 -- AUTO_INCREMENT for table `contact`
 --
 ALTER TABLE `contact`
@@ -388,7 +345,7 @@ ALTER TABLE `destination`
 -- AUTO_INCREMENT for table `hotelbookings`
 --
 ALTER TABLE `hotelbookings`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `hotels`

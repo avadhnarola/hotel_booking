@@ -49,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ");
 
         if ($insert) {
-            $_SESSION['success'] = "Your booking for {$hotel['location']} is confirmed!";
+            $_SESSION['success'] = "Your booking for {$hotel['name']} is confirmed!";
             header("Location: my_bookings.php");
             exit();
         } else {
@@ -361,8 +361,7 @@ if (!empty($hotel['services'])) {
                                     case 'wifi':
                                         $icon = 'fa-wifi';
                                         break;
-                                    case 'pool':
-                                    case 'swimming':
+                                    case 'swimming pool':
                                         $icon = 'fa-swimming-pool';
                                         break;
                                     case 'parking':

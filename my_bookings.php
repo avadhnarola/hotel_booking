@@ -43,15 +43,15 @@ $result = mysqli_query($conn, "
 
     <?php if (mysqli_num_rows($result) > 0) { ?>
         <?php while ($row = mysqli_fetch_assoc($result)) { ?>
-            <div class="booking-card d-flex">
-
+            <div class="booking-card row">
+                
                 <!-- Left Side: Image -->
-                <div class="left-side">
+                <div class="left-side col-md-4 col-sm-12 text-center">
                     <img src="admin/images/<?php echo $row['image']; ?>" class="booking-image" alt="Hotel Image">
                 </div>
 
                 <!-- Middle Side: Hotel Info -->
-                <div class="middle-side px-3">
+                <div class="middle-side col-md-4 col-sm-12 mt-3 mt-md-0">
                     <h4 class="hotel-name"><?php echo htmlspecialchars($row['name']); ?></h4>
                     <p class="hotel-location"><i class="fas fa-map-marker-alt"></i>
                         <?php echo htmlspecialchars($row['location']); ?></p>
@@ -82,13 +82,13 @@ $result = mysqli_query($conn, "
                 </div>
 
                 <!-- Right Side: Booking Details -->
-                <div class="right-side text-right">
+                <div class="right-side col-md-4 col-sm-12 text-md-right mt-3 mt-md-0">
                     <p class="hotel-price">$<?php echo $row['price']; ?> / night</p>
                     <p><i class="fas fa-calendar-check"></i> Check-in: <?php echo $row['checkin_date']; ?></p>
                     <p><i class="fas fa-calendar-times"></i> Check-out: <?php echo $row['checkout_date']; ?></p>
                     <p><i class="fas fa-users"></i> Guests: <?php echo $row['guests']; ?></p>
 
-                    <div class="d-flex btns">
+                    <div class="d-flex btns flex-wrap justify-content-md-end justify-content-center">
                         <a href="my_bookings.php?cancel_id=<?php echo $row['id']; ?>" class="cancel-btn"
                             onclick="return confirm('Are you sure you want to cancel this booking?');">
                             Cancel Booking
@@ -129,8 +129,6 @@ $result = mysqli_query($conn, "
     }
 
     .booking-card {
-        display: flex;
-        justify-content: space-between;
         background: #fff;
         border-radius: 15px;
         box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
@@ -144,19 +142,12 @@ $result = mysqli_query($conn, "
         box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
     }
 
-    .left-side {
-        flex: 0 0 180px;
-    }
-
     .booking-image {
-        width: 280px;
+        width: 100%;
+        max-width: 280px;
         height: 240px;
         border-radius: 10px;
         object-fit: cover;
-    }
-
-    .middle-side {
-        flex: 1;
     }
 
     .hotel-name {
@@ -182,10 +173,6 @@ $result = mysqli_query($conn, "
         margin-right: 6px;
     }
 
-    .right-side {
-        flex: 0 0 220px;
-    }
-
     .hotel-price {
         color: #FF6F61;
         font-size: 18px;
@@ -193,48 +180,36 @@ $result = mysqli_query($conn, "
         margin-bottom: 10px;
     }
 
-    .booking-details i {
-        color: #FF6F61;
-        margin-right: 6px;
-    }
-
-    .pay-btn {
-        display: inline-block;
-        margin-top: 12px;
-        /* padding: 10px 10px; */
-        background: #28a745;
-        color: #fff;
-        font-size: 14px;
-        border-radius: 8px;
-        text-decoration: none;
-        transition: 0.3s;
-        /* height: 40px; */
-        padding: 10px 40px;
-    }
-
-    .pay-btn:hover {
-        background: #218838;
-    }
-
     .btns {
         display: flex;
         flex-direction: row;
         align-items: center;
         gap: 10px;
+        margin-top: 10px;
     }
-
-    .cancel-btn {
-        display: inline-block;
-        margin-top: 12px;
-        padding: 10px 20px;
-        background: #dc3545;
+    .pay-btn {
+        background: #28a745;
         color: #fff;
-        font-size: 14px;
         border-radius: 8px;
         text-decoration: none;
         transition: 0.3s;
+        width: 115px;
+        text-align: center;
+        padding: 6px;
     }
-
+    .pay-btn:hover {
+        background: #218838;
+    }
+    .cancel-btn {
+        background: #dc3545;
+        color: #fff;
+        border-radius: 8px;
+        text-decoration: none;
+        transition: 0.3s;
+        width: 170px;
+        text-align: center;
+        padding: 6px;
+    }
     .cancel-btn:hover {
         background: #c82333;
     }
@@ -262,5 +237,20 @@ $result = mysqli_query($conn, "
 
     .back-btn:hover {
         background: #0056b3;
+    }
+
+    /* ===============================
+       Responsive Fixes
+    =============================== */
+    @media (max-width: 767px) {
+        .right-side {
+            text-align: left !important;
+        }
+        .btns {
+            justify-content: flex-start !important;
+        }
+        .hotel-price {
+            margin-top: 10px;
+        }
     }
 </style>

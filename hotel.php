@@ -215,7 +215,8 @@ $hotels = mysqli_query($conn, "SELECT * FROM hotels ORDER BY id DESC LIMIT $limi
 									</div>
 									<div class="text">
 										<h4 class="price">$<?php echo $row['price']; ?></h4>
-										<h3><a href="#"><?php echo $row['location']; ?></a></h3>
+										<h3><a href="#"><?php echo $row['name']; ?></a></h3>
+										<h6 class="location"><i class="fas fa-map-marker-alt" style="margin-right:8px;"></i><?php echo $row['location']; ?></h6>
 										<div class="star d-flex clearfix">
 											<div class="mr-auto float-left">
 												<?php
