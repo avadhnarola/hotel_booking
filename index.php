@@ -439,14 +439,15 @@ if (isset($_POST['bookingSubmit'])) {
 				<div class="col-md-6 col-lg-4 ftco-animate">
 					<div class="project">
 						<div class="img">
-							<!-- <div class="vr"><span>Sale</span></div> -->
 							<a href="hotel_booking.php?hotel_id=<?php echo $row['id']; ?>"><img
 									src="admin/images/<?php echo $row['image']; ?>" class="img-fluid"
 									alt="<?php echo $row['location']; ?> Image" style="height:350px;  width: 450px;"></a>
 						</div>
 						<div class="text">
 							<h4 class="price">$<?php echo $row['price']; ?></h4>
-							<h3><a href="#"><?php echo $row['location']; ?></a></h3>
+							<h3><a href="#"><?php echo $row['name']; ?></a></h3>
+							<h6 class="location"><i class="fas fa-map-marker-alt"
+									style="margin-right:8px;"></i><?php echo $row['location']; ?></h6>
 							<div class="star d-flex clearfix">
 								<div class="mr-auto float-left">
 									<?php
@@ -466,6 +467,9 @@ if (isset($_POST['bookingSubmit'])) {
 						<a href="admin/images/<?php echo $row['image']; ?>"
 							class="icon image-popup d-flex justify-content-center align-items-center">
 							<span class="icon-expand"></span>
+						</a>
+						<a href="hotel_booking.php?hotel_id=<?php echo $row['id']; ?>" class="btn btn-primary book-now-btn">
+							Book Now
 						</a>
 					</div>
 				</div>
