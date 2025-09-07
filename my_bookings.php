@@ -44,7 +44,7 @@ $result = mysqli_query($conn, "
     <?php if (mysqli_num_rows($result) > 0) { ?>
         <?php while ($row = mysqli_fetch_assoc($result)) { ?>
             <div class="booking-card row">
-                
+
                 <!-- Left Side: Image -->
                 <div class="left-side col-md-4 col-sm-12 text-center">
                     <img src="admin/images/<?php echo $row['image']; ?>" class="booking-image" alt="Hotel Image">
@@ -79,6 +79,7 @@ $result = mysqli_query($conn, "
                         }
                         ?>
                     </div>
+                    <p class="hotel-name" style="font-size: 15px; font-weight: 400;">Status : <b style="color:#FF6F61"> <?php echo $row['payment_status']; ?></b></p>
                 </div>
 
                 <!-- Right Side: Booking Details -->
@@ -187,6 +188,7 @@ $result = mysqli_query($conn, "
         gap: 10px;
         margin-top: 10px;
     }
+
     .pay-btn {
         background: #28a745;
         color: #fff;
@@ -197,9 +199,11 @@ $result = mysqli_query($conn, "
         text-align: center;
         padding: 6px;
     }
+
     .pay-btn:hover {
         background: #218838;
     }
+
     .cancel-btn {
         background: #dc3545;
         color: #fff;
@@ -210,6 +214,7 @@ $result = mysqli_query($conn, "
         text-align: center;
         padding: 6px;
     }
+
     .cancel-btn:hover {
         background: #c82333;
     }
@@ -246,9 +251,11 @@ $result = mysqli_query($conn, "
         .right-side {
             text-align: left !important;
         }
+
         .btns {
             justify-content: flex-start !important;
         }
+
         .hotel-price {
             margin-top: 10px;
         }

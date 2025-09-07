@@ -30,6 +30,7 @@ $hotel = mysqli_fetch_assoc($query);
 $error = "";
 
 // Handle booking submission
+// Handle booking submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $user_id = $_SESSION['user']['id'];
     $checkin = mysqli_real_escape_string($conn, $_POST['checkin_date']);
@@ -43,9 +44,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } elseif ($checkout <= $checkin) {
         $error = "Check-out date must be after the check-in date.";
     } else {
+        // ✅ Insert with payment_status = Pending
         $insert = mysqli_query($conn, "
-            INSERT INTO hotelBookings (user_id, hotel_id, checkin_date, checkout_date, guests)
-            VALUES ('$user_id', '$hotel_id', '$checkin', '$checkout', '$guests')
+            INSERT INTO hotelBookings (user_id, hotel_id, checkin_date, checkout_date, guests, payment_status)
+            VALUES ('$user_id', '$hotel_id', '$checkin', '$checkout', '$guests', 'Pending')
         ");
 
         if ($insert) {
@@ -57,6 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 }
+
 
 // Process room images (comma separated)
 $room_images = [];
@@ -393,49 +396,53 @@ if (!empty($hotel['services'])) {
             </div>
 
             <!-- Right: Main + Room Images -->
-            <div class="col-md-6 hotel-image">
-                <img src="admin/images/<?php echo $hotel['image']; ?>" alt="Hotel Image">
+            <div class="col-md-6 hotel-image text-center">
+                <!-- Main Hotel Image -->
+                <img id="main-hotel-image" src="admin/images/<?php echo $hotel['image']; ?>" alt="Hotel Image"
+                    style="height:400px; object-fit:cover; border-radius:15px; width:100%;">
 
+                <!-- Room Images Thumbnails -->
                 <?php if (!empty($room_images)): ?>
-                    <div class="room-images">
+                    <div class="room-images mt-3">
                         <?php foreach ($room_images as $img): ?>
-                            <img src="admin/images/<?php echo trim($img); ?>" alt="Room Image">
+                            <img src="admin/images/<?php echo trim($img); ?>" alt="Room Image" class="room-thumbnail"
+                                onclick="changeMainImage(this)">
                         <?php endforeach; ?>
                     </div>
                 <?php endif; ?>
             </div>
-        </div>
 
-        <!-- Booking Form -->
-        <div class="booking-form mt-5">
-            <?php if (!empty($error)): ?>
-                <div class="alert alert-danger"><?php echo $error; ?></div>
-            <?php endif; ?>
 
-            <form method="POST">
-                <h4 class="mb-3">Book Your Stay</h4>
-                <div class="form-row">
-                    <div class="form-group col-md-4">
-                        <label>Check-in Date</label>
-                        <input type="date" name="checkin_date" class="form-control" required
-                            min="<?php echo date('Y-m-d'); ?>">
+            <!-- Booking Form -->
+            <div class="booking-form mt-5">
+                <?php if (!empty($error)): ?>
+                    <div class="alert alert-danger"><?php echo $error; ?></div>
+                <?php endif; ?>
+
+                <form method="POST">
+                    <h4 class="mb-3">Book Your Stay</h4>
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label>Check-in Date</label>
+                            <input type="date" name="checkin_date" class="form-control" required
+                                min="<?php echo date('Y-m-d'); ?>">
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label>Check-out Date</label>
+                            <input type="date" name="checkout_date" class="form-control" required
+                                min="<?php echo date('Y-m-d', strtotime('+1 day')); ?>">
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label>Guests</label>
+                            <input type="number" name="guests" class="form-control" min="1" required>
+                        </div>
                     </div>
-                    <div class="form-group col-md-4">
-                        <label>Check-out Date</label>
-                        <input type="date" name="checkout_date" class="form-control" required
-                            min="<?php echo date('Y-m-d', strtotime('+1 day')); ?>">
-                    </div>
-                    <div class="form-group col-md-4">
-                        <label>Guests</label>
-                        <input type="number" name="guests" class="form-control" min="1" required>
-                    </div>
-                </div>
-                <button type="submit" class="btn btn-success">Book Now</button>
-                <a href="hotel.php" class="btn btn-secondary">Back to Hotels</a>
-            </form>
+                    <button type="submit" class="btn btn-success">Book Now</button>
+                    <a href="hotel.php" class="btn btn-secondary">Back to Hotels</a>
+                </form>
+            </div>
         </div>
     </div>
-
     <?php include "footer.php"; ?>
 
     <!-- Scripts -->
@@ -448,6 +455,31 @@ if (!empty($hotel['services'])) {
             return confirm("Are you sure you want to logout?");
         }
     </script>
+    <script>
+        function changeMainImage(element) {
+            let mainImage = document.getElementById("main-hotel-image");
+            mainImage.src = element.src;
+            // Optional: smooth effect
+            mainImage.style.opacity = 0;
+            setTimeout(() => {
+                mainImage.src = element.src;
+                mainImage.style.opacity = 1;
+            }, 200);
+        }
+    </script>
+
+    <style>
+        .room-images img {
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: transform 0.3s, border-color 0.3s;
+        }
+
+        .room-images img:hover {
+            transform: scale(1.05);
+            border-color: #FF6F61;
+        }
+    </style>
 </body>
 
 </html>
