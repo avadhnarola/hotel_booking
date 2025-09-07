@@ -79,7 +79,16 @@ $result = mysqli_query($conn, "
                         }
                         ?>
                     </div>
-                    <p class="hotel-name" style="font-size: 15px; font-weight: 400;">Status : <b style="color:#FF6F61"> <?php echo $row['payment_status']; ?></b></p>
+
+                    <!-- Payment Status -->
+                    <p class="hotel-name" style="font-size: 15px; font-weight: 400;">
+                        Status :
+                        <?php if (strtolower($row['payment_status']) == 'paid successfully') { ?>
+                            <b style="color:#28a745"><?php echo $row['payment_status']; ?></b>
+                        <?php } else { ?>
+                            <b style="color:#FF6F61"><?php echo $row['payment_status']; ?></b>
+                        <?php } ?>
+                    </p>
                 </div>
 
                 <!-- Right Side: Booking Details -->
@@ -89,13 +98,16 @@ $result = mysqli_query($conn, "
                     <p><i class="fas fa-calendar-times"></i> Check-out: <?php echo $row['checkout_date']; ?></p>
                     <p><i class="fas fa-users"></i> Guests: <?php echo $row['guests']; ?></p>
 
-                    <div class="d-flex btns flex-wrap justify-content-md-end justify-content-center">
-                        <a href="my_bookings.php?cancel_id=<?php echo $row['id']; ?>" class="cancel-btn"
-                            onclick="return confirm('Are you sure you want to cancel this booking?');">
-                            Cancel Booking
-                        </a>
-                        <a href="payment.php?booking_id=<?php echo $row['id']; ?>" class="pay-btn">Pay Now</a>
-                    </div>
+                    <!-- Buttons: only show if not paid -->
+                    <?php if (strtolower($row['payment_status']) != 'paid successfully') { ?>
+                        <div class="d-flex btns flex-wrap justify-content-md-end justify-content-center">
+                            <a href="my_bookings.php?cancel_id=<?php echo $row['id']; ?>" class="cancel-btn"
+                                onclick="return confirm('Are you sure you want to cancel this booking?');">
+                                Cancel Booking
+                            </a>
+                            <a href="payment.php?booking_id=<?php echo $row['id']; ?>" class="pay-btn">Pay Now</a>
+                        </div>
+                    <?php } ?>
                 </div>
             </div>
         <?php } ?>

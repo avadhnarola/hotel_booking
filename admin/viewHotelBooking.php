@@ -38,10 +38,12 @@ $res = mysqli_query($conn, $select);
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>View Hotel Booking Details</title>
     <link rel="stylesheet" href="view-style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
         #search-box {
             width: 40%;
@@ -56,90 +58,127 @@ $res = mysqli_query($conn, $select);
             border-color: #4c3aecff;
             box-shadow: 0 0 5px rgba(76, 58, 236, 0.5);
         }
+
+        .status-paid {
+            color: #28a745;
+            font-weight: bold;
+        }
+
+        .status-pending {
+            color: #dc3545;
+            font-weight: bold;
+        }
+
+        .delete-btn {
+            background: #dc3545;
+            color: #fff;
+            padding: 6px 12px;
+            border-radius: 6px;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .delete-btn:hover {
+            background: #c82333;
+        }
+
+        
     </style>
 </head>
+
 <body>
 
-<div class="container d-flex justify-content-center" style="margin-top: 80px;">
-    <div class="admin-panel">
-        <h2>Booking Details</h2>
-        <input type="text" id="search-box" placeholder="🔍 Search by Name, User, Hotel, Guests, Check-in or Check-out..." />
+    <div class="container d-flex justify-content-center" style="margin-top: 80px;">
+        <div class="admin-panel">
+            <h2>Booking Details</h2>
+            <input type="text" id="search-box"
+                placeholder="🔍 Search by Name, User, Hotel, Guests, Check-in or Check-out..." />
 
-        <div class="table-responsive" id="booking-data">
-            <table class="table table-light table-hover table-striped">
-                <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Full Name</th>
-                    <th>User ID</th>
-                    <th>Hotel</th>
-                    <th>Check-in</th>
-                    <th>Check-out</th>
-                    <th>Guests</th>
-                    <th>Payments</th>
-                    <th>Action</th>
-                </tr>
-                </thead>
-                <tbody>
-                <?php while ($row = mysqli_fetch_assoc($res)) { ?>
-                    <tr>
-                        <td><?php echo $row['id']; ?></td>
-                        <td><?php echo !empty($row['user_fullname']) ? $row['user_fullname'] : 'Unknown'; ?></td>
-                        <td><?php echo $row['user_id']; ?></td>
-                        <td><?php echo !empty($row['hotel_name']) ? $row['hotel_name'] : 'N/A'; ?></td>
-                        <td><?php echo date('d-M-Y', strtotime($row['checkin_date'])); ?></td>
-                        <td><?php echo date('d-M-Y', strtotime($row['checkout_date'])); ?></td>
-                        <td><?php echo $row['guests']; ?></td>
-                        <td></td>
-                        <td>
-                            <a href="viewhotelbooking.php?d_id=<?php echo $row['id']; ?>" class="btn delete-btn"
-                               onclick="return confirm('Are you sure to delete this booking?');">Delete</a>
-                        </td>
-                    </tr>
-                <?php } ?>
-                </tbody>
-            </table>
-        </div>
+            <div class="table-responsive" id="booking-data">
+                <table class="table table-light table-hover table-striped">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Full Name</th>
+                            <th>User ID</th>
+                            <th>Hotel</th>
+                            <th>Check-in</th>
+                            <th>Check-out</th>
+                            <th>Guests</th>
+                            <th>Payments</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php while ($row = mysqli_fetch_assoc($res)) { ?>
+                            <tr>
+                                <td><?php echo $row['id']; ?></td>
+                                <td><?php echo !empty($row['user_fullname']) ? $row['user_fullname'] : 'Unknown'; ?></td>
+                                <td><?php echo $row['user_id']; ?></td>
+                                <td><?php echo !empty($row['hotel_name']) ? $row['hotel_name'] : 'N/A'; ?></td>
+                                <td><?php echo date('d-M-Y', strtotime($row['checkin_date'])); ?></td>
+                                <td><?php echo date('d-M-Y', strtotime($row['checkout_date'])); ?></td>
+                                <td><?php echo $row['guests']; ?></td>
+                                <td>
+                                    <?php if (strtolower($row['payment_status']) == 'paid successfully') { ?>
+                                        <span class="status-paid"><i class="fas fa-check-circle"></i>
+                                            </span>
+                                    <?php } else { ?>
+                                        <span class="status-pending"><i class="fas fa-times-circle"></i>
+                                            </span>
+                                    <?php } ?>
+                                </td>
+                                <td>
+                                    <a href="viewhotelbooking.php?d_id=<?php echo $row['id']; ?>" class="btn delete-btn"
+                                        onclick="return confirm('Are you sure to delete this booking?');">Delete</a>
+                                </td>
+                            </tr>
+                        <?php } ?>
+                    </tbody>
+                </table>
+            </div>
 
-        <!-- Pagination -->
-        <div class="pagination" id="pagination">
-            <?php if ($page > 1): ?>
-                <a href="?page=<?php echo $page - 1; ?>">&laquo; Prev</a>
-            <?php endif; ?>
+            <!-- Pagination -->
+            <div class="pagination" id="pagination">
+                <?php if ($page > 1): ?>
+                    <a href="?page=<?php echo $page - 1; ?>">&laquo; Prev</a>
+                <?php endif; ?>
 
-            <?php for ($i = 1; $i <= $total_pages; $i++): ?>
-                <a href="?page=<?php echo $i; ?>" class="<?php if ($i == $page) echo 'active'; ?>">
-                    <?php echo $i; ?>
-                </a>
-            <?php endfor; ?>
+                <?php for ($i = 1; $i <= $total_pages; $i++): ?>
+                    <a href="?page=<?php echo $i; ?>" class="<?php if ($i == $page)
+                           echo 'active'; ?>">
+                        <?php echo $i; ?>
+                    </a>
+                <?php endfor; ?>
 
-            <?php if ($page < $total_pages): ?>
-                <a href="?page=<?php echo $page + 1; ?>">Next &raquo;</a>
-            <?php endif; ?>
+                <?php if ($page < $total_pages): ?>
+                    <a href="?page=<?php echo $page + 1; ?>">Next &raquo;</a>
+                <?php endif; ?>
+            </div>
         </div>
     </div>
-</div>
 
-<!-- AJAX Live Search -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-$(document).ready(function () {
-    $("#search-box").on("keyup", function () {
-        let query = $(this).val();
-        $.ajax({
-            url: "fetchHotelBooking.php",
-            method: "POST",
-            data: { query: query },
-            success: function (data) {
-                $("#booking-data").html(data);
-                $("#pagination").hide();
-            }
+    <!-- AJAX Live Search -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#search-box").on("keyup", function () {
+                let query = $(this).val();
+                $.ajax({
+                    url: "fetchHotelBooking.php",
+                    method: "POST",
+                    data: { query: query },
+                    success: function (data) {
+                        $("#booking-data").html(data);
+                        $("#pagination").hide();
+                    }
+                });
+            });
         });
-    });
-});
-</script>
+    </script>
 
 </body>
+
 </html>
 
 <?php include("footer.php"); ?>

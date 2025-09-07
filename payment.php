@@ -45,21 +45,28 @@ $qrCodeUrl = "https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=" . 
 
         <!-- Booking Summary -->
         <div class="booking-summary mb-4">
-            <p><i class="fas fa-hotel" style="color:#007bff;"></i> <strong>Hotel:</strong> <?php echo htmlspecialchars($booking['name']); ?></p>
-            <p><i class="fas fa-map-marker-alt" style="color:#e63946;"></i> <strong>Location:</strong> <?php echo htmlspecialchars($booking['location']); ?></p>
-            <p><i class="fas fa-calendar-check" style="color:#17a2b8;"></i> <strong>Check-in:</strong> <?php echo htmlspecialchars($booking['checkin_date']); ?></p>
-            <p><i class="fas fa-calendar-times" style="color:#ff6f00;"></i> <strong>Check-out:</strong> <?php echo htmlspecialchars($booking['checkout_date']); ?></p>
+            <p><i class="fas fa-hotel" style="color:#007bff;"></i> <strong>Hotel:</strong>
+                <?php echo htmlspecialchars($booking['name']); ?></p>
+            <p><i class="fas fa-map-marker-alt" style="color:#e63946;"></i> <strong>Location:</strong>
+                <?php echo htmlspecialchars($booking['location']); ?></p>
+            <p><i class="fas fa-calendar-check" style="color:#17a2b8;"></i> <strong>Check-in:</strong>
+                <?php echo htmlspecialchars($booking['checkin_date']); ?></p>
+            <p><i class="fas fa-calendar-times" style="color:#ff6f00;"></i> <strong>Check-out:</strong>
+                <?php echo htmlspecialchars($booking['checkout_date']); ?></p>
             <p><i class="fas fa-moon" style="color:#6f42c1;"></i> <strong>Nights:</strong> <?php echo $nights; ?></p>
-            <p><i class="fas fa-tag" style="color:#20c997;"></i> <strong>Price per Night:</strong> ₹<?php echo $price_per_night; ?></p>
-            <p><i class="fas fa-wallet" style="color:#28a745;"></i> <strong>Final Amount:</strong> 
+            <p><i class="fas fa-tag" style="color:#20c997;"></i> <strong>Price per Night:</strong>
+                ₹<?php echo $price_per_night; ?></p>
+            <p><i class="fas fa-wallet" style="color:#28a745;"></i> <strong>Final Amount:</strong>
                 <span style="color:#28a745; font-weight:bold;">₹<?php echo $total_amount; ?></span>
             </p>
         </div>
 
         <!-- Payment Option Selection -->
         <div class="payment-options text-center mb-4">
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQR4ArUxtci1ip0bL0K9hs9QtwcJGy_gu9iYA&s" class="payment-option" id="netbanking-btn" alt="Net Banking / QR">
-            <img src="https://cdn-icons-png.flaticon.com/512/6963/6963703.png" class="payment-option" id="creditcard-btn" alt="Credit Card">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQR4ArUxtci1ip0bL0K9hs9QtwcJGy_gu9iYA&s"
+                class="payment-option" id="netbanking-btn" alt="Net Banking / QR">
+            <img src="https://cdn-icons-png.flaticon.com/512/6963/6963703.png" class="payment-option"
+                id="creditcard-btn" alt="Credit Card">
         </div>
 
         <!-- Credit Card Form -->
@@ -67,10 +74,12 @@ $qrCodeUrl = "https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=" . 
             <form method="post" action="process_payment.php">
                 <input type="hidden" name="booking_id" value="<?php echo $booking['id']; ?>">
                 <input type="hidden" name="amount" value="<?php echo $total_amount; ?>">
+                <input type="hidden" name="method" value="Credit Card">
 
                 <div class="form-group mb-3">
                     <label><i class="far fa-credit-card"></i> Card Number</label>
-                    <input type="text" name="card_number" class="form-control card-input" maxlength="19" placeholder="1234 5678 9012 3456" required>
+                    <input type="text" name="card_number" class="form-control card-input" maxlength="19"
+                        placeholder="1234 5678 9012 3456" required>
                 </div>
 
                 <div class="form-row d-flex mb-3">
@@ -99,9 +108,17 @@ $qrCodeUrl = "https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=" . 
         <div id="netbanking-form" class="text-center" style="display:none;">
             <h4><i class="fas fa-qrcode" style="color:#17a2b8;"></i> Scan & Pay</h4>
             <p>Pay <strong>₹<?php echo $total_amount; ?></strong> securely via UPI</p>
-            <img src="<?php echo $qrCodeUrl; ?>" alt="QR Code" style="max-width:250px; border:5px solid #f1f1f1; border-radius:10px;">
+            <img src="<?php echo $qrCodeUrl; ?>" alt="QR Code"
+                style="max-width:250px; border:5px solid #f1f1f1; border-radius:10px;">
             <p class="mt-3 text-muted">After payment, click the button below to confirm.</p>
-            <button class="custom-btn">I Have Paid</button>
+            <form method="post" action="process_payment.php">
+                <input type="hidden" name="booking_id" value="<?php echo $booking['id']; ?>">
+                <input type="hidden" name="amount" value="<?php echo $total_amount; ?>">
+                <input type="hidden" name="method" value="UPI/QR">
+                <button type="submit" class="custom-btn">
+                    <i class="fas fa-check-circle"></i> I Have Paid
+                </button>
+            </form>
         </div>
 
         <div class="text-center mt-4 secure-note">
@@ -125,6 +142,7 @@ $qrCodeUrl = "https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=" . 
         padding: 35px;
         transition: all 0.3s ease-in-out;
     }
+
     .payment-card:hover {
         transform: translateY(-6px);
         box-shadow: 0 16px 35px rgba(0, 0, 0, 0.2);
@@ -140,6 +158,7 @@ $qrCodeUrl = "https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=" . 
         margin-bottom: 20px;
         transition: all 0.3s ease;
     }
+
     .booking-summary:hover {
         box-shadow: 0 4px 15px rgba(66, 133, 244, 0.25);
     }
@@ -156,6 +175,7 @@ $qrCodeUrl = "https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=" . 
         transition: all 0.3s ease-in-out;
         box-shadow: 0 8px 20px rgba(40, 167, 69, 0.4);
     }
+
     .custom-btn:hover {
         background: linear-gradient(45deg, #218838, #1e7e34);
         transform: translateY(-3px) scale(1.02);
@@ -167,7 +187,7 @@ $qrCodeUrl = "https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=" . 
         border-radius: 10px;
         padding: 12px;
         font-size: 15px;
-        box-shadow: inset 0 2px 6px rgba(0,0,0,0.05);
+        box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.05);
     }
 
     /* Payment Options */
@@ -179,6 +199,7 @@ $qrCodeUrl = "https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=" . 
         border-radius: 10px;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
     }
+
     .payment-options img:hover {
         transform: scale(1.08);
         box-shadow: 0 10px 22px rgba(0, 0, 0, 0.25);
@@ -189,6 +210,7 @@ $qrCodeUrl = "https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=" . 
         color: #28a745;
         font-weight: 500;
     }
+
     .card-input {
         letter-spacing: 2px;
         font-weight: bold;
