@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 06, 2025 at 08:29 AM
+-- Generation Time: Sep 07, 2025 at 04:05 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -42,7 +42,7 @@ CREATE TABLE `restaurant` (
 --
 
 INSERT INTO `restaurant` (`id`, `price`, `shopName`, `location`, `star`, `rate`, `image`) VALUES
-(15, 10, 'Asador Etxebarri', 'Basque Country , Spain', 5, 100, 'Asador Etxebarri.jpeg'),
+(15, 10, 'Asador Etxebarriee', 'Basque Country , Spain', 5, 100, 'Asador Etxebarri.jpeg'),
 (16, 7, 'La Freskko', 'Motavaracha , Surat', 3, 70, 'cafe.jpg'),
 (17, 9, 'Alchemist', 'Copenhagen, Denmark', 4, 89, 'Alchemist.jpg');
 

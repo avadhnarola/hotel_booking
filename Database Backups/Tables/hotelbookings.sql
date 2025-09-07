@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 06, 2025 at 06:36 AM
+-- Generation Time: Sep 07, 2025 at 04:04 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -34,6 +34,7 @@ CREATE TABLE `hotelbookings` (
   `checkin_date` date NOT NULL,
   `checkout_date` date NOT NULL,
   `guests` int(11) NOT NULL,
+  `payment_status` text NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -41,14 +42,14 @@ CREATE TABLE `hotelbookings` (
 -- Dumping data for table `hotelbookings`
 --
 
-INSERT INTO `hotelbookings` (`id`, `user_id`, `hotel_id`, `checkin_date`, `checkout_date`, `guests`, `created_at`) VALUES
-(1, 1, 5, '2025-08-30', '2025-08-31', 10, '2025-08-31 06:13:05'),
-(2, 1, 5, '2025-08-30', '2025-08-31', 10, '2025-08-31 06:13:24'),
-(3, 1, 5, '2003-05-12', '2010-02-25', 38, '2025-09-04 11:23:55'),
-(6, 4, 3, '2025-09-05', '2025-09-07', 35, '2025-09-05 09:24:59'),
-(7, 1, 2, '2025-09-05', '2025-09-20', 10, '2025-09-05 10:51:16'),
-(8, 5, 16, '2025-09-20', '2025-09-21', 5, '2025-09-06 03:37:54'),
-(9, 5, 15, '2025-09-12', '2025-09-14', 3, '2025-09-06 04:01:43');
+INSERT INTO `hotelbookings` (`id`, `user_id`, `hotel_id`, `checkin_date`, `checkout_date`, `guests`, `payment_status`, `created_at`) VALUES
+(6, 4, 3, '2025-09-05', '2025-09-07', 35, 'Pending', '2025-09-05 09:24:59'),
+(7, 1, 2, '2025-09-05', '2025-09-20', 10, 'Pending', '2025-09-05 10:51:16'),
+(8, 5, 16, '2025-09-20', '2025-09-21', 5, 'Paid Successfully', '2025-09-06 03:37:54'),
+(9, 5, 15, '2025-09-12', '2025-09-14', 3, 'Pending', '2025-09-06 04:01:43'),
+(10, 1, 5, '2025-09-13', '2025-09-17', 5, 'Paid Successfully', '2025-09-07 05:32:52'),
+(11, 5, 4, '2025-09-14', '2025-09-26', 5, 'Paid Successfully', '2025-09-07 11:31:33'),
+(12, 6, 16, '2025-09-20', '2025-09-24', 5, 'Paid Successfully', '2025-09-07 13:54:02');
 
 --
 -- Indexes for dumped tables
@@ -70,7 +71,7 @@ ALTER TABLE `hotelbookings`
 -- AUTO_INCREMENT for table `hotelbookings`
 --
 ALTER TABLE `hotelbookings`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- Constraints for dumped tables

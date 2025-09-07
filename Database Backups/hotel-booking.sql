@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 07, 2025 at 07:39 AM
+-- Generation Time: Sep 07, 2025 at 04:03 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -41,7 +41,8 @@ CREATE TABLE `admin` (
 INSERT INTO `admin` (`id`, `username`, `email`, `password`) VALUES
 (1, 'Avadh Narola', 'avadh@gmail.com', '123'),
 (2, 'Kayra', 'kayra@gmail.com', '1234'),
-(3, 'avadh', 'admin@gmail.com', '123');
+(3, 'avadh', 'admin@gmail.com', '123'),
+(4, 'Yanshu Dankhara', 'yanshu@gmail.com', '123');
 
 -- --------------------------------------------------------
 
@@ -107,6 +108,7 @@ CREATE TABLE `hotelbookings` (
   `checkin_date` date NOT NULL,
   `checkout_date` date NOT NULL,
   `guests` int(11) NOT NULL,
+  `payment_status` text NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -114,14 +116,14 @@ CREATE TABLE `hotelbookings` (
 -- Dumping data for table `hotelbookings`
 --
 
-INSERT INTO `hotelbookings` (`id`, `user_id`, `hotel_id`, `checkin_date`, `checkout_date`, `guests`, `created_at`) VALUES
-(1, 1, 5, '2025-08-30', '2025-08-31', 10, '2025-08-31 06:13:05'),
-(2, 1, 5, '2025-08-30', '2025-08-31', 10, '2025-08-31 06:13:24'),
-(6, 4, 3, '2025-09-05', '2025-09-07', 35, '2025-09-05 09:24:59'),
-(7, 1, 2, '2025-09-05', '2025-09-20', 10, '2025-09-05 10:51:16'),
-(8, 5, 16, '2025-09-20', '2025-09-21', 5, '2025-09-06 03:37:54'),
-(9, 5, 15, '2025-09-12', '2025-09-14', 3, '2025-09-06 04:01:43'),
-(10, 1, 5, '2025-09-13', '2025-09-17', 5, '2025-09-07 05:32:52');
+INSERT INTO `hotelbookings` (`id`, `user_id`, `hotel_id`, `checkin_date`, `checkout_date`, `guests`, `payment_status`, `created_at`) VALUES
+(6, 4, 3, '2025-09-05', '2025-09-07', 35, 'Pending', '2025-09-05 09:24:59'),
+(7, 1, 2, '2025-09-05', '2025-09-20', 10, 'Pending', '2025-09-05 10:51:16'),
+(8, 5, 16, '2025-09-20', '2025-09-21', 5, 'Paid Successfully', '2025-09-06 03:37:54'),
+(9, 5, 15, '2025-09-12', '2025-09-14', 3, 'Pending', '2025-09-06 04:01:43'),
+(10, 1, 5, '2025-09-13', '2025-09-17', 5, 'Paid Successfully', '2025-09-07 05:32:52'),
+(11, 5, 4, '2025-09-14', '2025-09-26', 5, 'Paid Successfully', '2025-09-07 11:31:33'),
+(12, 6, 16, '2025-09-20', '2025-09-24', 5, 'Paid Successfully', '2025-09-07 13:54:02');
 
 -- --------------------------------------------------------
 
@@ -155,6 +157,32 @@ INSERT INTO `hotels` (`id`, `name`, `price`, `location`, `star`, `rate`, `image`
 (6, 'Park Hyatt Tokyo ', 5000, 'Japan', 4, 84, 'Park Hyatt Tokyo.jpg', '1757222762_i1.jpg,1757222762_i2.webp,1757222762_i3.jpg,1757222762_i4.jpg', 'Park Hyatt Tokyo offers luxury in Shinjuku with elegant rooms, skyline views, fine dining, spa, and exceptional Japanese hospitality.\r\n', 'wifi,swimming pool,breakfast,air conditioning'),
 (15, 'Four Seasons Hotel George', 1299, 'Paris – France', 4, 99, '1757223139_i.jpg', '1757223139_i5.jpg,1757223139_i6.webp,1757223139_i7.jpeg,1757223139_i8.jpg,1757223139_i9.webp', 'Four Seasons George V Paris epitomizes elegance with lavish suites, Michelin-star dining, stunning floral artistry, spa indulgence, and exceptional service.', 'wifi,swimming pool,breakfast,parking,air conditioning'),
 (16, 'Dana Grimes', 202, 'Dolore asperiores mi', 5, 66, '1757080863_slider-2.jpg', '1757080863_2.jpg,1757080863_slider-3.jpg,1757080863_room-7.avif', 'Velit amet dolore ', 'wifi,swimming pool,air conditioning');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `payments`
+--
+
+CREATE TABLE `payments` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `booking_id` int(11) NOT NULL,
+  `amount` decimal(10,2) NOT NULL,
+  `method` varchar(50) NOT NULL,
+  `status` varchar(50) DEFAULT 'Success',
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `payments`
+--
+
+INSERT INTO `payments` (`id`, `user_id`, `booking_id`, `amount`, `method`, `status`, `created_at`) VALUES
+(1, 5, 11, 7188.00, 'UPI/QR', 'Success', '2025-09-07 11:52:42'),
+(2, 5, 8, 202.00, 'Credit Card', 'Success', '2025-09-07 11:55:05'),
+(3, 1, 10, 23996.00, 'UPI/QR', 'Success', '2025-09-07 13:25:53'),
+(4, 6, 12, 808.00, 'Credit Card', 'Success', '2025-09-07 13:54:30');
 
 -- --------------------------------------------------------
 
@@ -256,7 +284,8 @@ INSERT INTO `users` (`id`, `fullname`, `email`, `password`, `avatar`) VALUES
 (2, 'Narola Avadh', 'avadh25@gmail.com', 'avadh123', 'admin/images/user-profile.jpg'),
 (3, 'tirth', 'tirth@gmail.com', '$2y$10$sdit/S1CcLvH9ByjP6dtceri.9vs6yxrTGdtUaMXYLLQ53f4u23Ge', 'admin/images/user-profile.jpg'),
 (4, 'user', 'user@gmail.com', '123', 'admin/images/user-profile.jpg'),
-(5, 'Tirth', 'abc@gmail.com', 'abc123', 'admin/images/1757127997_unnamed.png');
+(5, 'Tirth', 'abc@gmail.com', 'abc123', 'admin/images/1757127997_unnamed.png'),
+(6, 'Het ', 'het@gmail.com', 'het123', 'admin/images/1757253156_user1.png');
 
 --
 -- Indexes for dumped tables
@@ -295,6 +324,14 @@ ALTER TABLE `hotels`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `payments`
+--
+ALTER TABLE `payments`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `booking_id` (`booking_id`);
+
+--
 -- Indexes for table `restaurant`
 --
 ALTER TABLE `restaurant`
@@ -327,7 +364,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `admin`
 --
 ALTER TABLE `admin`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `contact`
@@ -345,13 +382,19 @@ ALTER TABLE `destination`
 -- AUTO_INCREMENT for table `hotelbookings`
 --
 ALTER TABLE `hotelbookings`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `hotels`
 --
 ALTER TABLE `hotels`
   MODIFY `id` int(1) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+
+--
+-- AUTO_INCREMENT for table `payments`
+--
+ALTER TABLE `payments`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `restaurant`
@@ -375,7 +418,7 @@ ALTER TABLE `service`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- Constraints for dumped tables
@@ -387,6 +430,13 @@ ALTER TABLE `users`
 ALTER TABLE `hotelbookings`
   ADD CONSTRAINT `hotelbookings_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
   ADD CONSTRAINT `hotelbookings_ibfk_2` FOREIGN KEY (`hotel_id`) REFERENCES `hotels` (`id`);
+
+--
+-- Constraints for table `payments`
+--
+ALTER TABLE `payments`
+  ADD CONSTRAINT `payments_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `payments_ibfk_2` FOREIGN KEY (`booking_id`) REFERENCES `hotelbookings` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

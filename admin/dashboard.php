@@ -23,6 +23,28 @@ $total_result = mysqli_query($conn, $total_query);
 $total_row = mysqli_fetch_assoc($total_result);
 $total_bookings = $total_row['total'];
 
+$completeOrder = "SELECT COUNT(*) AS total FROM hotelbookings WHERE payment_status='Paid Successfully'";
+$complete_result = mysqli_query($conn, $completeOrder);
+
+if ($complete_result) {
+  $completeOrder_rows = mysqli_fetch_assoc($complete_result);
+  echo "Total completed orders: " . $completeOrder_rows['total'];
+} else {
+  echo "Query failed: " . mysqli_error($conn);
+}
+
+// ---------------------- FETCH PENDING TRANSACTIONS ----------------------
+$pendingBookingsQuery = "
+    SELECT b.id, b.user_id, b.hotel_id, b.checkin_date, b.checkout_date, b.guests, b.payment_status, b.created_at,
+           u.fullname, h.name AS hotel_name, h.price
+    FROM hotelbookings b
+    JOIN users u ON b.user_id = u.id
+    JOIN hotels h ON b.hotel_id = h.id
+    WHERE b.payment_status = 'Pending'
+    ORDER BY b.created_at DESC
+";
+$pendingTransactions  = mysqli_query($conn, $pendingBookingsQuery);
+
 // ---------------------- FETCH USERS ----------------------
 $Userquery = "SELECT id, fullname, email, avatar FROM users ORDER BY id DESC";
 $usersData = mysqli_query($conn, $Userquery);
@@ -43,7 +65,7 @@ $transaction = mysqli_query($conn, $transactionQuery);
     <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4 mt-5">
       <div>
         <h3 class="fw-bold mb-3">Dashboard</h3>
-        <h6 class="op-7 mb-2">Welcome to Admin Dashboard (Total Bookings: <?php echo $total_bookings; ?>)</h6>
+        <h6 class="op-7 mb-2">Welcome to Admin Dashboard</h6>
       </div>
       <div class="ms-md-auto py-2 py-md-0">
         <a href="#" class="btn btn-label-info btn-round me-2">Manage</a>
@@ -129,7 +151,7 @@ $transaction = mysqli_query($conn, $transactionQuery);
               <div class="col col-stats ms-3 ms-sm-0">
                 <div class="numbers">
                   <p class="card-category">Completed Orders</p>
-                  <h4 class="card-title"><?php echo $total_bookings; ?></h4>
+                  <h4 class="card-title"><?php echo $completeOrder_rows['total']; ?></h4>
                 </div>
               </div>
             </div>
@@ -206,7 +228,7 @@ $transaction = mysqli_query($conn, $transactionQuery);
                             <i class="fas fa-hourglass-half" style="color:#ffc107; font-size:18px;"></i>
                           <?php endif; ?>
                           <span style="font-weight:600; margin-left:10px;">
-                            Payment from #<?php echo $row['id']; ?>
+                            Payment from #<?php echo $row['fullname']; ?>
                           </span>
                         </td>
 
@@ -249,7 +271,66 @@ $transaction = mysqli_query($conn, $transactionQuery);
           </div>
         </div>
       </div>
-                    
+
+    </div>
+
+    <div class="row">
+      <!-- Pending Transaction -->
+      <div class="col-md-9">
+        <div class="card card-round shadow-sm">
+          <div class="card-header bg-white border-0">
+            <h4 class="card-title fw-bold mb-0">Pending Payment</h4>
+          </div>
+          <div class="card-body p-0">
+            <div class="table-responsive">
+              <table class="table align-items-center mb-0">
+                <thead>
+                  <tr style="background-color:#f8f9fa;">
+                    <th style="font-weight:600; padding:15px;">PAYMENT NUMBER</th>
+                    <th style="font-weight:600; padding:15px;">DATE & TIME</th>
+                    <th style="font-weight:600; padding:15px;">AMOUNT</th>
+                    <th style="font-weight:600; padding:15px;">STATUS</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <?php if (mysqli_num_rows($pendingTransactions) > 0): ?>
+                    <?php while ($row = mysqli_fetch_assoc($pendingTransactions)): ?>
+                      <tr style="border-bottom:1px solid #f1f1f1;">
+                        <td style="padding:15px;">
+                          <i class="fas fa-hourglass-half" style="color:#ffc107; font-size:18px;"></i>
+                          <span style="font-weight:600; margin-left:10px;">
+                            Payment from #<?php echo $row['fullname']; ?>
+                          </span>
+                        </td>
+                        <td style="padding:15px; color:#555;">
+                          <?php echo date("M d, Y, g:ia", strtotime($row['created_at'])); ?>
+                        </td>
+                        <td style="padding:15px; font-weight:600; color:#000;">
+                          $<?php echo number_format($row['price'], 2); ?>
+                        </td>
+                        <td style="padding:15px;">
+                          <span class="badge"
+                            style="background-color:#ffc107; color:white; font-size:13px; padding:7px 15px; border-radius:8px;">
+                            Pending
+                          </span>
+                        </td>
+                      </tr>
+                    <?php endwhile; ?>
+                  <?php else: ?>
+                    <tr>
+                      <td colspan="4" class="text-center py-4" style="color:#888;">
+                        No pending transactions found.
+                      </td>
+                    </tr>
+                  <?php endif; ?>
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 </div>

@@ -395,7 +395,7 @@ session_start();
                         <div class="u-text">
                           <h4></h4>
                           <p class="text-muted"><?php echo $_SESSION['admin_email']; ?></p>
-                          <a href="profile.html" class="btn btn-xs btn-secondary btn-sm">View Profile</a>
+                          <a href="#" class="btn btn-xs btn-secondary btn-sm">View Profile</a>
                         </div>
                       </div>
                     </li>

@@ -2,9 +2,9 @@
 include_once '../db.php';
 session_start();
 
-
 if (isset($_SESSION['admin_id'])) {
     header("location:dashboard.php");
+    exit();
 }
 
 if (isset($_POST['submit'])) {
@@ -12,85 +12,175 @@ if (isset($_POST['submit'])) {
     $email = $_POST['email'];
     $password = $_POST['password'];
 
-    $data = mysqli_query($conn, "insert into admin(username,email,password) values ('$username','$email','$password')");
+    $data = mysqli_query($conn, "INSERT INTO admin(username,email,password) VALUES ('$username','$email','$password')");
 
     header("location:index.php");
+    exit();
 }
 ?>
 
-<link rel="stylesheet" href="assets/vendor/css/core.css" class="template-customizer-core-css" />
-<link rel="stylesheet" href="assets/vendor/css/theme-default.css" class="template-customizer-theme-css" />
-<link rel="stylesheet" href="assets/css/demo.css" />
+<!DOCTYPE html>
+<html lang="en">
 
-<div class="mt-5">
-    <div class="col-xl-4 col-md-8 m-auto">
-        <div class="card mb-6">
-            <div class="card-header d-flex justify-content-center align-items-center">
-                <h3 class="mb-0">Add New Admin</h3>
-            </div>
-            <div class="card-body">
-                <form id="loginForm" method="post">
-                    <div class="mb-6">
-                        <label class="form-label" for="basic-default-fullname">Username</label>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register New Admin</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+    <!-- Custom Styles -->
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .register-card {
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+
+        .register-card .card-header {
+            background-color: #2a264e;
+            color: #fff;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.5rem;
+            padding: 1.5rem;
+        }
+
+        .register-card .card-body {
+            padding: 2rem;
+        }
+
+        .form-control:focus {
+            box-shadow: none;
+            border-color: #2a264e;
+        }
+
+        .btn-primary {
+            background-color: #2a264e;
+            border-color: #2a264e;
+        }
+
+        .btn-primary:hover {
+            background-color: #5a4bd8;
+            border-color: #5a4bd8;
+        }
+
+        .input-group-text {
+            background-color: #2a264e;
+            color: #fff;
+            border: none;
+        }
+
+        .error-msg {
+            color: red;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 576px) {
+            .register-card {
+                width: 90%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="register-card card col-xl-4 col-lg-5 col-md-7 col-sm-10">
+        <div class="card-header">
+            <i class="fas fa-user-plus me-2"></i> Register New Admin
+        </div>
+        <div class="card-body">
+            <form id="registerForm" method="post" novalidate>
+                <div class="mb-3">
+                    <label class="form-label" for="username">Username</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fas fa-user"></i></span>
                         <input type="text" class="form-control" id="username" name="username" placeholder="abc" />
                     </div>
-                    <div class="mb-6">
-
-                        <label class="form-label" for="basic-default-fullname">Email</label>
+                    <div id="usernameError" class="error-msg"></div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="email">Email</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fas fa-envelope"></i></span>
                         <input type="text" class="form-control" id="email" name="email" placeholder="xyz@gmail.com" />
                     </div>
-                    <div class="mb-6">
-                        <label class="form-label" for="basic-default-company">Password</label>
+                    <div id="emailError" class="error-msg"></div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="password">Password</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fas fa-lock"></i></span>
                         <input type="password" class="form-control" id="password" name="password"
                             placeholder="........" />
                     </div>
-                    <div class="d-flex justify-content-center">
-                        <button type="submit" class="btn btn-primary" name="submit">Submit</button>
-                    </div>
-                </form>
-            </div>
+                    <div id="passwordError" class="error-msg"></div>
+                </div>
+                <button type="submit" class="btn btn-primary w-100 mt-3" name="submit">Submit</button>
+                <div class="text-center mt-3">
+                    <p>Already have an account? <a href="index.php" class="text-decoration-none">Login</a></p>
+                </div>
+            </form>
         </div>
     </div>
-</div>
 
-<script>
-    document.getElementById('loginForm').addEventListener('submit', function (e) {
-        // Get form fields
-        const email = document.getElementById('email').value.trim();
-        const password = document.getElementById('password').value.trim();
-        const username = document.getElementById('username').value.trim();
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-        // Email regex pattern for validation
-        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    <!-- Validation Script -->
+    <script>
+        document.getElementById('registerForm').addEventListener('submit', function (e) {
+            const username = document.getElementById('username').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value.trim();
 
-        // Validate fields
-        if (!email) {
-            alert('Email is required.');
-            e.preventDefault(); // Prevent form submission
-            return;
-        }
+            const usernameError = document.getElementById('usernameError');
+            const emailError = document.getElementById('emailError');
+            const passwordError = document.getElementById('passwordError');
 
-        if (!emailPattern.test(email)) {
-            alert('Please enter a valid email address.');
-            e.preventDefault();
-            return;
-        }
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-        if (!password) {
-            alert('Password is required.');
-            e.preventDefault();
-            return;
-        }
+            let valid = true;
+            usernameError.textContent = '';
+            emailError.textContent = '';
+            passwordError.textContent = '';
 
-        if (!username) {
-            alert('username is required.');
-            e.preventDefault();
-            return;
-        }
+            if (!username) {
+                usernameError.textContent = 'Username is required.';
+                valid = false;
+            }
 
-        // if (password.length < 6) {
-        //     alert('Password must be at least 6 characters long.');
-        //     e.preventDefault();
-        // }
-    });
-</script>
+            if (!email) {
+                emailError.textContent = 'Email is required.';
+                valid = false;
+            } else if (!emailPattern.test(email)) {
+                emailError.textContent = 'Enter a valid email address.';
+                valid = false;
+            }
+
+            if (!password) {
+                passwordError.textContent = 'Password is required.';
+                valid = false;
+            }
+
+            if (!valid) e.preventDefault();
+        });
+    </script>
+
+</body>
+
+</html>

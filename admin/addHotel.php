@@ -344,7 +344,7 @@ if (isset($_POST['submit'])) {
                 </div>
 
                 <div class="form-actions text-center">
-                    <input type="submit" class="btn" name="submit" value="Submit" />
+                    <input type="submit" class="btn btn-primary" name="submit" value="Submit" />
                 </div>
             </form>
         </div>

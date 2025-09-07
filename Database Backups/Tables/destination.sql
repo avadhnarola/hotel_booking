@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 06, 2025 at 08:28 AM
+-- Generation Time: Sep 07, 2025 at 04:04 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -42,7 +42,7 @@ CREATE TABLE `destination` (
 --
 
 INSERT INTO `destination` (`id`, `price`, `days`, `location`, `star`, `rate`, `image`) VALUES
-(2, 1999, '10', 'Santorini, Greece', 4, 100, 'greese.jpg'),
+(2, 1599, '10', 'Santorini, Greece', 4, 100, 'greese.jpg'),
 (3, 2999, '8', 'Bali, Indonesia', 5, 100, 'Bali, Indonesia.jpg'),
 (4, 999, '6', 'Maldives', 4, 98, 'maldives.webp'),
 (5, 1599, '13', 'Machu Picchu, Peru', 3, 80, 'Machu Picchu, Peru.jpg'),
