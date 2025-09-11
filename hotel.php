@@ -16,7 +16,33 @@ $total_pages = ceil($total_hotels / $limit);
 
 // Fetch hotels with limit and offset
 $hotels = mysqli_query($conn, "SELECT * FROM hotels ORDER BY id DESC LIMIT $limit OFFSET $offset");
+
+// Fetch distinct locations for Places filter
+$location_result = mysqli_query($conn, "SELECT DISTINCT location FROM hotels ORDER BY location ASC");
+$locations = [];
+while ($loc = mysqli_fetch_assoc($location_result)) {
+	$locations[] = $loc['location'];
+}
+
+// Fetch min and max price for Price Limit filter
+$price_result = mysqli_query($conn, "SELECT MIN(price) as min_price, MAX(price) as max_price FROM hotels");
+$price_range = mysqli_fetch_assoc($price_result);
+$min_price = isset($price_range['min_price']) ? $price_range['min_price'] : 0;
+$max_price = isset($price_range['max_price']) ? $price_range['max_price'] : 1000000;
+
+
+// Generate price steps (you can customize step size here)
+$step = 5000;
+$price_options = [];
+for ($price = $min_price; $price <= $max_price; $price += $step) {
+	$price_options[] = $price;
+}
+// Make sure max price is included
+if (!in_array($max_price, $price_options)) {
+	$price_options[] = $max_price;
+}
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -216,7 +242,8 @@ $hotels = mysqli_query($conn, "SELECT * FROM hotels ORDER BY id DESC LIMIT $limi
 									<div class="text">
 										<h4 class="price">$<?php echo $row['price']; ?></h4>
 										<h3><a href="#"><?php echo $row['name']; ?></a></h3>
-										<h6 class="location"><i class="fas fa-map-marker-alt" style="margin-right:8px;"></i><?php echo $row['location']; ?></h6>
+										<h6 class="location"><i class="fas fa-map-marker-alt"
+												style="margin-right:8px;"></i><?php echo $row['location']; ?></h6>
 										<div class="star d-flex clearfix">
 											<div class="mr-auto float-left">
 												<?php
@@ -278,59 +305,57 @@ $hotels = mysqli_query($conn, "SELECT * FROM hotels ORDER BY id DESC LIMIT $limi
 							<div class="row">
 								<div class="col-lg-12 align-items-end mb-3">
 									<div class="form-group">
-										<label for="#">Places</label>
+										<label for="place">Places</label>
 										<div class="form-field">
 											<div class="icon"><span class="ion-ios-search"></span></div>
-											<input type="text" class="form-control" placeholder="Search place">
+											<select name="place" id="place" class="form-control">
+												<option value="">Select place</option>
+												<?php foreach ($locations as $loc): ?>
+													<option value="<?php echo htmlspecialchars($loc); ?>">
+														<?php echo htmlspecialchars($loc); ?>
+													</option>
+												<?php endforeach; ?>
+											</select>
 										</div>
 									</div>
 								</div>
+
 								<div class="col-lg-12 align-items-end mb-3">
 									<div class="form-group">
-										<label for="#">Check-in date</label>
+										<label for="checkin_date">Check-in date</label>
 										<div class="form-field">
 											<div class="icon"><span class="ion-ios-calendar"></span></div>
-											<input type="text" class="form-control checkin_date"
-												placeholder="Check In Date">
+											<input type="text" name="checkin_date" id="checkin_date"
+												class="form-control checkin_date" placeholder="Check In Date">
 										</div>
 									</div>
 								</div>
+
 								<div class="col-lg-12 align-items-end mb-3">
 									<div class="form-group">
-										<label for="#">Check-out date</label>
+										<label for="checkout_date">Check-out date</label>
 										<div class="form-field">
 											<div class="icon"><span class="ion-ios-calendar"></span></div>
-											<input type="text" class="form-control checkout_date"
-												placeholder="Check Out Date">
+											<input type="text" name="checkout_date" id="checkout_date"
+												class="form-control checkout_date" placeholder="Check Out Date">
 										</div>
 									</div>
 								</div>
+
 								<div class="col-lg-12 align-items-end mb-3">
 									<div class="form-group">
-										<label for="#">Price Limit</label>
+										<label for="price_limit">Max Price: <span
+												id="priceLimitValue">$<?php echo number_format($max_price); ?></span></label>
 										<div class="form-field">
-											<div class="select-wrap">
-												<div class="icon"><span class="ion-ios-arrow-down"></span></div>
-												<select name="" id="" class="form-control">
-													<option value="">$5,000</option>
-													<option value="">$10,000</option>
-													<option value="">$50,000</option>
-													<option value="">$100,000</option>
-													<option value="">$200,000</option>
-													<option value="">$300,000</option>
-													<option value="">$400,000</option>
-													<option value="">$500,000</option>
-													<option value="">$600,000</option>
-													<option value="">$700,000</option>
-													<option value="">$800,000</option>
-													<option value="">$900,000</option>
-													<option value="">$1,000,000</option>
-													<option value="">$2,000,000</option>
-												</select>
-											</div>
+											<input type="range" name="price_limit" id="price_limit" class="form-control"
+												min="<?php echo $min_price; ?>" max="<?php echo $max_price; ?>"
+												value="<?php echo $max_price; ?>" step="1000"
+												oninput="document.getElementById('priceLimitValue').innerText = '$' + Number(this.value).toLocaleString();">
 										</div>
 									</div>
 								</div>
+
+
 								<div class="col-lg-12 align-self-end">
 									<div class="form-group">
 										<div class="form-field">
@@ -340,6 +365,7 @@ $hotels = mysqli_query($conn, "SELECT * FROM hotels ORDER BY id DESC LIMIT $limi
 								</div>
 							</div>
 						</form>
+
 					</div>
 				</div> <!-- end -->
 			</div>

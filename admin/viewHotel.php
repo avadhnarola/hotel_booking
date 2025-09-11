@@ -31,15 +31,30 @@ $res = mysqli_query($conn, $select);
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>View Hotels</title>
     <link rel="stylesheet" href="view-style.css">
     <style>
-        .service-badge { padding: 3px 6px; margin: 2px; border: 1px solid #ccc; border-radius: 4px; display: inline-block; }
-        .room-img { margin: 3px; border: 1px solid #ddd; border-radius: 5px; }
+        .service-badge {
+            padding: 3px 6px;
+            margin: 2px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            display: inline-block;
+        }
+
+        .room-img {
+            margin: 3px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
     </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 </head>
+
 <body>
     <div class="container-fluid">
         <div class="button-container">
@@ -51,11 +66,14 @@ $res = mysqli_query($conn, $select);
         <div class="admin-panel">
             <h2>View Hotels</h2>
 
+            <input type="text" id="search" placeholder="🔍 Search hotels by name or location..." class="form-control mb-3" style="max-width: 300px;"  />
             <div id="table-data" class="table-responsive">
+
                 <table class="table table-light table-hover table-striped">
                     <thead>
                         <tr>
                             <th>Id</th>
+                            <th>Name</th>
                             <th>Location</th>
                             <th>Price</th>
                             <th>Star</th>
@@ -72,17 +90,20 @@ $res = mysqli_query($conn, $select);
                         <?php while ($row = mysqli_fetch_assoc($res)) { ?>
                             <tr>
                                 <td><?php echo $row['id']; ?></td>
+                                <td><?php echo $row['name']; ?></td>
                                 <td><?php echo $row['location']; ?></td>
                                 <td><?php echo $row['price']; ?></td>
                                 <td>
                                     <?php
-                                    for ($i = 0; $i < $row['star']; $i++) echo '★';
-                                    for ($j = $row['star']; $j < 5; $j++) echo '☆';
+                                    for ($i = 0; $i < $row['star']; $i++)
+                                        echo '★';
+                                    for ($j = $row['star']; $j < 5; $j++)
+                                        echo '☆';
                                     ?>
                                 </td>
                                 <td>
                                     <?php if (!empty($row['image'])): ?>
-                                        <img src="images/<?php echo $row['image']; ?>" style="height:60px;width:90px;"/>
+                                        <img src="images/<?php echo $row['image']; ?>" style="height:60px;width:90px;" />
                                     <?php endif; ?>
                                 </td>
                                 <td>
@@ -106,7 +127,7 @@ $res = mysqli_query($conn, $select);
                                 </td>
                                 <td>
                                     <a href="viewHotel.php?d_id=<?php echo $row['id']; ?>" class="btn delete-btn"
-                                       onclick="return confirm('Are you sure to delete this hotel?');">Delete</a>
+                                        onclick="return confirm('Are you sure to delete this hotel?');">Delete</a>
                                 </td>
                             </tr>
                         <?php } ?>
@@ -120,7 +141,8 @@ $res = mysqli_query($conn, $select);
                     <a href="?page=<?php echo $page - 1; ?>">&laquo; Prev</a>
                 <?php endif; ?>
                 <?php for ($i = 1; $i <= $total_pages; $i++): ?>
-                    <a href="?page=<?php echo $i; ?>" class="<?php if ($i == $page) echo 'active'; ?>">
+                    <a href="?page=<?php echo $i; ?>" class="<?php if ($i == $page)
+                           echo 'active'; ?>">
                         <?php echo $i; ?>
                     </a>
                 <?php endfor; ?>
@@ -131,6 +153,24 @@ $res = mysqli_query($conn, $select);
         </div>
     </div>
 </body>
+<script>
+    $(document).ready(function () {
+        $('#search').on('input', function () {
+            var query = $(this).val();
+
+            $.ajax({
+                url: 'fetchHotels.php',
+                method: 'POST',
+                data: { search: query },
+                success: function (data) {
+                    $('#table-data tbody').html(data);
+                    $('#pagination').hide(); // hide pagination on search
+                }
+            });
+        });
+    });
+</script>
+
 </html>
 
 <?php include("footer.php"); ?>

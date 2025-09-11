@@ -75,7 +75,7 @@ $res = mysqli_query($conn, $select);
 
             
              <!-- Search Box -->
-            <input type="text" id="search-box" placeholder="🔍 Search restaurants by location, shop name, or price..." />
+            <input type="text" id="search-box" placeholder="🔍 Search restaurants by location, shop name, or price..." class="form-control mb-3" style="max-width: 300px;"   />
 
 
             <!-- Table Data -->

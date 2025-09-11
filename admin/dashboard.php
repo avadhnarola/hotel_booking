@@ -124,13 +124,13 @@ $transaction = mysqli_query($conn, $transactionQuery);
             <div class="row align-items-center">
               <div class="col-icon">
                 <div class="icon-big text-center icon-success bubble-shadow-small">
-                  <i class="fas fa-dollar-sign"></i>
+                  <i class="fas fa-rupee-sign"></i>
                 </div>
               </div>
               <div class="col col-stats ms-3 ms-sm-0">
                 <div class="numbers">
                   <p class="card-category">Sales</p>
-                  <h4 class="card-title">$<?php echo number_format($total_sales, 2); ?></h4>
+                  <h4 class="card-title">₹<?php echo number_format($total_sales, 2); ?></h4>
                 </div>
               </div>
             </div>
@@ -239,7 +239,7 @@ $transaction = mysqli_query($conn, $transactionQuery);
 
                         <!-- Amount -->
                         <td style="padding:15px; font-weight:600; color:#000;">
-                          $<?php echo number_format($row['amount'], 2); ?>
+                          ₹<?php echo number_format($row['amount'], 2); ?>
                         </td>
 
                         <!-- Status -->
@@ -306,7 +306,7 @@ $transaction = mysqli_query($conn, $transactionQuery);
                           <?php echo date("M d, Y, g:ia", strtotime($row['created_at'])); ?>
                         </td>
                         <td style="padding:15px; font-weight:600; color:#000;">
-                          $<?php echo number_format($row['price'], 2); ?>
+                          ₹<?php echo number_format($row['price'], 2); ?>
                         </td>
                         <td style="padding:15px;">
                           <span class="badge"

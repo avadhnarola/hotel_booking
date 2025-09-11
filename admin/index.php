@@ -46,7 +46,7 @@ if (isset($_POST['submit'])) {
     <!-- Custom Styles -->
     <style>
         body {
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            
             min-height: 100vh;
             display: flex;
             align-items: center;

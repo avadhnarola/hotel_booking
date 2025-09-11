@@ -75,7 +75,7 @@ $res = mysqli_query($conn, $select);
             <h2>View Services</h2>
 
              <!-- Search Box -->
-            <input type="text" id="search-box" placeholder="🔍 Search by title or description..." />
+            <input type="text" id="search-box" placeholder="🔍 Search by title or description..." class="form-control mb-3" style="max-width: 300px;"   />
 
             <div class="table-responsive" id="table-data">
                 <table class="table table-light table-hover table-striped">

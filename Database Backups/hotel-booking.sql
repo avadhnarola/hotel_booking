@@ -1,13 +1,14 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 4.8.5
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 07, 2025 at 04:03 PM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- Generation Time: Sep 11, 2025 at 06:36 AM
+-- Server version: 10.1.38-MariaDB
+-- PHP Version: 5.6.40
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -32,7 +33,7 @@ CREATE TABLE `admin` (
   `username` text NOT NULL,
   `email` text NOT NULL,
   `password` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `admin`
@@ -56,7 +57,7 @@ CREATE TABLE `contact` (
   `email` text NOT NULL,
   `subject` text NOT NULL,
   `message` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `contact`
@@ -80,7 +81,7 @@ CREATE TABLE `destination` (
   `star` int(11) NOT NULL,
   `rate` int(11) NOT NULL,
   `image` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `destination`
@@ -109,8 +110,8 @@ CREATE TABLE `hotelbookings` (
   `checkout_date` date NOT NULL,
   `guests` int(11) NOT NULL,
   `payment_status` text NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `hotelbookings`
@@ -123,7 +124,10 @@ INSERT INTO `hotelbookings` (`id`, `user_id`, `hotel_id`, `checkin_date`, `check
 (9, 5, 15, '2025-09-12', '2025-09-14', 3, 'Pending', '2025-09-06 04:01:43'),
 (10, 1, 5, '2025-09-13', '2025-09-17', 5, 'Paid Successfully', '2025-09-07 05:32:52'),
 (11, 5, 4, '2025-09-14', '2025-09-26', 5, 'Paid Successfully', '2025-09-07 11:31:33'),
-(12, 6, 16, '2025-09-20', '2025-09-24', 5, 'Paid Successfully', '2025-09-07 13:54:02');
+(12, 6, 16, '2025-09-20', '2025-09-24', 5, 'Paid Successfully', '2025-09-07 13:54:02'),
+(13, 7, 3, '2025-09-17', '2025-09-21', 5, 'Paid Successfully', '2025-09-08 03:19:25'),
+(14, 4, 5, '2025-09-18', '2025-09-25', 10, 'Paid Successfully', '2025-09-08 03:34:52'),
+(15, 1, 16, '2025-09-19', '2025-09-20', 2, 'Paid Successfully', '2025-09-11 03:29:46');
 
 -- --------------------------------------------------------
 
@@ -142,21 +146,21 @@ CREATE TABLE `hotels` (
   `room_images` text NOT NULL,
   `description` text NOT NULL,
   `services` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `hotels`
 --
 
 INSERT INTO `hotels` (`id`, `name`, `price`, `location`, `star`, `rate`, `image`, `room_images`, `description`, `services`) VALUES
-(1, 'Burjâe Alâc¯Arab Jumeirah', 1599, 'UAE , Dubai', 5, 100, 'dubai61-550x550.jpg', '1757132983_img1.webp,1757132983_img2.avif,1757132983_img3.jpg,1757132983_img4.jpg', 'Burj Al Arab, Dubai’s iconic sail-shaped luxury hotel, offers world-class suites, dining, and unmatched Arabian hospitality with breathtaking Gulf views.\r\n', 'wifi,swimming pool,breakfast,parking,air conditioning'),
+(1, 'Burj Al Arab ', 1599, 'UAE , Dubai', 5, 100, 'dubai61-550x550.jpg', '1757132983_img1.webp,1757132983_img2.avif,1757132983_img3.jpg,1757132983_img4.jpg', 'Burj Al Arab, Dubai iconic sail-shaped luxury hotel, offers world-class suites, dining, and unmatched Arabian hospitality with breathtaking Gulf views.\r\n', 'wifi,swimming pool,breakfast,parking,air conditioning'),
 (2, 'The Beverly Hills Hotel ', 5000, 'Los Angeles', 4, 90, 'The Beverly Hills Hotel.jpg', '1757133200_img6.jpg,1757133200_img5.webp,1757133200_img7.jpg,1757133200_img8.jpg', 'The Beverly Hills Hotel, Los Angeles, is a legendary luxury retreat, famed for Hollywood glamour, iconic pink façade, and timeless elegance.\r\n', 'wifi,swimming pool,air conditioning'),
 (3, 'Cervo Mountain Resort ', 899, 'Switzerland', 3, 85, '1757141271_img9.webp', '1757141271_img10.jpg,1757141271_img11.jpg,1757141271_img12.jpg', 'Cervo Mountain Resort blends Alpine luxury and modern design, offering cozy chalets, fine dining, wellness spa, and breathtaking Swiss mountain views.\r\n', 'wifi,breakfast,air conditioning'),
 (4, 'Buffalo Mountain Lodge', 599, 'Canada', 2, 70, 'Buffalo Mountain Lodge.jpg', '1757221080_ig1.webp,1757221080_ig2.webp,1757221080_ig4.webp,1757221080_ig3.jpg', 'Buffalo Mountain Lodge, Canada offers rustic charm, cozy mountain-inspired rooms, fine dining, and breathtaking Rocky Mountain views for a serene escape.\r\n', 'breakfast,parking,air conditioning'),
 (5, 'Lemon Tree ', 5999, 'Rishikesh', 5, 100, 'Lemon Tree.jpg', '1757221434_IG9.jpg,1757221434_ig6.jpg,1757221434_ig7.jpg,1757221434_ig8.webp', 'Lemon Tree, Rishikesh offers riverside views, modern comfort, serene ambiance, wellness facilities, and warm hospitality amidst the scenic Himalayan foothills.\r\n', 'wifi,swimming pool,breakfast,parking,air conditioning'),
 (6, 'Park Hyatt Tokyo ', 5000, 'Japan', 4, 84, 'Park Hyatt Tokyo.jpg', '1757222762_i1.jpg,1757222762_i2.webp,1757222762_i3.jpg,1757222762_i4.jpg', 'Park Hyatt Tokyo offers luxury in Shinjuku with elegant rooms, skyline views, fine dining, spa, and exceptional Japanese hospitality.\r\n', 'wifi,swimming pool,breakfast,air conditioning'),
-(15, 'Four Seasons Hotel George', 1299, 'Paris – France', 4, 99, '1757223139_i.jpg', '1757223139_i5.jpg,1757223139_i6.webp,1757223139_i7.jpeg,1757223139_i8.jpg,1757223139_i9.webp', 'Four Seasons George V Paris epitomizes elegance with lavish suites, Michelin-star dining, stunning floral artistry, spa indulgence, and exceptional service.', 'wifi,swimming pool,breakfast,parking,air conditioning'),
-(16, 'Dana Grimes', 202, 'Dolore asperiores mi', 5, 66, '1757080863_slider-2.jpg', '1757080863_2.jpg,1757080863_slider-3.jpg,1757080863_room-7.avif', 'Velit amet dolore ', 'wifi,swimming pool,air conditioning');
+(15, 'Four Seasons Hotel George', 1299, 'Paris France', 4, 99, '1757223139_i.jpg', '1757223139_i5.jpg,1757223139_i6.webp,1757223139_i7.jpeg,1757223139_i8.jpg,1757223139_i9.webp', 'Four Seasons George V Paris epitomizes elegance with lavish suites, Michelin-star dining, stunning floral artistry, spa indulgence, and exceptional service.', 'wifi,swimming pool,breakfast,parking,air conditioning'),
+(16, 'Sentido Reef Oasis ', 1299, 'Egypt', 5, 79, '1757080863_slider-2.jpg', '1757561353_0-0_88901727373094.jpg,1757561353_SENTIDO-REEF-OASIS-SHARM-EL-SHEIKH-466.jpg,1757561353_comfort-room.jpg,1757561353_orig.jpg', 'Velit amet dolore ', 'wifi,swimming pool,air conditioning');
 
 -- --------------------------------------------------------
 
@@ -171,18 +175,21 @@ CREATE TABLE `payments` (
   `amount` decimal(10,2) NOT NULL,
   `method` varchar(50) NOT NULL,
   `status` varchar(50) DEFAULT 'Success',
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `payments`
 --
 
 INSERT INTO `payments` (`id`, `user_id`, `booking_id`, `amount`, `method`, `status`, `created_at`) VALUES
-(1, 5, 11, 7188.00, 'UPI/QR', 'Success', '2025-09-07 11:52:42'),
-(2, 5, 8, 202.00, 'Credit Card', 'Success', '2025-09-07 11:55:05'),
-(3, 1, 10, 23996.00, 'UPI/QR', 'Success', '2025-09-07 13:25:53'),
-(4, 6, 12, 808.00, 'Credit Card', 'Success', '2025-09-07 13:54:30');
+(1, 5, 11, '7188.00', 'UPI/QR', 'Success', '2025-09-07 11:52:42'),
+(2, 5, 8, '202.00', 'Credit Card', 'Success', '2025-09-07 11:55:05'),
+(3, 1, 10, '23996.00', 'UPI/QR', 'Success', '2025-09-07 13:25:53'),
+(4, 6, 12, '808.00', 'Credit Card', 'Success', '2025-09-07 13:54:30'),
+(5, 7, 13, '3596.00', 'UPI/QR', 'Success', '2025-09-08 03:19:46'),
+(6, 4, 14, '41993.00', 'Credit Card', 'Success', '2025-09-08 03:43:32'),
+(7, 1, 15, '1299.00', 'UPI/QR', 'Success', '2025-09-11 03:30:09');
 
 -- --------------------------------------------------------
 
@@ -198,7 +205,7 @@ CREATE TABLE `restaurant` (
   `star` int(11) NOT NULL,
   `rate` int(11) NOT NULL,
   `image` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `restaurant`
@@ -222,7 +229,7 @@ CREATE TABLE `room` (
   `description` text NOT NULL,
   `location` text NOT NULL,
   `image` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `room`
@@ -232,7 +239,6 @@ INSERT INTO `room` (`id`, `title`, `price`, `description`, `location`, `image`) 
 (2, 'The Classic Balcony', 59, 'The Classic Balcony Room offers a blend of comfort and elegance, featuring a cozy ambiance, tasteful dÃ©cor, and a private balcony with scenic views. Perfect for relaxation, it includes modern amenities like a plush bed, flat-screen TV, free Wi-Fi, and a stylish bathroom, ensuring a peaceful and enjoyable stay.', 'The Ritz-Carlton, Bali, Indonesia', 'deluxe.jpg'),
 (3, 'Boutique Hotel', 99, 'Our Boutique Hotel in Paris blends modern design with charming French architecture. Located near iconic attractions, it offers personalized service, artistic interiors, and cozy luxury. Experience authentic Parisian life in a stylish, intimate setting with comfort, culture, and elegance all in one.', 'The Hoxton, Amsterdam, Netherlands', '745232618_P.jpg'),
 (4, 'The Classic Resort', 149, 'Escape to paradise at The Classic Resort in the Maldives. Surrounded by crystal-clear waters and pristine beaches, this resort offers private villas, spa treatments, and gourmet dining. Ideal for honeymooners or those craving relaxation in a tranquil, tropical island setting.', 'Candolim Beach, North Goa', '579300_original.jpg'),
-(5, 'Luxury Rooms', 299, 'Indulge in opulence with our Luxury Rooms located in the heart of Dubai. Featuring world-class amenities, breathtaking views, and unmatched comfort, these rooms promise a stay like no other. Perfect for elite travelers seeking elegance, privacy, and personalized five-star service.', 'Lake Pichola, Rajasthan', 'room.webp'),
 (6, 'The Business Rooms', 249, 'Situated in Shinjuku, Hilton Tokyo caters to business travelers with modern meeting facilities, executive lounges, and high-speed internet. The hotel combines comfort and efficiency, offering sleek rooms, excellent dining options, and proximity to transport hubs and corporate districtsâ€”ideal for professionals on the go.', 'Hilton Tokyo, Japan', 'r2.jpg'),
 (7, 'Best Rest Room', 129, 'A restroom is a clean, private space designed for personal hygiene needs. It typically includes toilets, sinks, mirrors, and hand dryers or paper towels. Found in homes, workplaces, and public areas, restrooms ensure comfort, sanitation, and convenience for individuals of all ages and abilities.', 'Beverly Hills, California', 'room-6'),
 (8, 'Resort', 299, 'Nestled in Bali’s lush jungle, this eco resort blends sustainability with comfort. Guests enjoy open-air villas, organic food, and yoga retreats. Perfect for nature lovers and wellness travelers seeking peace, green living, and a genuine connection with the local environment and culture.', 'Eco Resort – Ubud, Bali, Indonesia', 'room-7.jpg'),
@@ -249,7 +255,7 @@ CREATE TABLE `service` (
   `title` text NOT NULL,
   `content` text NOT NULL,
   `icon` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `service`
@@ -273,7 +279,7 @@ CREATE TABLE `users` (
   `email` varchar(100) NOT NULL,
   `password` text NOT NULL,
   `avatar` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `users`
@@ -285,7 +291,8 @@ INSERT INTO `users` (`id`, `fullname`, `email`, `password`, `avatar`) VALUES
 (3, 'tirth', 'tirth@gmail.com', '$2y$10$sdit/S1CcLvH9ByjP6dtceri.9vs6yxrTGdtUaMXYLLQ53f4u23Ge', 'admin/images/user-profile.jpg'),
 (4, 'user', 'user@gmail.com', '123', 'admin/images/user-profile.jpg'),
 (5, 'Tirth', 'abc@gmail.com', 'abc123', 'admin/images/1757127997_unnamed.png'),
-(6, 'Het ', 'het@gmail.com', 'het123', 'admin/images/1757253156_user1.png');
+(6, 'Het ', 'het@gmail.com', 'het123', 'admin/images/1757253156_user1.png'),
+(7, 'Yanshu ', 'y@gmail.com', '123', '');
 
 --
 -- Indexes for dumped tables
@@ -382,7 +389,7 @@ ALTER TABLE `destination`
 -- AUTO_INCREMENT for table `hotelbookings`
 --
 ALTER TABLE `hotelbookings`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `hotels`
@@ -394,7 +401,7 @@ ALTER TABLE `hotels`
 -- AUTO_INCREMENT for table `payments`
 --
 ALTER TABLE `payments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `restaurant`
@@ -412,13 +419,13 @@ ALTER TABLE `room`
 -- AUTO_INCREMENT for table `service`
 --
 ALTER TABLE `service`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- Constraints for dumped tables

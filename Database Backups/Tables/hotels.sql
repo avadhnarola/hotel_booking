@@ -1,13 +1,14 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 4.8.5
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 07, 2025 at 04:04 PM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- Generation Time: Sep 11, 2025 at 06:36 AM
+-- Server version: 10.1.38-MariaDB
+-- PHP Version: 5.6.40
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -38,21 +39,21 @@ CREATE TABLE `hotels` (
   `room_images` text NOT NULL,
   `description` text NOT NULL,
   `services` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `hotels`
 --
 
 INSERT INTO `hotels` (`id`, `name`, `price`, `location`, `star`, `rate`, `image`, `room_images`, `description`, `services`) VALUES
-(1, 'Burjâe Alâc¯Arab Jumeirah', 1599, 'UAE , Dubai', 5, 100, 'dubai61-550x550.jpg', '1757132983_img1.webp,1757132983_img2.avif,1757132983_img3.jpg,1757132983_img4.jpg', 'Burj Al Arab, Dubai’s iconic sail-shaped luxury hotel, offers world-class suites, dining, and unmatched Arabian hospitality with breathtaking Gulf views.\r\n', 'wifi,swimming pool,breakfast,parking,air conditioning'),
+(1, 'Burj Al Arab ', 1599, 'UAE , Dubai', 5, 100, 'dubai61-550x550.jpg', '1757132983_img1.webp,1757132983_img2.avif,1757132983_img3.jpg,1757132983_img4.jpg', 'Burj Al Arab, Dubai iconic sail-shaped luxury hotel, offers world-class suites, dining, and unmatched Arabian hospitality with breathtaking Gulf views.\r\n', 'wifi,swimming pool,breakfast,parking,air conditioning'),
 (2, 'The Beverly Hills Hotel ', 5000, 'Los Angeles', 4, 90, 'The Beverly Hills Hotel.jpg', '1757133200_img6.jpg,1757133200_img5.webp,1757133200_img7.jpg,1757133200_img8.jpg', 'The Beverly Hills Hotel, Los Angeles, is a legendary luxury retreat, famed for Hollywood glamour, iconic pink façade, and timeless elegance.\r\n', 'wifi,swimming pool,air conditioning'),
 (3, 'Cervo Mountain Resort ', 899, 'Switzerland', 3, 85, '1757141271_img9.webp', '1757141271_img10.jpg,1757141271_img11.jpg,1757141271_img12.jpg', 'Cervo Mountain Resort blends Alpine luxury and modern design, offering cozy chalets, fine dining, wellness spa, and breathtaking Swiss mountain views.\r\n', 'wifi,breakfast,air conditioning'),
 (4, 'Buffalo Mountain Lodge', 599, 'Canada', 2, 70, 'Buffalo Mountain Lodge.jpg', '1757221080_ig1.webp,1757221080_ig2.webp,1757221080_ig4.webp,1757221080_ig3.jpg', 'Buffalo Mountain Lodge, Canada offers rustic charm, cozy mountain-inspired rooms, fine dining, and breathtaking Rocky Mountain views for a serene escape.\r\n', 'breakfast,parking,air conditioning'),
 (5, 'Lemon Tree ', 5999, 'Rishikesh', 5, 100, 'Lemon Tree.jpg', '1757221434_IG9.jpg,1757221434_ig6.jpg,1757221434_ig7.jpg,1757221434_ig8.webp', 'Lemon Tree, Rishikesh offers riverside views, modern comfort, serene ambiance, wellness facilities, and warm hospitality amidst the scenic Himalayan foothills.\r\n', 'wifi,swimming pool,breakfast,parking,air conditioning'),
 (6, 'Park Hyatt Tokyo ', 5000, 'Japan', 4, 84, 'Park Hyatt Tokyo.jpg', '1757222762_i1.jpg,1757222762_i2.webp,1757222762_i3.jpg,1757222762_i4.jpg', 'Park Hyatt Tokyo offers luxury in Shinjuku with elegant rooms, skyline views, fine dining, spa, and exceptional Japanese hospitality.\r\n', 'wifi,swimming pool,breakfast,air conditioning'),
-(15, 'Four Seasons Hotel George', 1299, 'Paris – France', 4, 99, '1757223139_i.jpg', '1757223139_i5.jpg,1757223139_i6.webp,1757223139_i7.jpeg,1757223139_i8.jpg,1757223139_i9.webp', 'Four Seasons George V Paris epitomizes elegance with lavish suites, Michelin-star dining, stunning floral artistry, spa indulgence, and exceptional service.', 'wifi,swimming pool,breakfast,parking,air conditioning'),
-(16, 'Dana Grimes', 202, 'Dolore asperiores mi', 5, 66, '1757080863_slider-2.jpg', '1757080863_2.jpg,1757080863_slider-3.jpg,1757080863_room-7.avif', 'Velit amet dolore ', 'wifi,swimming pool,air conditioning');
+(15, 'Four Seasons Hotel George', 1299, 'Paris France', 4, 99, '1757223139_i.jpg', '1757223139_i5.jpg,1757223139_i6.webp,1757223139_i7.jpeg,1757223139_i8.jpg,1757223139_i9.webp', 'Four Seasons George V Paris epitomizes elegance with lavish suites, Michelin-star dining, stunning floral artistry, spa indulgence, and exceptional service.', 'wifi,swimming pool,breakfast,parking,air conditioning'),
+(16, 'Sentido Reef Oasis ', 1299, 'Egypt', 5, 79, '1757080863_slider-2.jpg', '1757561353_0-0_88901727373094.jpg,1757561353_SENTIDO-REEF-OASIS-SHARM-EL-SHEIKH-466.jpg,1757561353_comfort-room.jpg,1757561353_orig.jpg', 'Velit amet dolore ', 'wifi,swimming pool,air conditioning');
 
 --
 -- Indexes for dumped tables

@@ -72,7 +72,7 @@ $res = mysqli_query($conn, $select);
             <h2>View Destinations</h2>
 
             <!-- Search Input -->
-            <input type="text" id="search-box" placeholder="🔍 Search destinations by location, days, price, or rate..." />
+            <input type="text" id="search-box" placeholder="🔍 Search destinations by location, days, price, or rate..."  class="form-control mb-3" style="max-width: 300px;"  />
 
             
             <!-- Table Container -->

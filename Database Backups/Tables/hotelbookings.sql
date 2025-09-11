@@ -1,13 +1,14 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 4.8.5
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 07, 2025 at 04:04 PM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- Generation Time: Sep 11, 2025 at 06:36 AM
+-- Server version: 10.1.38-MariaDB
+-- PHP Version: 5.6.40
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -35,8 +36,8 @@ CREATE TABLE `hotelbookings` (
   `checkout_date` date NOT NULL,
   `guests` int(11) NOT NULL,
   `payment_status` text NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `hotelbookings`
@@ -49,7 +50,10 @@ INSERT INTO `hotelbookings` (`id`, `user_id`, `hotel_id`, `checkin_date`, `check
 (9, 5, 15, '2025-09-12', '2025-09-14', 3, 'Pending', '2025-09-06 04:01:43'),
 (10, 1, 5, '2025-09-13', '2025-09-17', 5, 'Paid Successfully', '2025-09-07 05:32:52'),
 (11, 5, 4, '2025-09-14', '2025-09-26', 5, 'Paid Successfully', '2025-09-07 11:31:33'),
-(12, 6, 16, '2025-09-20', '2025-09-24', 5, 'Paid Successfully', '2025-09-07 13:54:02');
+(12, 6, 16, '2025-09-20', '2025-09-24', 5, 'Paid Successfully', '2025-09-07 13:54:02'),
+(13, 7, 3, '2025-09-17', '2025-09-21', 5, 'Paid Successfully', '2025-09-08 03:19:25'),
+(14, 4, 5, '2025-09-18', '2025-09-25', 10, 'Paid Successfully', '2025-09-08 03:34:52'),
+(15, 1, 16, '2025-09-19', '2025-09-20', 2, 'Paid Successfully', '2025-09-11 03:29:46');
 
 --
 -- Indexes for dumped tables
@@ -71,7 +75,7 @@ ALTER TABLE `hotelbookings`
 -- AUTO_INCREMENT for table `hotelbookings`
 --
 ALTER TABLE `hotelbookings`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- Constraints for dumped tables

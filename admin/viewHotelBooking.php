@@ -92,7 +92,7 @@ $res = mysqli_query($conn, $select);
         <div class="admin-panel">
             <h2>Booking Details</h2>
             <input type="text" id="search-box"
-                placeholder="🔍 Search by Name, User, Hotel, Guests, Check-in or Check-out..." />
+                placeholder="🔍 Search by Name, User, Hotel, Guests, Check-in or Check-out..." class="form-control mb-3" style="max-width: 300px;"  />
 
             <div class="table-responsive" id="booking-data">
                 <table class="table table-light table-hover table-striped">

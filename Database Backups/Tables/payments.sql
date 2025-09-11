@@ -1,13 +1,14 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 4.8.5
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 07, 2025 at 04:04 PM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- Generation Time: Sep 11, 2025 at 06:36 AM
+-- Server version: 10.1.38-MariaDB
+-- PHP Version: 5.6.40
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -34,18 +35,21 @@ CREATE TABLE `payments` (
   `amount` decimal(10,2) NOT NULL,
   `method` varchar(50) NOT NULL,
   `status` varchar(50) DEFAULT 'Success',
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `payments`
 --
 
 INSERT INTO `payments` (`id`, `user_id`, `booking_id`, `amount`, `method`, `status`, `created_at`) VALUES
-(1, 5, 11, 7188.00, 'UPI/QR', 'Success', '2025-09-07 11:52:42'),
-(2, 5, 8, 202.00, 'Credit Card', 'Success', '2025-09-07 11:55:05'),
-(3, 1, 10, 23996.00, 'UPI/QR', 'Success', '2025-09-07 13:25:53'),
-(4, 6, 12, 808.00, 'Credit Card', 'Success', '2025-09-07 13:54:30');
+(1, 5, 11, '7188.00', 'UPI/QR', 'Success', '2025-09-07 11:52:42'),
+(2, 5, 8, '202.00', 'Credit Card', 'Success', '2025-09-07 11:55:05'),
+(3, 1, 10, '23996.00', 'UPI/QR', 'Success', '2025-09-07 13:25:53'),
+(4, 6, 12, '808.00', 'Credit Card', 'Success', '2025-09-07 13:54:30'),
+(5, 7, 13, '3596.00', 'UPI/QR', 'Success', '2025-09-08 03:19:46'),
+(6, 4, 14, '41993.00', 'Credit Card', 'Success', '2025-09-08 03:43:32'),
+(7, 1, 15, '1299.00', 'UPI/QR', 'Success', '2025-09-11 03:30:09');
 
 --
 -- Indexes for dumped tables
@@ -67,7 +71,7 @@ ALTER TABLE `payments`
 -- AUTO_INCREMENT for table `payments`
 --
 ALTER TABLE `payments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- Constraints for dumped tables
