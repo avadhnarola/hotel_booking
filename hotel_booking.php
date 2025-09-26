@@ -123,7 +123,7 @@ if (!empty($hotel['services'])) {
 
         .hotel-price {
             font-size: 22px;
-            color: #FF6F61;
+            color: #oc3b2e;
             font-weight: bold;
         }
 
@@ -194,11 +194,11 @@ if (!empty($hotel['services'])) {
             gap: 8px;
             padding: 5px 25px;
             background-color: transparent;
-            color: #FF6F61;
+            color: #oc3b2e;
             /* Gold text */
             font-size: 16px;
             margin-top: 5px;
-            border: 2px solid #FF6F61;
+            border: 2px solid #oc3b2e;
             /* Gold border */
             border-radius: 50px;
             text-decoration: none;
@@ -208,12 +208,12 @@ if (!empty($hotel['services'])) {
 
         .premium-btn i {
             font-size: 14px;
-            color: #FF6F61;
+            color: #oc3b2e;
         }
 
         /* Hover Effects */
         .premium-btn:hover {
-            background-color: #FF6F61;
+            background-color: #oc3b2e;
             color: #fff;
             /* Purple text */
             transform: scale(1.08);
@@ -477,7 +477,7 @@ if (!empty($hotel['services'])) {
 
         .room-images img:hover {
             transform: scale(1.05);
-            border-color: #FF6F61;
+            border-color: #oc3b2e;
         }
     </style>
 </body>

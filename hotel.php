@@ -77,10 +77,10 @@ $hotels = mysqli_query($conn, "SELECT * FROM hotels ORDER BY id DESC LIMIT $limi
 			gap: 8px;
 			padding: 5px 25px;
 			background-color: transparent;
-			color: #FF6F61;
+			color: #oc3b2e;
 			font-size: 16px;
 			margin-top: 5px;
-			border: 2px solid #FF6F61;
+			border: 2px solid #oc3b2e;
 			border-radius: 50px;
 			text-decoration: none;
 			box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
@@ -89,12 +89,12 @@ $hotels = mysqli_query($conn, "SELECT * FROM hotels ORDER BY id DESC LIMIT $limi
 
 		.premium-btn i {
 			font-size: 14px;
-			color: #FF6F61;
+			color: #oc3b2e;
 		}
 
 		/* Hover Effects */
 		.premium-btn:hover {
-			background-color: #FF6F61;
+			background-color: #oc3b2e;
 			color: #fff;
 			transform: scale(1.08);
 			text-decoration: none;
@@ -202,7 +202,7 @@ $hotels = mysqli_query($conn, "SELECT * FROM hotels ORDER BY id DESC LIMIT $limi
 	<section class="ftco-section">
 		<div class="container">
 			<div class="row">
-				<div class="col-lg-9 pr-lg-4">
+				<div class="col-lg-12 pr-lg-4">
 					<div class="row">
 						<?php while ($row = mysqli_fetch_assoc($hotels)) { ?>
 							<div class="col-md-6 col-lg-4 ftco-animate">
@@ -216,7 +216,8 @@ $hotels = mysqli_query($conn, "SELECT * FROM hotels ORDER BY id DESC LIMIT $limi
 									<div class="text">
 										<h4 class="price">$<?php echo $row['price']; ?></h4>
 										<h3><a href="#"><?php echo $row['name']; ?></a></h3>
-										<h6 class="location"><i class="fas fa-map-marker-alt" style="margin-right:8px;"></i><?php echo $row['location']; ?></h6>
+										<h6 class="location"><i class="fas fa-map-marker-alt"
+												style="margin-right:8px;"></i><?php echo $row['location']; ?></h6>
 										<div class="star d-flex clearfix">
 											<div class="mr-auto float-left">
 												<?php
@@ -269,78 +270,6 @@ $hotels = mysqli_query($conn, "SELECT * FROM hotels ORDER BY id DESC LIMIT $limi
 						</div>
 					</div>
 
-				</div> <!-- end -->
-
-				<div class="col-lg-3 p-4 bg-light">
-					<div class="search-wrap-1 ftco-animate">
-						<h2 class="mb-3">Find Hotel</h2>
-						<form action="#" class="search-property-1">
-							<div class="row">
-								<div class="col-lg-12 align-items-end mb-3">
-									<div class="form-group">
-										<label for="#">Places</label>
-										<div class="form-field">
-											<div class="icon"><span class="ion-ios-search"></span></div>
-											<input type="text" class="form-control" placeholder="Search place">
-										</div>
-									</div>
-								</div>
-								<div class="col-lg-12 align-items-end mb-3">
-									<div class="form-group">
-										<label for="#">Check-in date</label>
-										<div class="form-field">
-											<div class="icon"><span class="ion-ios-calendar"></span></div>
-											<input type="text" class="form-control checkin_date"
-												placeholder="Check In Date">
-										</div>
-									</div>
-								</div>
-								<div class="col-lg-12 align-items-end mb-3">
-									<div class="form-group">
-										<label for="#">Check-out date</label>
-										<div class="form-field">
-											<div class="icon"><span class="ion-ios-calendar"></span></div>
-											<input type="text" class="form-control checkout_date"
-												placeholder="Check Out Date">
-										</div>
-									</div>
-								</div>
-								<div class="col-lg-12 align-items-end mb-3">
-									<div class="form-group">
-										<label for="#">Price Limit</label>
-										<div class="form-field">
-											<div class="select-wrap">
-												<div class="icon"><span class="ion-ios-arrow-down"></span></div>
-												<select name="" id="" class="form-control">
-													<option value="">$5,000</option>
-													<option value="">$10,000</option>
-													<option value="">$50,000</option>
-													<option value="">$100,000</option>
-													<option value="">$200,000</option>
-													<option value="">$300,000</option>
-													<option value="">$400,000</option>
-													<option value="">$500,000</option>
-													<option value="">$600,000</option>
-													<option value="">$700,000</option>
-													<option value="">$800,000</option>
-													<option value="">$900,000</option>
-													<option value="">$1,000,000</option>
-													<option value="">$2,000,000</option>
-												</select>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-lg-12 align-self-end">
-									<div class="form-group">
-										<div class="form-field">
-											<input type="submit" value="Search" class="form-control btn btn-primary">
-										</div>
-									</div>
-								</div>
-							</div>
-						</form>
-					</div>
 				</div> <!-- end -->
 			</div>
 		</div>

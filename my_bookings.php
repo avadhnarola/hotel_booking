@@ -86,7 +86,7 @@ $result = mysqli_query($conn, "
                         <?php if (strtolower($row['payment_status']) == 'paid successfully') { ?>
                             <b style="color:#28a745"><?php echo $row['payment_status']; ?></b>
                         <?php } else { ?>
-                            <b style="color:#FF6F61"><?php echo $row['payment_status']; ?></b>
+                            <b style="color:#oc3b2e"><?php echo $row['payment_status']; ?></b>
                         <?php } ?>
                     </p>
                 </div>
@@ -113,7 +113,7 @@ $result = mysqli_query($conn, "
         <?php } ?>
     <?php } else { ?>
         <div class="no-bookings text-center">
-            <i class="fas fa-info-circle fa-2x mb-3" style="color:#FF6F61;"></i>
+            <i class="fas fa-info-circle fa-2x mb-3" style="color:#oc3b2e;"></i>
             <p>You haven’t booked any hotels yet.</p>
             <a href="hotel.php" class="back-btn"><i class="fas fa-hotel"></i> Browse Hotels</a>
         </div>
@@ -182,12 +182,12 @@ $result = mysqli_query($conn, "
     }
 
     .hotel-services i {
-        color: #FF6F61;
+        color: #oc3b2e;
         margin-right: 6px;
     }
 
     .hotel-price {
-        color: #FF6F61;
+        color: #oc3b2e;
         font-size: 18px;
         font-weight: bold;
         margin-bottom: 10px;

@@ -10051,7 +10051,7 @@ button.list-group-item-gray.active {
   color: rgba(255, 255, 255, 0.8);
 }
 
-.navbar-dark .navbar-nav .nav-link.disabled {
+.#fff.disabled {
   color: rgba(255, 255, 255, 0.4) !important;
 }
 

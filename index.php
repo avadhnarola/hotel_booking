@@ -43,7 +43,7 @@ if (isset($_POST['bookingSubmit'])) {
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
 
 	<link rel="stylesheet" href="css/open-iconic-bootstrap.min.css">
 	<link rel="stylesheet" href="css/animate.css">
@@ -59,6 +59,7 @@ if (isset($_POST['bookingSubmit'])) {
 	<link rel="stylesheet" href="css/flaticon.css">
 	<link rel="stylesheet" href="css/icomoon.css">
 	<link rel="stylesheet" href="css/style.css">
+
 
 	<style>
 		.img {
@@ -78,6 +79,113 @@ if (isset($_POST['bookingSubmit'])) {
 
 		.main-img {
 			height: 400px;
+		}
+
+		/* Container */
+		.search-container {
+			background: #fff;
+			padding: 30px 40px;
+			border-radius: 15px;
+			box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+			max-width: 1000px;
+			width: 100%;
+		}
+
+		.search-container h2 {
+			text-align: center;
+			margin-bottom: 10px;
+			color: #333;
+		}
+
+		.search-container p {
+			text-align: center;
+			margin-bottom: 30px;
+			color: #666;
+		}
+
+		/* Form layout */
+		.search-form {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 20px;
+		}
+
+		.search-form{
+			background-color: #fff;
+			border-radius: 15px;
+			box-shadow: 0px 5px 20px rgba(0,0,0,0.1);
+		}
+
+		.form-field {
+			position: relative;
+			flex: 1 1 200px;
+		}
+
+		.form-field label {
+			display: block;
+			margin-bottom: 5px;
+			font-weight: 600;
+			color: #333;
+		}
+
+		.form-field input,
+		.form-field select {
+			width: 100%;
+			padding: 12px 40px 12px 15px;
+			border: 1px solid #ccc;
+			border-radius: 8px;
+			outline: none;
+			font-size: 16px;
+			transition: all 0.3s;
+		}
+
+		.form-field input:focus,
+		.form-field select:focus {
+			border-color: #007bff;
+			box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
+		}
+
+		.form-field .icon {
+			position: absolute;
+			top: 50%;
+			left: 12px;
+			transform: translateY(-50%);
+			color: #888;
+			font-size: 18px;
+		}
+
+		/* Submit button */
+		.form-submit {
+			flex: 1 1 150px;
+			align-self: flex-end;
+		}
+
+		.form-submit button {
+			width: 100%;
+			padding: 12px;
+			background: #ffba00;
+			color: #0c3b2e;
+			font-size: 16px;
+			font-weight: 600;
+			border: none;
+			border-radius: 8px;
+			cursor: pointer;
+			transition: background 0.3s;
+		}
+
+		.form-submit button:hover {
+			background: #ffba00;
+		}
+
+		/* Responsive */
+		@media (max-width: 768px) {
+			.search-form {
+				flex-direction: column;
+			}
+
+			.form-submit {
+				align-self: stretch;
+			}
 		}
 	</style>
 </head>
@@ -143,7 +251,7 @@ if (isset($_POST['bookingSubmit'])) {
 						<div class="img" style="background-image:url(images/bg_1.jpg);">
 							<div class="overlay"></div>
 						</div>
-						<div class="bg-primary">
+						<div class="bg-primary" style="background-color: #0c3b2e;">
 							<div class="vr"><span class="pl-3 py-4"
 									style="background-image: url(images/bg_1-1.jpg);">Greece</span></div>
 						</div>
@@ -195,81 +303,57 @@ if (isset($_POST['bookingSubmit'])) {
 </section>
 
 <section class="ftco-section ftco-no-pb ftco-no-pt">
-	<div class="container">
+	<div class="container text-center mt-5">
 		<div class="row justify-content-center pb-0 pb-mb-5 pt-5 pt-md-0">
 			<div class="col-md-12 heading-section ftco-animate">
-				<span class="subheading">Unique &amp; Healthy</span>
+
 				<h2 class="mb-4">Where do you want to go?</h2>
 				<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia</p>
 			</div>
 		</div>
-		<div class="row">
-			<div class="col-md-12">
-				<div class="search-wrap-1 ftco-animate p-4">
-					<form action="#" class="search-property-1">
-						<div class="row">
-							<div class="col-lg align-items-end">
-								<div class="form-group">
-									<label for="#">Destination</label>
-									<div class="form-field">
-										<div class="icon"><span class="ion-ios-search"></span></div>
-										<input type="text" class="form-control" placeholder="Search place">
-									</div>
-								</div>
-							</div>
-							<div class="col-lg align-items-end">
-								<div class="form-group">
-									<label for="#">Check-in date</label>
-									<div class="form-field">
-										<div class="icon"><span class="ion-ios-calendar"></span></div>
-										<input type="text" class="form-control checkin_date"
-											placeholder="Check In Date">
-									</div>
-								</div>
-							</div>
-							<div class="col-lg align-items-end">
-								<div class="form-group">
-									<label for="#">Check-out date</label>
-									<div class="form-field">
-										<div class="icon"><span class="ion-ios-calendar"></span></div>
-										<input type="text" class="form-control checkout_date"
-											placeholder="Check Out Date">
-									</div>
-								</div>
-							</div>
-							<div class="col-lg align-items-end">
-								<div class="form-group">
-									<label for="#">Price Limit</label>
-									<div class="form-field">
-										<div class="select-wrap">
-											<div class="icon"><span class="ion-ios-arrow-down"></span></div>
-											<select name="" id="" class="form-control">
-												<option value="">$5,000</option>
-												<option value="">$10,000</option>
-												<option value="">$50,000</option>
-												<option value="">$100,000</option>
-												<option value="">$200,000</option>
-												<option value="">$300,000</option>
-												<option value="">$400,000</option>
-												<option value="">$500,000</option>
-												<option value="">$600,000</option>
-												<option value="">$700,000</option>
-												<option value="">$800,000</option>
-												<option value="">$900,000</option>
-												<option value="">$1,000,000</option>
-												<option value="">$2,000,000</option>
-											</select>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="col-lg align-self-end">
-								<div class="form-group">
-									<div class="form-field">
-										<input type="submit" value="Search" class="form-control btn btn-primary">
-									</div>
-								</div>
-							</div>
+		<div class="row justify-content-center">
+			<div class="col-md-10">
+				<div class="search-wrap">
+					<form class="search-form" action="#">
+						<!-- Destination -->
+						<div class="form-field">
+							<label for="destination">Destination</label>
+							
+							<input type="text" id="destination" placeholder="Search place">
+						</div>
+
+						<!-- Check-in -->
+						<div class="form-field">
+							<label for="checkin">Check-in</label>
+							
+							<input type="date" id="checkin">
+						</div>
+
+						<!-- Check-out -->
+						<div class="form-field">
+						
+							<label for="checkout">Check-out</label>
+							<input type="date" id="checkout">
+						</div>
+
+						<!-- Price Limit -->
+						<div class="form-field">
+							<label for="price">Price Limit</label>
+							
+							<select id="price">
+								<option value="">$5,000</option>
+								<option value="">$10,000</option>
+								<option value="">$50,000</option>
+								<option value="">$100,000</option>
+								<option value="">$200,000</option>
+								<option value="">$500,000</option>
+								<option value="">$1,000,000</option>
+							</select>
+						</div>
+
+						<!-- Submit -->
+						<div class="form-submit">
+							<button type="submit">Search</button>
 						</div>
 					</form>
 				</div>
@@ -313,10 +397,10 @@ if (isset($_POST['bookingSubmit'])) {
 					style="background-image:url(images/about.jpg);">
 				</div>
 			</div>
-			<div class="col-md-6 col-lg-7 px-lg-5 py-md-5 bg-darken">
+			<div class="col-md-6 col-lg-7 px-lg-5 py-md-5" style="background-color: #6d9773;">
 				<div class="py-md-5">
 					<div class="row justify-content-start pb-3">
-						<div class="col-md-12 heading-section ftco-animate p-5 p-lg-0">
+						<div class="col-md-12 heading-section22 heading-section ftco-animate p-5 p-lg-0">
 							<span class="subheading">Get in touch with us</span>
 							<h2 class="mb-4">Get Best Travel Deals</h2>
 							<p>A small river named Duden flows by their place and supplies it with the necessary
@@ -480,8 +564,8 @@ if (isset($_POST['bookingSubmit'])) {
 </section>
 
 <section class="ftco-section testimony-section">
-	<img src="images/blob-shape-2.svg" class="svg-blob" alt="Colorlib Free Template">
-	<img src="images/blob-shape-2.svg" class="svg-blob-2" alt="Colorlib Free Template">
+	<img src="images/blob-shape-2-yellow.svg" class="svg-blob" alt="Colorlib Free Template">
+	<img src="images/blob-shape-2-yellow.svg" class="svg-blob-2" alt="Colorlib Free Template">
 	<div class="container">
 		<div class="row justify-content-center pb-3">
 			<div class="col-md-7 text-center heading-section heading-section-white ftco-animate">
