@@ -123,12 +123,12 @@ if (!empty($hotel['services'])) {
 
         .hotel-price {
             font-size: 22px;
-            color: #oc3b2e;
+            color: #D4AF37;
             font-weight: bold;
         }
 
         .star-rating i {
-            color: #ffc107;
+            color: #b46617;
             font-size: 18px;
         }
 
@@ -160,6 +160,10 @@ if (!empty($hotel['services'])) {
             transform: scale(1.05);
         }
 
+        .hotel-title {
+            color: #063e2b;
+        }
+
         /* Services */
         .hotel-services {
             margin-top: 20px;
@@ -168,6 +172,7 @@ if (!empty($hotel['services'])) {
         .hotel-services h5 {
             margin-bottom: 10px;
             font-weight: 600;
+            color: #063e2b;
         }
 
         .hotel-services span {
@@ -183,7 +188,7 @@ if (!empty($hotel['services'])) {
 
         .hotel-services i {
             margin-right: 6px;
-            color: #17a2b8;
+            color: #ffba00;
         }
 
         /* Premium Button Styling */
@@ -225,16 +230,131 @@ if (!empty($hotel['services'])) {
         }
 
         .logout-icon {
-            color: #dc3545;
+            color: #ffba00;
             font-size: 22px;
             margin-left: 10px;
             transition: all 0.3s ease-in-out;
         }
 
         .logout-icon:hover {
-            color: #b02a37;
+            color: #ffba00;
             transform: scale(1.3) rotate(-15deg);
             text-decoration: none;
+        }
+
+        /* Container */
+        .search-container {
+            background: #fff;
+            padding: 30px 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            max-width: 1000px;
+            width: 100%;
+        }
+
+        .search-container h2 {
+            text-align: center;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .search-container p {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #666;
+        }
+
+        /* Form layout */
+        .search-form {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .search-form {
+            background-color: #fff;
+            border-radius: 15px;
+            box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-field {
+            position: relative;
+            flex: 1 1 200px;
+        }
+
+        .form-field label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-field input,
+        .form-field select {
+            width: 100%;
+            padding: 12px 40px 12px 15px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            outline: none;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        .form-field input:focus,
+        .form-field select:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
+        }
+
+        .form-field .icon {
+            position: absolute;
+            top: 50%;
+            left: 12px;
+            transform: translateY(-50%);
+            color: #888;
+            font-size: 18px;
+        }
+
+        /* Submit button */
+        .form-submit {
+            flex: 1 1 150px;
+            align-self: flex-end;
+        }
+
+        .form-submit button {
+            width: 100%;
+            padding: 12px;
+            background: #ffba00;
+            color: #0c3b2e;
+            font-size: 16px;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .form-submit button:hover {
+            background: #ffba00;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .search-form {
+                flex-direction: column;
+            }
+
+            .form-submit {
+                align-self: stretch;
+            }
+        }
+
+        .form-submit .btn-back {
+            background-color: #6d9773 !important;
+        }
+
+        .form-submit .btn-back:hover {
+            background-color: #6d9773;
         }
     </style>
 </head>
@@ -293,7 +413,7 @@ if (!empty($hotel['services'])) {
                         <img src="<?php echo $_SESSION['user']['avatar'] ?: './admin/images/user-profile.jpg'; ?>"
                             alt="Avatar" class="rounded-circle mr-2" style="width:40px; height:40px; object-fit:cover; ">
                         <span class="text-black mr-3"
-                            style="color:#000;"><?php echo htmlspecialchars($_SESSION['user']['fullname']); ?></span>
+                            style="color:#fff;"><?php echo htmlspecialchars($_SESSION['user']['fullname']); ?></span>
 
                         <a href="logout.php" class="logout-icon" title="Logout" onclick="return confirmLogout();">
                             <i class="fas fa-door-open"></i>
@@ -339,7 +459,8 @@ if (!empty($hotel['services'])) {
             <div class="col-md-6">
                 <div class="hotel-details">
                     <h2 class="hotel-title"><?php echo htmlspecialchars($hotel['name']); ?></h2>
-                    <h6><i class="fa fa-map-marker-alt"></i> <?php echo $hotel['location']; ?></h6>
+                    <h6 style="color: #00BFA6;"><i class="fa fa-map-marker-alt"></i> <?php echo $hotel['location']; ?>
+                    </h6>
                     <p class="hotel-price">$<?php echo $hotel['price']; ?> / night</p>
 
                     <div class="star-rating mb-3">
@@ -419,27 +540,44 @@ if (!empty($hotel['services'])) {
                     <div class="alert alert-danger"><?php echo $error; ?></div>
                 <?php endif; ?>
 
-                <form method="POST">
-                    <h4 class="mb-3">Book Your Stay</h4>
-                    <div class="form-row">
-                        <div class="form-group col-md-4">
-                            <label>Check-in Date</label>
-                            <input type="date" name="checkin_date" class="form-control" required
-                                min="<?php echo date('Y-m-d'); ?>">
-                        </div>
-                        <div class="form-group col-md-4">
-                            <label>Check-out Date</label>
-                            <input type="date" name="checkout_date" class="form-control" required
-                                min="<?php echo date('Y-m-d', strtotime('+1 day')); ?>">
-                        </div>
-                        <div class="form-group col-md-4">
-                            <label>Guests</label>
-                            <input type="number" name="guests" class="form-control" min="1" required>
+
+                <div class="row justify-content-center">
+                    <div class="col-md-10">
+                        <h4 class="mb-3">Book Your Stay</h4>
+                        <div class="search-wrap">
+                            <form class="search-form" method="post">
+                                <!-- Check-in -->
+                                <div class="form-field">
+                                    <label for="checkin">Check-in</label>
+                                    <input type="date" name="checkin_date" class="form-control" required
+                                        min="<?php echo date('Y-m-d'); ?>">
+                                </div>
+
+                                <!-- Check-out -->
+                                <div class="form-field">
+
+                                    <label for="checkout">Check-out</label>
+                                    <input type="date" name="checkout_date" class="form-control" required
+                                        min="<?php echo date('Y-m-d', strtotime('+1 day')); ?>">
+
+                                </div>
+                                <div class="form-field">
+                                    <label>Guests</label>
+                                    <input type="number" name="guests" class="form-control" min="1" required>
+                                </div>
+
+                                <!-- Submit -->
+                                <div class="form-submit">
+                                    <div class="row justify-content-center ">
+                                        <button type="submit" class="col-lg-4">Book Now</button>
+                                        <button class="col-lg-4 btn-back ml-3" style="font-weight: 400;"><a href="hotel.php">Back to
+                                                Hotels</a></button>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-success">Book Now</button>
-                    <a href="hotel.php" class="btn btn-secondary">Back to Hotels</a>
-                </form>
+                </div>
             </div>
         </div>
     </div>

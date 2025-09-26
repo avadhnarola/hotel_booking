@@ -3,6 +3,12 @@ ob_start();
 include("../db.php");
 include("header.php");
 
+if (!isset($_SESSION['admin_id'])) {
+    header("location:index.php");
+} else {
+    header("loaction:dashboard.php");
+}
+
 if (isset($_GET['u_id'])) {
     $id = $_GET['u_id'];
     $res = mysqli_query($conn, "SELECT * FROM Room WHERE id=$id");

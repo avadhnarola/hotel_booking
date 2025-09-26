@@ -1,5 +1,10 @@
 <?php
 include("../db.php");
+if (!isset($_SESSION['admin_id'])) {
+    header("location:index.php");
+} else {
+    header("loaction:dashboard.php");
+}
 
 $search = isset($_POST['query']) ? mysqli_real_escape_string($conn, $_POST['query']) : '';
 

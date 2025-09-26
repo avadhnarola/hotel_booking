@@ -41,23 +41,24 @@ $qrCodeUrl = "https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=" . 
 
 <div class="container" style="margin-top: 120px; margin-bottom: 50px; max-width:650px;">
     <div class="payment-card">
-        <h2 class="text-center mb-4"><i class="fas fa-credit-card" style="color:#28a745;"></i> Secure Payment</h2>
+        <h2 class="text-center mb-4" style="color:#063e2b;"><i class="fas fa-credit-card" style="color:#063e2b;"></i>
+            Secure Payment</h2>
 
         <!-- Booking Summary -->
         <div class="booking-summary mb-4">
-            <p><i class="fas fa-hotel" style="color:#007bff;"></i> <strong>Hotel:</strong>
+            <p><i class="fas fa-hotel" style="color:#063e2b;"></i> <strong>Hotel:</strong>
                 <?php echo htmlspecialchars($booking['name']); ?></p>
-            <p><i class="fas fa-map-marker-alt" style="color:#e63946;"></i> <strong>Location:</strong>
+            <p><i class="fas fa-map-marker-alt" style="color:#063e2b;"></i> <strong>Location:</strong>
                 <?php echo htmlspecialchars($booking['location']); ?></p>
-            <p><i class="fas fa-calendar-check" style="color:#17a2b8;"></i> <strong>Check-in:</strong>
+            <p><i class="fas fa-calendar-check" style="color:#063e2b;"></i> <strong>Check-in:</strong>
                 <?php echo htmlspecialchars($booking['checkin_date']); ?></p>
-            <p><i class="fas fa-calendar-times" style="color:#ff6f00;"></i> <strong>Check-out:</strong>
+            <p><i class="fas fa-calendar-times" style="color:#063e2b;"></i> <strong>Check-out:</strong>
                 <?php echo htmlspecialchars($booking['checkout_date']); ?></p>
-            <p><i class="fas fa-moon" style="color:#6f42c1;"></i> <strong>Nights:</strong> <?php echo $nights; ?></p>
-            <p><i class="fas fa-tag" style="color:#20c997;"></i> <strong>Price per Night:</strong>
+            <p><i class="fas fa-moon" style="color:#063e2b;"></i> <strong>Nights:</strong> <?php echo $nights; ?></p>
+            <p><i class="fas fa-tag" style="color:#063e2b;"></i> <strong>Price per Night:</strong>
                 ₹<?php echo $price_per_night; ?></p>
-            <p><i class="fas fa-wallet" style="color:#28a745;"></i> <strong>Final Amount:</strong>
-                <span style="color:#28a745; font-weight:bold;">₹<?php echo $total_amount; ?></span>
+            <p><i class="fas fa-wallet" style="color:#063e2b;"></i> <strong>Final Amount:</strong>
+                <span style="color:#063e2b; font-weight:bold;">₹<?php echo $total_amount; ?></span>
             </p>
         </div>
 
@@ -106,7 +107,7 @@ $qrCodeUrl = "https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=" . 
 
         <!-- Net Banking / QR Code -->
         <div id="netbanking-form" class="text-center" style="display:none;">
-            <h4><i class="fas fa-qrcode" style="color:#17a2b8;"></i> Scan & Pay</h4>
+            <h4 style="color:#063e2b"><i class="fas fa-qrcode" style="color:#063e2b;"></i> Scan & Pay</h4>
             <p>Pay <strong>₹<?php echo $total_amount; ?></strong> securely via UPI</p>
             <img src="<?php echo $qrCodeUrl; ?>" alt="QR Code"
                 style="max-width:250px; border:5px solid #f1f1f1; border-radius:10px;">
@@ -163,23 +164,31 @@ $qrCodeUrl = "https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=" . 
         box-shadow: 0 4px 15px rgba(66, 133, 244, 0.25);
     }
 
+    .booking-summary strong{
+        color: #063e2b;
+    }
+
     /* Buttons */
     .custom-btn {
         border-radius: 12px;
         padding: 12px 20px;
         font-size: 18px;
-        background: linear-gradient(45deg, #28a745, #218838);
+        background: #ffba00;
         color: #fff;
         font-weight: bold;
         border: none;
         transition: all 0.3s ease-in-out;
-        box-shadow: 0 8px 20px rgba(40, 167, 69, 0.4);
+
     }
 
     .custom-btn:hover {
-        background: linear-gradient(45deg, #218838, #1e7e34);
-        transform: translateY(-3px) scale(1.02);
-        box-shadow: 0 12px 25px rgba(40, 167, 69, 0.55);
+        background: #ffba00;
+        transform: translateY(-3px) scale(1.01);
+       
+    }
+
+    label{
+        color: #063e2b;
     }
 
     /* Inputs */

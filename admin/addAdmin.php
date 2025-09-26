@@ -2,11 +2,6 @@
 include_once '../db.php';
 session_start();
 
-if (isset($_SESSION['admin_id'])) {
-    header("location:dashboard.php");
-    exit();
-}
-
 if (isset($_POST['submit'])) {
     $username = $_POST['username'];
     $email = $_POST['email'];
@@ -36,7 +31,7 @@ if (isset($_POST['submit'])) {
     <!-- Custom Styles -->
     <style>
         body {
-            background: linear-gradient(135deg, #667eea, #764ba2);
+
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -51,7 +46,7 @@ if (isset($_POST['submit'])) {
         }
 
         .register-card .card-header {
-            background-color: #2a264e;
+            background-color: #0c3b3e;
             color: #fff;
             text-align: center;
             font-weight: bold;
@@ -65,21 +60,21 @@ if (isset($_POST['submit'])) {
 
         .form-control:focus {
             box-shadow: none;
-            border-color: #2a264e;
+            border-color: #0c3b3e;
         }
 
         .btn-primary {
-            background-color: #2a264e;
-            border-color: #2a264e;
+            background-color: #0c3b3e;
+            border-color: #0c3b3e;
         }
 
         .btn-primary:hover {
-            background-color: #5a4bd8;
-            border-color: #5a4bd8;
+            background-color: #6d9773;
+            border-color: #6d9773;
         }
 
         .input-group-text {
-            background-color: #2a264e;
+            background-color: #0c3b3e;
             color: #fff;
             border: none;
         }
@@ -93,6 +88,11 @@ if (isset($_POST['submit'])) {
             .register-card {
                 width: 90%;
             }
+        }
+
+        .text-center a {
+            color: #0c3b2e;
+            text-decoration: underline;
         }
     </style>
 </head>
@@ -130,9 +130,9 @@ if (isset($_POST['submit'])) {
                     </div>
                     <div id="passwordError" class="error-msg"></div>
                 </div>
-                <button type="submit" class="btn btn-primary w-100 mt-3" name="submit">Submit</button>
+                <button type="submit" class="btn btn-primary w-100 mt-3" name="submit">Register</button>
                 <div class="text-center mt-3">
-                    <p>Already have an account? <a href="index.php" class="text-decoration-none">Login</a></p>
+                    <p>Already have an account? <a href="index.php" class="text-decoration-underline">Login</a></p>
                 </div>
             </form>
         </div>

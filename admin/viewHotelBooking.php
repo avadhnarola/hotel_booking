@@ -3,6 +3,12 @@ ob_start();
 include("../db.php");
 include("header.php");
 
+if (!isset($_SESSION['admin_id'])) {
+    header("location:index.php");
+} else {
+    header("loaction:dashboard.php");
+}
+
 // Handle delete
 if (isset($_GET['d_id'])) {
     $id = intval($_GET['d_id']);

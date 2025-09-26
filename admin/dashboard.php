@@ -2,6 +2,12 @@
 include_once "header.php";
 include_once "../db.php";
 
+if (!isset($_SESSION['admin_id'])) {
+    header("location:index.php");
+} else {
+    header("loaction:dashboard.php");
+}
+
 // ---------------------- TOTAL SALES QUERY ----------------------
 $sql = "
     SELECT SUM(h.price * DATEDIFF(b.checkout_date, b.checkin_date)) AS total_sales
@@ -28,9 +34,9 @@ $complete_result = mysqli_query($conn, $completeOrder);
 
 if ($complete_result) {
   $completeOrder_rows = mysqli_fetch_assoc($complete_result);
-  echo "Total completed orders: " . $completeOrder_rows['total'];
+  // echo "Total completed orders: " . $completeOrder_rows['total'];
 } else {
-  echo "Query failed: " . mysqli_error($conn);
+  // echo "Query failed: " . mysqli_error($conn);
 }
 
 // ---------------------- FETCH PENDING TRANSACTIONS ----------------------
@@ -124,13 +130,13 @@ $transaction = mysqli_query($conn, $transactionQuery);
             <div class="row align-items-center">
               <div class="col-icon">
                 <div class="icon-big text-center icon-success bubble-shadow-small">
-                  <i class="fas fa-dollar-sign"></i>
+                  <i class="fas fa-rupee-sign"></i>
                 </div>
               </div>
               <div class="col col-stats ms-3 ms-sm-0">
                 <div class="numbers">
                   <p class="card-category">Sales</p>
-                  <h4 class="card-title">$<?php echo number_format($total_sales, 2); ?></h4>
+                  <h4 class="card-title">₹<?php echo number_format($total_sales, 2); ?></h4>
                 </div>
               </div>
             </div>
@@ -239,7 +245,7 @@ $transaction = mysqli_query($conn, $transactionQuery);
 
                         <!-- Amount -->
                         <td style="padding:15px; font-weight:600; color:#000;">
-                          $<?php echo number_format($row['amount'], 2); ?>
+                          ₹<?php echo number_format($row['amount'], 2); ?>
                         </td>
 
                         <!-- Status -->
@@ -306,7 +312,7 @@ $transaction = mysqli_query($conn, $transactionQuery);
                           <?php echo date("M d, Y, g:ia", strtotime($row['created_at'])); ?>
                         </td>
                         <td style="padding:15px; font-weight:600; color:#000;">
-                          $<?php echo number_format($row['price'], 2); ?>
+                          ₹<?php echo number_format($row['price'], 2); ?>
                         </td>
                         <td style="padding:15px;">
                           <span class="badge"

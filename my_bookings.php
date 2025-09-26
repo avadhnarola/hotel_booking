@@ -35,6 +35,164 @@ $result = mysqli_query($conn, "
 ");
 ?>
 
+
+<style>
+    body {
+        font-family: 'Poppins', sans-serif;
+        background-color: #f8f9fa;
+    }
+
+    .bookings-container {
+        max-width: 1100px;
+        margin: 40px auto;
+    }
+
+    .bookings-title {
+        font-size: 28px;
+        font-weight: 700;
+        color: #063e2b;
+        margin-bottom: 25px;
+    }
+
+    .booking-card {
+        background: #fff;
+        border-radius: 15px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        margin-bottom: 25px;
+        transition: 0.3s ease-in-out;
+    }
+
+    .booking-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    .booking-image {
+        width: 100%;
+        max-width: 280px;
+        height: 240px;
+        border-radius: 10px;
+        object-fit: cover;
+    }
+
+    .hotel-name {
+        font-size: 20px;
+        font-weight: 600;
+        color: #063e2b;
+    }
+
+    .hotel-location {
+        font-size: 14px;
+        color: #00BFA6;
+        margin-bottom: 10px;
+    }
+
+    .hotel-services p {
+        font-size: 14px;
+        margin: 3px 0;
+        color: #333;
+    }
+
+    .hotel-services i {
+        color: #ffba00;
+        margin-right: 6px;
+    }
+
+    .hotel-price {
+        color: #0c3b2e;
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    .btns {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 10px;
+        margin-top: 10px;
+    }
+
+    .pay-btn {
+        background: #ffba00;
+        color: #063b2e;
+        border-radius: 8px;
+        text-decoration: none;
+        transition: 0.3s;
+        width: 115px;
+        text-align: center;
+        padding: 6px;
+    }
+
+    .pay-btn:hover {
+        background: #ffba00;
+        color: #063e2b;
+    }
+
+    .cancel-btn {
+        background: #dc3545;
+        color: #fff;
+        border-radius: 8px;
+        text-decoration: none;
+        transition: 0.3s;
+        width: 170px;
+        text-align: center;
+        padding: 6px;
+    }
+
+    .cancel-btn:hover {
+        background: #c82333;
+    }
+
+    .no-bookings {
+        text-align: center;
+        padding: 40px;
+        background: #fff;
+        border-radius: 15px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        font-size: 18px;
+        color: #555;
+    }
+
+    .back-btn {
+        display: inline-block;
+        margin-top: 15px;
+        padding: 10px 20px;
+        background: #007bff;
+        color: #fff;
+        border-radius: 8px;
+        text-decoration: none;
+        transition: 0.3s;
+    }
+
+    .back-btn:hover {
+        background: #0056b3;
+    }
+
+    p{
+        color: #063b2e;
+    }
+
+    /* ===============================
+       Responsive Fixes
+    =============================== */
+    @media (max-width: 767px) {
+        .right-side {
+            text-align: left !important;
+        }
+
+        .btns {
+            justify-content: flex-start !important;
+        }
+
+        .hotel-price {
+            margin-top: 10px;
+        }
+    }
+</style>
+
+
 <!-- Page Content -->
 <div class="container bookings-container" style="margin-top: 120px; margin-bottom: 50px;">
     <h2 class="bookings-title text-center">
@@ -86,7 +244,7 @@ $result = mysqli_query($conn, "
                         <?php if (strtolower($row['payment_status']) == 'paid successfully') { ?>
                             <b style="color:#28a745"><?php echo $row['payment_status']; ?></b>
                         <?php } else { ?>
-                            <b style="color:#oc3b2e"><?php echo $row['payment_status']; ?></b>
+                            <b style="color:#b46617"><?php echo $row['payment_status']; ?></b>
                         <?php } ?>
                     </p>
                 </div>
@@ -121,155 +279,3 @@ $result = mysqli_query($conn, "
 </div>
 
 <?php include 'footer.php'; ?>
-
-<!-- Custom CSS -->
-<style>
-    body {
-        font-family: 'Poppins', sans-serif;
-        background-color: #f8f9fa;
-    }
-
-    .bookings-container {
-        max-width: 1100px;
-        margin: 40px auto;
-    }
-
-    .bookings-title {
-        font-size: 28px;
-        font-weight: 700;
-        color: #333;
-        margin-bottom: 25px;
-    }
-
-    .booking-card {
-        background: #fff;
-        border-radius: 15px;
-        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-        padding: 20px;
-        margin-bottom: 25px;
-        transition: 0.3s ease-in-out;
-    }
-
-    .booking-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-    }
-
-    .booking-image {
-        width: 100%;
-        max-width: 280px;
-        height: 240px;
-        border-radius: 10px;
-        object-fit: cover;
-    }
-
-    .hotel-name {
-        font-size: 20px;
-        font-weight: 600;
-        color: #222;
-    }
-
-    .hotel-location {
-        font-size: 14px;
-        color: #777;
-        margin-bottom: 10px;
-    }
-
-    .hotel-services p {
-        font-size: 14px;
-        margin: 3px 0;
-        color: #333;
-    }
-
-    .hotel-services i {
-        color: #oc3b2e;
-        margin-right: 6px;
-    }
-
-    .hotel-price {
-        color: #oc3b2e;
-        font-size: 18px;
-        font-weight: bold;
-        margin-bottom: 10px;
-    }
-
-    .btns {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        gap: 10px;
-        margin-top: 10px;
-    }
-
-    .pay-btn {
-        background: #28a745;
-        color: #fff;
-        border-radius: 8px;
-        text-decoration: none;
-        transition: 0.3s;
-        width: 115px;
-        text-align: center;
-        padding: 6px;
-    }
-
-    .pay-btn:hover {
-        background: #218838;
-    }
-
-    .cancel-btn {
-        background: #dc3545;
-        color: #fff;
-        border-radius: 8px;
-        text-decoration: none;
-        transition: 0.3s;
-        width: 170px;
-        text-align: center;
-        padding: 6px;
-    }
-
-    .cancel-btn:hover {
-        background: #c82333;
-    }
-
-    .no-bookings {
-        text-align: center;
-        padding: 40px;
-        background: #fff;
-        border-radius: 15px;
-        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-        font-size: 18px;
-        color: #555;
-    }
-
-    .back-btn {
-        display: inline-block;
-        margin-top: 15px;
-        padding: 10px 20px;
-        background: #007bff;
-        color: #fff;
-        border-radius: 8px;
-        text-decoration: none;
-        transition: 0.3s;
-    }
-
-    .back-btn:hover {
-        background: #0056b3;
-    }
-
-    /* ===============================
-       Responsive Fixes
-    =============================== */
-    @media (max-width: 767px) {
-        .right-side {
-            text-align: left !important;
-        }
-
-        .btns {
-            justify-content: flex-start !important;
-        }
-
-        .hotel-price {
-            margin-top: 10px;
-        }
-    }
-</style>

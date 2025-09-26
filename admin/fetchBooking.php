@@ -1,6 +1,12 @@
 <?php
 include("../db.php");
 
+if (!isset($_SESSION['admin_id'])) {
+    header("location:index.php");
+} else {
+    header("loaction:dashboard.php");
+}
+
 $output = "";
 
 if (isset($_POST['query'])) {

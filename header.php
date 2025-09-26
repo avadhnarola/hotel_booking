@@ -200,7 +200,7 @@ session_start();
     </div>
 
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light site-navbar-target"
+    <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar ftco-navbar-light site-navbar-target"
         id="ftco-navbar">
         <div class="container">
             <a class="navbar-brand" href="index.php">Ecoland</a>
@@ -233,7 +233,7 @@ session_start();
                         <img src="<?php echo $_SESSION['user']['avatar'] ?: './admin/images/user-profile.jpg'; ?>"
                             alt="Avatar" class="rounded-circle mr-2" style="width:40px; height:40px; object-fit:cover; ">
                         <span class="text-black mr-3"
-                            style="color:#000;"><?php echo htmlspecialchars($_SESSION['user']['fullname']); ?></span>
+                            style="color:#fff;"><?php echo htmlspecialchars($_SESSION['user']['fullname']); ?></span>
                         <a href="logout.php" class="logout-icon" title="Logout" onclick="return confirmLogout();">
                             <i class="fas fa-door-open"></i>
                         </a>

@@ -46,7 +46,7 @@ if (isset($_POST['submit'])) {
     <!-- Custom Styles -->
     <style>
         body {
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background-color: "#fff" ;
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -61,7 +61,7 @@ if (isset($_POST['submit'])) {
         }
 
         .login-card .card-header {
-            background-color: #2a264e;
+            background-color: #0c3b2e;
             color: #fff;
             text-align: center;
             font-weight: bold;
@@ -75,21 +75,21 @@ if (isset($_POST['submit'])) {
 
         .form-control:focus {
             box-shadow: none;
-            border-color: #2a264e;
+            border-color: #0c3b2e;
         }
 
         .btn-primary {
-            background-color: #2a264e;
-            border-color: #2a264e;
+            background-color: #0c3b2e;
+            border-color: #0c3b2e;
         }
 
         .btn-primary:hover {
-            background-color: #5a4bd8;
-            border-color: #5a4bd8;
+            background-color: #6d9773;
+            border-color: #6d9773;
         }
 
         .input-group-text {
-            background-color: #2a264e;
+            background-color: #0c3b2e;
             color: #fff;
             border: none;
         }
@@ -103,6 +103,10 @@ if (isset($_POST['submit'])) {
             .login-card {
                 width: 90%;
             }
+        }
+        .text-center a{
+            color: #0c3b2e;
+            text-decoration: underline;
         }
     </style>
 </head>
@@ -137,7 +141,7 @@ if (isset($_POST['submit'])) {
                 </div>
                 <button type="submit" class="btn btn-primary w-100 mt-3" name="submit">Login</button>
                 <div class="text-center mt-3">
-                    <p>Register New Admin? <a href="addAdmin.php" class="text-decoration-none">Register</a></p>
+                    <p>Register New Admin? <a href="addAdmin.php " style="text-decoration: underline;" >Register</a></p>
                 </div>
             </form>
         </div>
