@@ -3542,8 +3542,8 @@ temporary rendered events).
     cursor: pointer;
     /* give events with links and draggable events a hand mouse pointer */ }
   .fc-event.fc-black .fc-content:before {
-    background: #1a2035 !important;
-    border-color: #1a2035 !important; }
+    background: ##063e2b !important;
+    border-color: ##063e2b !important; }
   .fc-event.fc-primary .fc-content:before {
     background: #1572E8 !important;
     border-color: #1572E8 !important; }
@@ -3568,8 +3568,8 @@ temporary rendered events).
     color: #ffffff;
     padding: 0.55rem 0.55rem; }
   .fc-event.fc-black-solid {
-    background: #1a2035 !important;
-    border-color: #1a2035 !important; }
+    background: ##063e2b !important;
+    border-color: ##063e2b !important; }
   .fc-event.fc-primary-solid {
     background: #1572E8 !important;
     border-color: #1572E8 !important; }
@@ -3590,7 +3590,7 @@ temporary rendered events).
     border-color: #F25961 !important; }
 
 .fc-list-item.fc-black .fc-event-dot, .fc-list-item.fc-black-solid .fc-event-dot {
-  background: #1a2035 !important; }
+  background: ##063e2b !important; }
 .fc-list-item.fc-primary .fc-event-dot, .fc-list-item.fc-primary-solid .fc-event-dot {
   background: #1572E8 !important; }
 .fc-list-item.fc-secondary .fc-event-dot, .fc-list-item.fc-secondary-solid .fc-event-dot {
@@ -5712,8 +5712,8 @@ div.table-responsive > div.dataTables_wrapper > div.row {
     color: #ffffff !important; }
 
 .select2-black .select2-selection__choice {
-  background: #1a2035 !important;
-  border-color: #1a2035 !important;
+  background: ##063e2b !important;
+  border-color: ##063e2b !important;
   color: #ffffff !important; }
 
 .select2-primary .select2-selection__choice {
