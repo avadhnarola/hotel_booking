@@ -132,8 +132,8 @@ session_start();
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header align-items-center">
-                    <h5 class="modal-title"><i class="bx bx-user-plus"></i> Register</h5>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h5 class="modal-title" style="color: #063e2b;"><i class="bx bx-user-plus"></i> Register</h5>
+                    <button type="button" class="close" data-dismiss="modal" style="color: #063e2b;">&times;</button>
                 </div>
                 <div class="modal-body">
                     <form action="register.php" method="POST" enctype="multipart/form-data">
@@ -146,15 +146,15 @@ session_start();
                         </div>
 
                         <div class="form-group">
-                            <label>Full Name</label>
+                            <label style="color: #063e2b;">Full Name</label>
                             <input type="text" class="form-control" name="fullname" placeholder="Your name" required>
                         </div>
                         <div class="form-group">
-                            <label>Email address</label>
+                            <label style="color: #063e2b;">Email address</label>
                             <input type="email" class="form-control" name="email" placeholder="Enter email" required>
                         </div>
                         <div class="form-group">
-                            <label>Password</label>
+                            <label style="color: #063e2b;">Password</label>
                             <input type="password" class="form-control" name="password" placeholder="Password" required>
                         </div>
                         <button type="submit" name="register" class="btn btn-primary btn-block">Register</button>
@@ -162,7 +162,7 @@ session_start();
 
                     <p class="mt-3 text-center">
                         Already have an account?
-                        <a href="#" id="showLoginModal">Login here</a>
+                        <a href="#" style="color: #063e2b;" id="showLoginModal">Login here</a>
                     </p>
                 </div>
             </div>
@@ -174,25 +174,25 @@ session_start();
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title"><i class="bx bx-user"></i> Login</h5>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h5 class="modal-title" style="color: #063e2b ;"><i class="bx bx-user"></i> Login</h5>
+                    <button type="button" class="close" data-dismiss="modal" style="color: #063e2b;">&times;</button>
                 </div>
                 <div class="modal-body">
                     <form action="login.php" method="POST">
                         <div class="form-group">
-                            <label>Email address</label>
+                            <label style="color: #063e2b ;">Email address</label>
                             <input type="email" class="form-control" name="email" placeholder="Enter email" required>
                         </div>
                         <div class="form-group">
-                            <label>Password</label>
+                            <label style="color: #063e2b ;">Password</label>
                             <input type="password" class="form-control" name="password" placeholder="Password" required>
                         </div>
-                        <button type="submit" name="login" class="btn btn-success btn-block">Login</button>
+                        <button type="submit" name="login" class="btn btn-block" style="background-color: #ffba00 ; color: #063e2b;">Login</button>
                     </form>
 
                     <p class="mt-3 text-center">
                         Don't have an account?
-                        <a href="#" id="showRegisterModal">Create an account</a>
+                        <a href="#" id="showRegisterModal" style="color: #063e2b ;">Create an account</a>
                     </p>
                 </div>
             </div>

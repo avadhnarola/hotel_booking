@@ -11647,7 +11647,7 @@ h5,
   height: 2px;
   bottom: 0;
   left: 0;
-  background: #oc3b2e;
+  background-color: #6d9773;
   visibility: visible;
   -webkit-transform: scaleX(0);
   -moz-transform: scaleX(0);
@@ -12766,7 +12766,7 @@ button {
   font-size: 12px;
   text-transform: uppercase;
   letter-spacing: 2px;
-  color: rgba(0, 0, 0, 0.2);
+  color: #f5f5f5;
 }
 
 .project .text .location {
