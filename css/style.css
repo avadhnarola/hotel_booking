@@ -102,7 +102,7 @@ h6 {
 p {
   margin-top: 0;
   margin-bottom: 1rem;
-  color: #96d39d;
+  color: #17a2b8;
 }
 
 abbr[title],
@@ -12816,11 +12816,6 @@ button {
 .project .icon span {
   color: #fff;
   font-size: 20px;
-}
-
-.project:hover .text .price,
-.project:focus .text .price {
-  background: #0c3b2e;
 }
 
 .project:hover .icon,

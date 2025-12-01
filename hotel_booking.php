@@ -571,7 +571,8 @@ if (!empty($hotel['services'])) {
                                 <div class="form-submit">
                                     <div class="row justify-content-center ">
                                         <button type="submit" class="col-lg-4">Book Now</button>
-                                        <button class="col-lg-4 btn-back ml-3" style="font-weight: 400;"><a href="hotel.php">Back to
+                                        <button class="col-lg-4 btn-back ml-3" style="font-weight: 400;"><a
+                                                href="hotel.php">Back to
                                                 Hotels</a></button>
                                     </div>
                                 </div>
@@ -620,5 +621,22 @@ if (!empty($hotel['services'])) {
         }
     </style>
 </body>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const checkinInput = document.querySelector("input[name='checkin_date']");
+        const checkoutInput = document.querySelector("input[name='checkout_date']");
+
+        // Set today's date as the minimum check-in date
+        let today = new Date().toISOString().split("T")[0];
+        checkinInput.setAttribute("min", today);
+
+        // Update checkout min date when check-in changes
+        checkinInput.addEventListener("change", function () {
+            checkoutInput.value = ""; // reset checkout
+            checkoutInput.setAttribute("min", this.value);
+        });
+    });
+</script>
 
 </html>

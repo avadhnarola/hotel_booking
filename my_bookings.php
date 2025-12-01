@@ -170,15 +170,15 @@ $result = mysqli_query($conn, "
         background: #0056b3;
     }
 
-    p{
+    p {
         color: #063b2e;
     }
 
-    .navbar{
+    .navbar {
         background-color: #063b2e !important;
     }
 
-    .nav-item a{
+    .nav-item a {
         color: #f5f5f5 !important;
     }
 
@@ -208,7 +208,14 @@ $result = mysqli_query($conn, "
     </h2>
 
     <?php if (mysqli_num_rows($result) > 0) { ?>
-        <?php while ($row = mysqli_fetch_assoc($result)) { ?>
+        <?php while ($row = mysqli_fetch_assoc($result)) {
+            $checkin = date("d-m-Y", strtotime($row['checkin_date']));
+            $checkout = date("d-m-Y", strtotime($row['checkout_date']));
+            
+            $date1 = new DateTime($row['checkin_date']);
+            $date2 = new DateTime($row['checkout_date']);
+            $nights = $date1->diff($date2)->days; 
+        ?>
             <div class="booking-card row">
 
                 <!-- Left Side: Image -->
@@ -260,8 +267,9 @@ $result = mysqli_query($conn, "
                 <!-- Right Side: Booking Details -->
                 <div class="right-side col-md-4 col-sm-12 text-md-right mt-3 mt-md-0">
                     <p class="hotel-price">₹<?php echo $row['price']; ?> / night</p>
-                    <p><i class="fas fa-calendar-check"></i> Check-in: <?php echo $row['checkin_date']; ?></p>
-                    <p><i class="fas fa-calendar-times"></i> Check-out: <?php echo $row['checkout_date']; ?></p>
+                    <p><i class="fas fa-calendar-check"></i> Check-in: <?php echo $checkin ?></p>
+                    <p><i class="fas fa-calendar-times"></i> Check-out: <?php echo $checkout ?></p>
+                    <p><i class="fas fa-moon"></i> Nights: <b><?php echo $nights; ?></b></p>
                     <p><i class="fas fa-users"></i> Guests: <?php echo $row['guests']; ?></p>
 
                     <!-- Buttons: only show if not paid -->
