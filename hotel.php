@@ -77,7 +77,8 @@ $hotels = mysqli_query($conn, "SELECT * FROM hotels ORDER BY id DESC LIMIT $limi
 			gap: 8px;
 			padding: 5px 25px;
 			background-color: transparent;
-			color: #oc3b2e;
+			color: #f5f5f5;
+			background-color: #0c3b2e
 			font-size: 16px;
 			margin-top: 5px;
 			border: 2px solid #oc3b2e;
@@ -94,7 +95,7 @@ $hotels = mysqli_query($conn, "SELECT * FROM hotels ORDER BY id DESC LIMIT $limi
 
 		/* Hover Effects */
 		.premium-btn:hover {
-			background-color: #oc3b2e;
+			background-color: #0c3b2e;
 			color: #fff;
 			transform: scale(1.08);
 			text-decoration: none;
@@ -138,7 +139,7 @@ $hotels = mysqli_query($conn, "SELECT * FROM hotels ORDER BY id DESC LIMIT $limi
 			}, 3000);
 		</script>
 	<?php endif; ?>
-	<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light site-navbar-target"
+	<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar ftco-navbar-light site-navbar-target"
 		id="ftco-navbar">
 		<div class="container">
 			<a class="navbar-brand" href="index.php">Ecoland</a>
@@ -214,8 +215,8 @@ $hotels = mysqli_query($conn, "SELECT * FROM hotels ORDER BY id DESC LIMIT $limi
 												style="height:350px;  width: 450px;"></a>
 									</div>
 									<div class="text">
-										<h4 class="price">$<?php echo $row['price']; ?></h4>
-										<h3><a href="#"><?php echo $row['name']; ?></a></h3>
+										<h4 class="price">₹ <?php echo $row['price']; ?></h4>
+										<h3><a href="#" style="color: #f5f5f5;"><?php echo $row['name']; ?></a></h3>
 										<h6 class="location"><i class="fas fa-map-marker-alt"
 												style="margin-right:8px;"></i><?php echo $row['location']; ?></h6>
 										<div class="star d-flex clearfix">

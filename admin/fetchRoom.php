@@ -1,9 +1,11 @@
 <?php
+session_start();
 include("../db.php");
+
+// Optional: check session only if you want to restrict AJAX
 if (!isset($_SESSION['admin_id'])) {
-    header("location:index.php");
-} else {
-    header("loaction:dashboard.php");
+    echo "<p style='color:red; text-align:center;'>Unauthorized access.</p>";
+    exit();
 }
 
 if (isset($_POST['search'])) {
@@ -34,13 +36,13 @@ if (isset($_POST['search'])) {
         while ($row = mysqli_fetch_assoc($result)) {
             echo '<tr>
                     <td>' . $row['id'] . '</td>
-                    <td>' . $row['title'] . '</td>
-                    <td>' . $row['price'] . '</td>
-                    <td style="text-align:left">' . $row['description'] . '</td>
-                    <td>' . $row['location'] . '</td>
+                    <td>' . htmlspecialchars($row['title']) . '</td>
+                    <td>' . htmlspecialchars($row['price']) . '</td>
+                    <td style="text-align:left">' . htmlspecialchars($row['description']) . '</td>
+                    <td>' . htmlspecialchars($row['location']) . '</td>
                     <td>';
             if (!empty($row['image'])) {
-                echo '<img src="images/' . $row['image'] . '" style="height:60px;width:90px;" />';
+                echo '<img src="images/' . htmlspecialchars($row['image']) . '" style="height:60px;width:90px;" />';
             }
             echo '</td>
                     <td><a href="addRoom.php?u_id=' . $row['id'] . '" class="btn edit-btn">Edit</a></td>
@@ -53,4 +55,3 @@ if (isset($_POST['search'])) {
         echo "<p style='color:red; text-align:center;'>No matching rooms found!</p>";
     }
 }
-?>

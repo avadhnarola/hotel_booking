@@ -199,7 +199,8 @@ if (!empty($hotel['services'])) {
             gap: 8px;
             padding: 5px 25px;
             background-color: transparent;
-            color: #oc3b2e;
+            color: #fff;
+            background-color: #0c3b2e;
             /* Gold text */
             font-size: 16px;
             margin-top: 5px;
@@ -218,7 +219,7 @@ if (!empty($hotel['services'])) {
 
         /* Hover Effects */
         .premium-btn:hover {
-            background-color: #oc3b2e;
+            background-color: #0c3b2e;
             color: #fff;
             /* Purple text */
             transform: scale(1.08);
@@ -472,7 +473,7 @@ if (!empty($hotel['services'])) {
                         ?>
                     </div>
 
-                    <p><?php echo $hotel['description']; ?></p>
+                    <p style="color: #0a4811;"><?php echo $hotel['description']; ?></p>
 
                     <!-- ✅ Services Section -->
                     <?php if (!empty($services)): ?>

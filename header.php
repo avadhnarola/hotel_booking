@@ -74,7 +74,8 @@ session_start();
             gap: 8px;
             padding: 5px 25px;
             background-color: transparent;
-            color: #oc3b2e;
+            background-color: #0c3b2e;
+            color: #f5f5f5;
             /* Gold text */
             font-size: 16px;
             margin-top: 5px;
@@ -93,7 +94,7 @@ session_start();
 
         /* Hover Effects */
         .premium-btn:hover {
-            background-color: #oc3b2e;
+            background-color: #0c3b2e;
             color: #fff;
             /* Purple text */
             transform: scale(1.08);

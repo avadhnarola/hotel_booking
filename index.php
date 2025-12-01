@@ -341,13 +341,11 @@ if (isset($_POST['bookingSubmit'])) {
 							<label for="price">Price Limit</label>
 							
 							<select id="price">
-								<option value="">$5,000</option>
-								<option value="">$10,000</option>
-								<option value="">$50,000</option>
-								<option value="">$100,000</option>
-								<option value="">$200,000</option>
-								<option value="">$500,000</option>
-								<option value="">$1,000,000</option>
+								<option value="">₹500</option>
+								<option value="">₹1000</option>
+								<option value="">₹5000</option>
+								<option value="">₹10000</option>
+								<option value="">₹20000</option>
 							</select>
 						</div>
 
@@ -528,8 +526,8 @@ if (isset($_POST['bookingSubmit'])) {
 									alt="<?php echo $row['location']; ?> Image" style="height:350px;  width: 450px;"></a>
 						</div>
 						<div class="text">
-							<h4 class="price">$<?php echo $row['price']; ?></h4>
-							<h3><a href="#"><?php echo $row['name']; ?></a></h3>
+							<h4 class="price">₹ <?php echo $row['price']; ?></h4>
+							<h3><a href="#" style="color: #f5f5f5;"><?php echo $row['name']; ?></a></h3>
 							<h6 class="location"><i class="fas fa-map-marker-alt"
 									style="margin-right:8px;"></i><?php echo $row['location']; ?></h6>
 							<div class="star d-flex clearfix">
@@ -552,7 +550,7 @@ if (isset($_POST['bookingSubmit'])) {
 							class="icon image-popup d-flex justify-content-center align-items-center">
 							<span class="icon-expand"></span>
 						</a>
-						<a href="hotel_booking.php?hotel_id=<?php echo $row['id']; ?>" class="btn btn-primary book-now-btn">
+						<a href="hotel_booking.php?hotel_id=<?php echo $row['id']; ?>" class="btn btn-primary">
 							Book Now
 						</a>
 					</div>

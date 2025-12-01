@@ -174,6 +174,14 @@ $result = mysqli_query($conn, "
         color: #063b2e;
     }
 
+    .navbar{
+        background-color: #063b2e !important;
+    }
+
+    .nav-item a{
+        color: #f5f5f5 !important;
+    }
+
     /* ===============================
        Responsive Fixes
     =============================== */
@@ -251,7 +259,7 @@ $result = mysqli_query($conn, "
 
                 <!-- Right Side: Booking Details -->
                 <div class="right-side col-md-4 col-sm-12 text-md-right mt-3 mt-md-0">
-                    <p class="hotel-price">$<?php echo $row['price']; ?> / night</p>
+                    <p class="hotel-price">₹<?php echo $row['price']; ?> / night</p>
                     <p><i class="fas fa-calendar-check"></i> Check-in: <?php echo $row['checkin_date']; ?></p>
                     <p><i class="fas fa-calendar-times"></i> Check-out: <?php echo $row['checkout_date']; ?></p>
                     <p><i class="fas fa-users"></i> Guests: <?php echo $row['guests']; ?></p>
